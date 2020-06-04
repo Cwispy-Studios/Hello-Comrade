@@ -18,6 +18,8 @@ public class TestConnect : MonoBehaviourPunCallbacks
   {
     print("Connected To Server");
     print(PhotonNetwork.LocalPlayer.NickName);
+
+    PhotonNetwork.JoinLobby();
   }
 
   public override void OnDisconnected( DisconnectCause cause )
