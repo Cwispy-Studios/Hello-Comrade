@@ -23,7 +23,7 @@ public class LoadingScreenScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //_sceneToLoad = PlayerPrefs.GetInt("selectedLevel");
+        //_sceneToLoad = PlayerPrefs.GetInt("sceneToLoad");
 
         levelText.text = levelName;
         descriptionText.text = levelDescription;
