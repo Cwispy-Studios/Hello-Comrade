@@ -5,7 +5,7 @@ public class CloudsGen : MonoBehaviour
 {
     public int cloudsResolution = 20;
     public float cloudsHeight;
-    public Mesh cloudMesh; //Set it to quad primitive by default
+    public Mesh cloudMesh;
     public Material cloudMaterial;
     private float _offset;
    
