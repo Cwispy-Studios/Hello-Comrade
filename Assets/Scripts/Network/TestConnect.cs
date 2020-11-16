@@ -5,7 +5,7 @@ using Photon.Realtime;
 
 public class TestConnect : MonoBehaviourPunCallbacks
 {
-  [SerializeField] private string gameVersion = "0.0.1";
+  //[SerializeField] private string gameVersion = "0.0.1";
   private void Start()
   {
     print("Connecting To Server");

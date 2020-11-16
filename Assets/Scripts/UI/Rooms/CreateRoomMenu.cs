@@ -7,7 +7,7 @@ using Photon.Realtime;
 
 public class CreateRoomMenu : MonoBehaviourPunCallbacks
 {
-  [SerializeField] private TextMeshProUGUI m_roomName;
+  [SerializeField] private TextMeshProUGUI m_roomName = null;
 
   public void OnClickCreateRoom()
   {

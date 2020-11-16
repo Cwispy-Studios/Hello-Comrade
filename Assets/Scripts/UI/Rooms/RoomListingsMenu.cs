@@ -7,8 +7,8 @@ using System.Collections.Generic;
 
 public class RoomListingsMenu : MonoBehaviourPunCallbacks
 {
-  [SerializeField] private Transform m_content;
-  [SerializeField] private RoomListing m_roomListing;
+  [SerializeField] private Transform m_content = null;
+  [SerializeField] private RoomListing m_roomListing = null;
 
   private List<RoomListing> m_listings = new List<RoomListing>();
 

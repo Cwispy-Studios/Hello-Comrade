@@ -64,7 +64,7 @@ namespace Photon.Pun
     public static partial class PhotonNetwork
     {
         /// <summary>Version number of PUN. Used in the AppVersion, which separates your playerbase in matchmaking.</summary>
-        public const string PunVersion = "2.19.3";
+        public const string PunVersion = "2.22";
 
         /// <summary>Version number of your game. Setting this updates the AppVersion, which separates your playerbase in matchmaking.</summary>
         /// <remarks>
@@ -700,7 +700,7 @@ namespace Photon.Pun
         }
 
         /// <summary>Used for Photon/PUN timing, as Time.time can't be called from Threads.</summary>
-        private static readonly Stopwatch StartupStopwatch;
+        private static Stopwatch StartupStopwatch;
 
 
         /// <summary>
@@ -983,10 +983,22 @@ namespace Photon.Pun
         /// </summary>
         static PhotonNetwork()
         {
-            #if UNITY_EDITOR
-            if (!EditorApplication.isPlaying) return;
+            #if !UNITY_EDITOR || (UNITY_EDITOR && !UNITY_2019_4_OR_NEWER)
+            StaticReset();
             #endif
+        }
+        
+        #if UNITY_2019_4_OR_NEWER && UNITY_EDITOR
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        #endif
+        private static void StaticReset()
+        {
 
+            #if UNITY_EDITOR
+            if (!EditorApplication.isPlayingOrWillChangePlaymode) return;
+            #endif
+            // This clear is for when Domain Reloading is disabled. Typically will already be empty.
+            monoRPCMethodsCache.Clear();
 
             // set up the NetworkingClient, protocol, etc
             ConnectionProtocol protocol = PhotonNetwork.PhotonServerSettings.AppSettings.Protocol;
@@ -994,24 +1006,12 @@ namespace Photon.Pun
             NetworkingClient.LoadBalancingPeer.QuickResendAttempts = 2;
             NetworkingClient.LoadBalancingPeer.SentCountAllowance = 7;
 
+            NetworkingClient.EventReceived -= OnEvent;
             NetworkingClient.EventReceived += OnEvent;
+            NetworkingClient.OpResponseReceived -= OnOperation;
             NetworkingClient.OpResponseReceived += OnOperation;
-            NetworkingClient.StateChanged += (previousState, state) =>
-                                                    {
-                                                        if (
-                                                            (previousState == ClientState.Joined && state == ClientState.Disconnected) ||
-                                                            (Server == ServerConnection.GameServer && (state == ClientState.Disconnecting || state == ClientState.DisconnectingFromGameServer))
-                                                            )
-                                                        {
-                                                            LeftRoomCleanup();
-                                                        }
-
-                                                        if (state == ClientState.ConnectedToMasterServer && _cachedRegionHandler != null)
-                                                        {
-                                                            BestRegionSummaryInPreferences = _cachedRegionHandler.SummaryToCache;
-                                                            _cachedRegionHandler = null;
-                                                        }
-                                                    };
+            NetworkingClient.StateChanged -= OnClientStateChanged;
+            NetworkingClient.StateChanged += OnClientStateChanged;
 
             StartupStopwatch = new Stopwatch();
             StartupStopwatch.Start();
@@ -1035,7 +1035,6 @@ namespace Photon.Pun
             // PUN custom types (typical for Unity)
             CustomTypes.Register();
         }
-
 
         /// <summary>Connect to Photon as configured in the PhotonServerSettings file.</summary>
         /// <remarks>
@@ -2355,7 +2354,13 @@ namespace Photon.Pun
             return NetworkInstantiate(netParams, false);
         }
 
+        [Obsolete("Renamed. Use InstantiateRoomObject instead")]
         public static GameObject InstantiateSceneObject(string prefabName, Vector3 position, Quaternion rotation, byte group = 0, object[] data = null)
+        {
+            return InstantiateRoomObject(prefabName, position, rotation, group, data);
+        }
+
+        public static GameObject InstantiateRoomObject(string prefabName, Vector3 position, Quaternion rotation, byte group = 0, object[] data = null)
         {
             if (CurrentRoom == null)
             {
@@ -2922,6 +2927,11 @@ namespace Photon.Pun
         /// </param>
         public static void LoadLevel(int levelNumber)
         {
+            if (PhotonHandler.AppQuits)
+            {
+                return;
+            }
+
             if (PhotonNetwork.AutomaticallySyncScene)
             {
                 SetLevelInPropsIfSynced(levelNumber);
@@ -2959,6 +2969,11 @@ namespace Photon.Pun
         /// </param>
         public static void LoadLevel(string levelName)
         {
+            if (PhotonHandler.AppQuits)
+            {
+                return;
+            }
+
             if (PhotonNetwork.AutomaticallySyncScene)
             {
                 SetLevelInPropsIfSynced(levelName);
@@ -3025,7 +3040,7 @@ namespace Photon.Pun
         }
 
 
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
 
         /// <summary>
         /// Finds the asset path base on its name or search query: https://docs.unity3d.com/ScriptReference/AssetDatabase.FindAssets.html
@@ -3151,6 +3166,6 @@ namespace Photon.Pun
                 }
             }
         }
-        #endif
+#endif
     }
 }
