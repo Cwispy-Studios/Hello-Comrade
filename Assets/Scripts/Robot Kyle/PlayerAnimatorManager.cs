@@ -36,9 +36,9 @@ public class PlayerAnimatorManager : MonoBehaviourPun
     float h = Input.GetAxis("Horizontal");
     float v = Input.GetAxis("Vertical");
 
-    if (v < 0) v = 0;
+    Debug.Log(v);
 
-    m_animator.SetFloat("Speed", h * h + v * v);
+    m_animator.SetFloat("Speed", v);
     m_animator.SetFloat("Direction", h, directionDampTime, Time.deltaTime);
   }
 }
