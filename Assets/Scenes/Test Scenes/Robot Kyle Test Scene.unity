@@ -1861,7 +1861,7 @@ GameObject:
   - component: {fileID: 7893902652059161789}
   - component: {fileID: 7893902652051908480}
   - component: {fileID: 7893902652051908478}
-  - component: {fileID: 7893902652051908481}
+  - component: {fileID: 7893902652051908482}
   - component: {fileID: 4595414259783668027}
   - component: {fileID: 4595414259783668028}
   - component: {fileID: 877054923262567042}
@@ -1918,7 +1918,7 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 80
   m_CollisionDetection: 0
---- !u!114 &7893902652051908481
+--- !u!114 &7893902652051908482
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1927,12 +1927,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 7893902652051908477}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ccc8363c5ce872446aa7ff2fbaccb9f6, type: 3}
+  m_Script: {fileID: 11500000, guid: 6d9d43096abee1642b0a264e0f4f4c14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_camera: {fileID: 4595414258705984101}
   m_neck: {fileID: 7893902652051908387}
-  m_speedMultiplier: 5
+  m_lookSpeedMultiplier: 5
+  m_moveSpeed: 5
 --- !u!4 &7893902652052273921
 Transform:
   m_ObjectHideFlags: 0
