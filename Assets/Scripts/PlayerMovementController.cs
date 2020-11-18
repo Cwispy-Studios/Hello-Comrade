@@ -5,7 +5,7 @@ public class PlayerMovementController : MonoBehaviour
   [SerializeField] private Camera m_camera = null;
   [SerializeField] private GameObject m_neck = null;
   [SerializeField] private float m_lookSpeedMultiplier = 5f;
-  [SerializeField] private float m_moveSpeed = 5f;
+  [SerializeField] private float m_moveSpeed = 1.5f;
 
   private Rigidbody m_physicsController = null;
   private Animator m_animator = null;
@@ -75,6 +75,11 @@ public class PlayerMovementController : MonoBehaviour
     {
       MovePlayer();
     }
+
+    else
+    {
+      m_animator.SetInteger("Speed", 0);
+    }
   }
 
   private void TrackAndFollowMouseMovements()
@@ -136,6 +141,11 @@ public class PlayerMovementController : MonoBehaviour
 
   private void MovePlayer()
   {
+    int animatorSpeed = m_moveInput.z < 0 ? -1 : 1;
+    m_animator.SetInteger("Speed", animatorSpeed);
+
+    Debug.Log(animatorSpeed);
+
     // Get rotation of camera on 2D axis and the right rotation for horizontal movement
     float cameraAngleRad = m_camera.transform.eulerAngles.y * Mathf.Deg2Rad;
     float cameraRightAngleRad = (m_camera.transform.eulerAngles.y + 90f) * Mathf.Deg2Rad;
