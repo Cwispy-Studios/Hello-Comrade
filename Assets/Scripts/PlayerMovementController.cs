@@ -10,8 +10,10 @@ public class PlayerMovementController : MonoBehaviour
   private Rigidbody m_physicsController = null;
   private Animator m_animator = null;
 
-  private Vector3 m_input = Vector3.zero;
+  private Vector3 m_mouseInput = Vector3.zero;
+  private Vector3 m_moveInput = Vector3.zero;
 
+  // Max look angles for mouse look, sets the rotational constraints for the neck
   private const float MaxVerticalLookDegrees = 70f;
   private const float MaxHorizontalLookDegrees = 85f;
 
@@ -48,26 +50,38 @@ public class PlayerMovementController : MonoBehaviour
   private void Update()
   {
     // Get player input
-    float h = Input.GetAxis("Horizontal");
-    float v = Input.GetAxis("Vertical");
+    float h = Input.GetAxisRaw("Horizontal");
+    float v = Input.GetAxisRaw("Vertical");
 
-    m_input.x = h;
-    m_input.z = v;
+    m_moveInput.x = h;
+    m_moveInput.z = v;
+
+    // Get multiplied mouse movements 
+    float yaw = Input.GetAxis("Mouse X");
+    float pitch = Input.GetAxis("Mouse Y");
+
+    m_mouseInput.x = yaw;
+    m_mouseInput.y = pitch;
   }
 
   private void FixedUpdate()
   {
-    TrackAndFollowMouseMovements();
-    // Get rotation of camera
+    if (m_mouseInput != Vector3.zero)
+    {
+      TrackAndFollowMouseMovements();
+    }
 
+    // Get rotation of camera on 2D axis
+    float cameraAngle = m_camera.transform.eulerAngles.y;
 
-    m_physicsController.MovePosition(m_physicsController.position + m_input * m_moveSpeed * Time.deltaTime);
+    m_physicsController.MovePosition(m_physicsController.position + m_moveInput * m_moveSpeed * Time.deltaTime);
   }
 
   private void TrackAndFollowMouseMovements()
   {
     // Get local rotation of the camera inside body
     Vector3 cameraRot = m_camera.transform.localEulerAngles;
+
     // Since the x rotation (looking up and down) goes from 0-360 instead of -180-180 we have to limit it to that
     if (cameraRot.x > 180f)
     {
@@ -80,13 +94,9 @@ public class PlayerMovementController : MonoBehaviour
       cameraRot.y -= 360f;
     }
 
-    // Get multiplied mouse movements 
-    float yaw = m_lookSpeedMultiplier * Input.GetAxis("Mouse X") * Time.deltaTime;
-    float pitch = m_lookSpeedMultiplier * Input.GetAxis("Mouse Y") * Time.deltaTime;
-
     // Assign the relevant movements to the camera rotation
-    cameraRot.x += pitch * -1f;
-    cameraRot.y += yaw;
+    cameraRot.x += m_mouseInput.y * m_lookSpeedMultiplier * -1f * Time.deltaTime;
+    cameraRot.y += m_mouseInput.x * m_lookSpeedMultiplier * Time.deltaTime;
 
     // Clamp looking up and down
     cameraRot.x = Mathf.Clamp(cameraRot.x, -MaxVerticalLookDegrees, MaxVerticalLookDegrees);
