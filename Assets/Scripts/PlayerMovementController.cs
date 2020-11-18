@@ -1,19 +1,22 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 using Photon.Pun;
 
 public class PlayerMovementController : MonoBehaviourPun
 {
-  [SerializeField] private Camera m_camera = null;
-  [SerializeField] private GameObject m_neck = null;
-  [SerializeField] private float m_lookSpeedMultiplier = 5f;
-  [SerializeField] private float m_moveSpeed = 1.5f;
+  [SerializeField] private Camera playerCamera = null;
+  [SerializeField] private GameObject neck = null;
+  [SerializeField] private float lookSpeedMultiplier = 5f;
+  [SerializeField] private float moveSpeed = 1.5f;
+  [SerializeField] private float runSpeedMultiplier = 2f;
 
-  private Rigidbody m_physicsController = null;
-  private Animator m_animator = null;
+  private Rigidbody physicsController = null;
+  private Animator animator = null;
 
-  private Vector3 m_mouseInput = Vector3.zero;
-  private Vector3 m_moveInput = Vector3.zero;
+  private Vector3 mouseInput = Vector3.zero;
+  private Vector3 moveInput = Vector3.zero;
+  private bool isRunning = false;
 
   // Max look angles for mouse look, sets the rotational constraints for the neck
   private const float MaxVerticalLookDegrees = 70f;
@@ -23,83 +26,84 @@ public class PlayerMovementController : MonoBehaviourPun
   {
     if (!photonView.IsMine && PhotonNetwork.IsConnected)
     {
-      Destroy(m_camera.gameObject);
+      Destroy(playerCamera.gameObject);
+      Destroy(GetComponent<PlayerInput>());
       return;
     }
 
-    // Account for delta time
-    m_lookSpeedMultiplier *= 60f;
-
-    if (m_camera == null)
+    if (playerCamera == null)
     {
       Debug.LogError("Error! Player's camera object is missing or not assigned!", this);
     }
 
-    if (m_neck == null)
+    if (neck == null)
     {
       Debug.LogError("Error! Player's neck object is missing or not assigned!", this);
     }
 
-    m_physicsController = GetComponent<Rigidbody>();
+    physicsController = GetComponent<Rigidbody>();
 
-    if (m_physicsController == null)
+    if (physicsController == null)
     {
       Debug.LogError("Error! Player's Rigidbody component is missing!", this);
     }
 
-    m_animator = GetComponent<Animator>();
+    animator = GetComponent<Animator>();
 
-    if (m_animator == null)
+    if (animator == null)
     {
       Debug.LogError("Error! Player's Animator component is missing!", this);
     }
   }
 
-  private void Update()
+  public void OnMove(InputValue value)
   {
-    if (!photonView.IsMine && PhotonNetwork.IsConnected) return;
+    // Get keyboard move values
+    Vector2 moveInput = value.Get<Vector2>();
 
-    // Get player input
-    float h = Input.GetAxisRaw("Horizontal");
-    float v = Input.GetAxisRaw("Vertical");
+    this.moveInput.x = moveInput.x;
+    this.moveInput.z = moveInput.y;
+  }
 
-    m_moveInput.x = h;
-    m_moveInput.z = v;
+  public void OnLook(InputValue value)
+  {
+    // Get mouse movements
+    Vector2 mouseDelta = value.Get<Vector2>();
 
-    m_moveInput.Normalize();
+    mouseInput.x = mouseDelta.x;
+    mouseInput.y = mouseDelta.y;
+  }
 
-    // Get multiplied mouse movements 
-    float yaw = Input.GetAxis("Mouse X");
-    float pitch = Input.GetAxis("Mouse Y");
-
-    m_mouseInput.x = yaw;
-    m_mouseInput.y = pitch;
+  public void OnRun(InputValue value)
+  {
+    isRunning = value.isPressed;
   }
 
   private void FixedUpdate()
   {
     if (!photonView.IsMine && PhotonNetwork.IsConnected) return;
 
-    if (m_mouseInput != Vector3.zero)
+    if (mouseInput != Vector3.zero)
     {
       TrackAndFollowMouseMovements();
     }
 
-    if (m_moveInput != Vector3.zero)
+    if (moveInput != Vector3.zero)
     {
       MovePlayer();
     }
 
     else
     {
-      m_animator.SetBool("Is Walking", false);
+      animator.SetBool("Is Walking", false);
+      animator.SetBool("Is Running", false);
     }
   }
 
   private void TrackAndFollowMouseMovements()
   {
     // Get local rotation of the camera inside body
-    Vector3 cameraRot = m_camera.transform.localEulerAngles;
+    Vector3 cameraRot = playerCamera.transform.localEulerAngles;
 
     // Since the x rotation (looking up and down) goes from 0-360 instead of -180-180 we have to limit it to that
     if (cameraRot.x > 180f)
@@ -114,13 +118,13 @@ public class PlayerMovementController : MonoBehaviourPun
     }
 
     // Assign the relevant movements to the camera rotation
-    cameraRot.x += m_mouseInput.y * m_lookSpeedMultiplier * -1f * Time.deltaTime;
-    cameraRot.y += m_mouseInput.x * m_lookSpeedMultiplier * Time.deltaTime;
+    cameraRot.x += mouseInput.y * lookSpeedMultiplier * -1f * Time.deltaTime;
+    cameraRot.y += mouseInput.x * lookSpeedMultiplier * Time.deltaTime;
 
     // Clamp looking up and down
     cameraRot.x = Mathf.Clamp(cameraRot.x, -MaxVerticalLookDegrees, MaxVerticalLookDegrees);
 
-    m_camera.transform.localEulerAngles = cameraRot;
+    playerCamera.transform.localEulerAngles = cameraRot;
 
     // Get the neck's local rotation based on camera movement
     Vector3 neckLocalRot = new Vector3(cameraRot.y * -1f, 0f, cameraRot.x * -1f);
@@ -138,51 +142,57 @@ public class PlayerMovementController : MonoBehaviourPun
 
       // Rotate the body by the angle diff
       Quaternion deltaRotation = Quaternion.Euler(0f, -angleDiff, 0f);
-      m_physicsController.MoveRotation(m_physicsController.rotation * deltaRotation);
+      physicsController.MoveRotation(physicsController.rotation * deltaRotation);
 
       // Also clamp local camera rotation
-      Vector3 localCamRot = m_camera.transform.localEulerAngles;
+      Vector3 localCamRot = playerCamera.transform.localEulerAngles;
       if (localCamRot.y > 180f)
       {
         localCamRot.y -= 360f;
       }
       localCamRot.y = Mathf.Clamp(localCamRot.y, -MaxHorizontalLookDegrees, MaxHorizontalLookDegrees);
-      m_camera.transform.localEulerAngles = localCamRot;
+      playerCamera.transform.localEulerAngles = localCamRot;
     }
 
-    m_neck.transform.localEulerAngles = neckLocalRot;
+    neck.transform.localEulerAngles = neckLocalRot;
   }
 
   private void MovePlayer()
   {
-    //int animatorSpeed = m_moveInput.z < 0 ? -1 : 1;
-    m_animator.SetFloat("Speed", m_moveInput.z);
-    m_animator.SetFloat("Direction", m_moveInput.x);
-    m_animator.SetBool("Is Walking", true);
+    animator.SetFloat("Speed", moveInput.z);
+    animator.SetFloat("Direction", moveInput.x);
+    animator.SetBool("Is Walking", true);
+    animator.SetBool("Is Running", isRunning);
 
     // Get rotation of camera on 2D axis and the right rotation for horizontal movement
-    float cameraAngleRad = m_camera.transform.eulerAngles.y * Mathf.Deg2Rad;
-    float cameraRightAngleRad = (m_camera.transform.eulerAngles.y + 90f) * Mathf.Deg2Rad;
+    float cameraAngleRad = playerCamera.transform.eulerAngles.y * Mathf.Deg2Rad;
+    float cameraRightAngleRad = (playerCamera.transform.eulerAngles.y + 90f) * Mathf.Deg2Rad;
 
     // Get direction vectors 
     Vector3 verticalDirectionVector = new Vector3(Mathf.Sin(cameraAngleRad), 0f, Mathf.Cos(cameraAngleRad));
     Vector3 horizontalDirectionVector = new Vector3(Mathf.Sin(cameraRightAngleRad), 0f, Mathf.Cos(cameraRightAngleRad));
 
-    Vector3 velocity = ((verticalDirectionVector * m_moveInput.z) + (horizontalDirectionVector * m_moveInput.x))
-      * m_moveSpeed * Time.deltaTime;
+    if (isRunning)
+    {
+      verticalDirectionVector *= runSpeedMultiplier;
+      horizontalDirectionVector *= runSpeedMultiplier;
+    }
 
-    m_physicsController.MovePosition(m_physicsController.position + velocity);
+    Vector3 velocity = ((verticalDirectionVector * moveInput.z) + (horizontalDirectionVector * moveInput.x))
+      * moveSpeed * Time.deltaTime;
+
+    physicsController.MovePosition(physicsController.position + velocity);
 
     // Make the player character rotate towards the direction it is moving in
     Quaternion lookRotation = Quaternion.LookRotation(verticalDirectionVector);
-    m_physicsController.MoveRotation(lookRotation);
+    physicsController.MoveRotation(lookRotation);
 
     // Reset camera and neck rotation as well
-    Vector3 camRot = m_camera.transform.localEulerAngles;
+    Vector3 camRot = playerCamera.transform.localEulerAngles;
     camRot.y = 0f;
-    m_camera.transform.localEulerAngles = camRot;
-    Vector3 neckRot = m_neck.transform.localEulerAngles;
+    playerCamera.transform.localEulerAngles = camRot;
+    Vector3 neckRot = neck.transform.localEulerAngles;
     neckRot.x = 0f;
-    m_neck.transform.localEulerAngles = neckRot;
+    neck.transform.localEulerAngles = neckRot;
   }
 }

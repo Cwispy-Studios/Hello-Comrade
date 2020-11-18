@@ -514,6 +514,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ac5ed32e8459a794891dafcc6929a49c, type: 3}
+--- !u!1 &829694764 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6785412803810564280, guid: 762845652cfd68348a55a1d6fdb25ce7,
+    type: 3}
+  m_PrefabInstance: {fileID: 3721774695890386843}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1340770923
 GameObject:
   m_ObjectHideFlags: 0
@@ -663,6 +669,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3ad045ffb777e574b81505bc21dd01fa, type: 3}
+--- !u!20 &1736858643 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 891808067236795902, guid: 762845652cfd68348a55a1d6fdb25ce7,
+    type: 3}
+  m_PrefabInstance: {fileID: 3721774695890386843}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1927287257
 GameObject:
   m_ObjectHideFlags: 0
@@ -859,12 +871,12 @@ PrefabInstance:
     - target: {fileID: 891808066117234336, guid: 762845652cfd68348a55a1d6fdb25ce7,
         type: 3}
       propertyPath: viewIdField
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5938551902187567761, guid: 762845652cfd68348a55a1d6fdb25ce7,
         type: 3}
       propertyPath: viewIdField
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6785412803810526406, guid: 762845652cfd68348a55a1d6fdb25ce7,
         type: 3}
@@ -920,6 +932,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6785412803810564121, guid: 762845652cfd68348a55a1d6fdb25ce7,
+        type: 3}
+      propertyPath: runAction.m_Id
+      value: 01ceb094-96a2-4665-bc5c-2cc2a248426a
+      objectReference: {fileID: 0}
+    - target: {fileID: 6785412803810564121, guid: 762845652cfd68348a55a1d6fdb25ce7,
+        type: 3}
+      propertyPath: runAction.m_Name
+      value: Run
+      objectReference: {fileID: 0}
+    - target: {fileID: 6785412803810564121, guid: 762845652cfd68348a55a1d6fdb25ce7,
+        type: 3}
+      propertyPath: neck
+      value: 
+      objectReference: {fileID: 829694764}
+    - target: {fileID: 6785412803810564121, guid: 762845652cfd68348a55a1d6fdb25ce7,
+        type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1736858643}
+    - target: {fileID: 6785412803810564121, guid: 762845652cfd68348a55a1d6fdb25ce7,
+        type: 3}
+      propertyPath: runSpeedMultiplier
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6785412803810564121, guid: 762845652cfd68348a55a1d6fdb25ce7,
+        type: 3}
+      propertyPath: lookSpeedMultiplier
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6785412803810564326, guid: 762845652cfd68348a55a1d6fdb25ce7,
         type: 3}
