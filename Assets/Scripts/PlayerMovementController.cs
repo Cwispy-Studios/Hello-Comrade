@@ -71,10 +71,10 @@ public class PlayerMovementController : MonoBehaviour
       TrackAndFollowMouseMovements();
     }
 
-    // Get rotation of camera on 2D axis
-    float cameraAngle = m_camera.transform.eulerAngles.y;
-
-    m_physicsController.MovePosition(m_physicsController.position + m_moveInput * m_moveSpeed * Time.deltaTime);
+    if (m_moveInput != Vector3.zero)
+    {
+      MovePlayer();
+    }
   }
 
   private void TrackAndFollowMouseMovements()
@@ -132,5 +132,33 @@ public class PlayerMovementController : MonoBehaviour
     }
 
     m_neck.transform.localEulerAngles = neckLocalRot;
+  }
+
+  private void MovePlayer()
+  {
+    // Get rotation of camera on 2D axis and the right rotation for horizontal movement
+    float cameraAngleRad = m_camera.transform.eulerAngles.y * Mathf.Deg2Rad;
+    float cameraRightAngleRad = (m_camera.transform.eulerAngles.y + 90f) * Mathf.Deg2Rad;
+
+    // Get direction vectors 
+    Vector3 verticalDirectionVector = new Vector3(Mathf.Sin(cameraAngleRad), 0f, Mathf.Cos(cameraAngleRad));
+    Vector3 horizontalDirectionVector = new Vector3(Mathf.Sin(cameraRightAngleRad), 0f, Mathf.Cos(cameraRightAngleRad));
+
+    Vector3 velocity = ((verticalDirectionVector * m_moveInput.z) + (horizontalDirectionVector * m_moveInput.x))
+      * m_moveSpeed * Time.deltaTime;
+
+    m_physicsController.MovePosition(m_physicsController.position + velocity);
+
+    // Make the player character rotate towards the direction it is moving in
+    Quaternion lookRotation = Quaternion.LookRotation(verticalDirectionVector);
+    m_physicsController.MoveRotation(lookRotation);
+
+    // Reset camera and neck rotation as well
+    Vector3 camRot = m_camera.transform.localEulerAngles;
+    camRot.y = 0f;
+    m_camera.transform.localEulerAngles = camRot;
+    Vector3 neckRot = m_neck.transform.localEulerAngles;
+    neckRot.x = 0f;
+    m_neck.transform.localEulerAngles = neckRot;
   }
 }
