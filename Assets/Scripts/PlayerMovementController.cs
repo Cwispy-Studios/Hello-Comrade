@@ -90,7 +90,7 @@ public class PlayerMovementController : MonoBehaviourPun
 
     else
     {
-      m_animator.SetInteger("Speed", 0);
+      m_animator.SetBool("Is Walking", false);
     }
   }
 
@@ -153,8 +153,10 @@ public class PlayerMovementController : MonoBehaviourPun
 
   private void MovePlayer()
   {
-    int animatorSpeed = m_moveInput.z < 0 ? -1 : 1;
-    m_animator.SetInteger("Speed", animatorSpeed);
+    //int animatorSpeed = m_moveInput.z < 0 ? -1 : 1;
+    m_animator.SetFloat("Speed", m_moveInput.z);
+    m_animator.SetFloat("Direction", m_moveInput.x);
+    m_animator.SetBool("Is Walking", true);
 
     // Get rotation of camera on 2D axis and the right rotation for horizontal movement
     float cameraAngleRad = m_camera.transform.eulerAngles.y * Mathf.Deg2Rad;
