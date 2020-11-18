@@ -66,6 +66,8 @@ public class PlayerMovementController : MonoBehaviourPun
     m_moveInput.x = h;
     m_moveInput.z = v;
 
+    m_moveInput.Normalize();
+
     // Get multiplied mouse movements 
     float yaw = Input.GetAxis("Mouse X");
     float pitch = Input.GetAxis("Mouse Y");
