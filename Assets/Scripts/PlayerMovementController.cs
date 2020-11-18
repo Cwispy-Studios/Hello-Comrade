@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 
-public class PlayerMovementController : MonoBehaviour
+using Photon.Pun;
+
+public class PlayerMovementController : MonoBehaviourPun
 {
   [SerializeField] private Camera m_camera = null;
   [SerializeField] private GameObject m_neck = null;
@@ -19,6 +21,12 @@ public class PlayerMovementController : MonoBehaviour
 
   private void Awake()
   {
+    if (!photonView.IsMine && PhotonNetwork.IsConnected)
+    {
+      Destroy(m_camera.gameObject);
+      return;
+    }
+
     // Account for delta time
     m_lookSpeedMultiplier *= 60f;
 
@@ -49,6 +57,8 @@ public class PlayerMovementController : MonoBehaviour
 
   private void Update()
   {
+    if (!photonView.IsMine && PhotonNetwork.IsConnected) return;
+
     // Get player input
     float h = Input.GetAxisRaw("Horizontal");
     float v = Input.GetAxisRaw("Vertical");
@@ -66,6 +76,8 @@ public class PlayerMovementController : MonoBehaviour
 
   private void FixedUpdate()
   {
+    if (!photonView.IsMine && PhotonNetwork.IsConnected) return;
+
     if (m_mouseInput != Vector3.zero)
     {
       TrackAndFollowMouseMovements();
@@ -143,8 +155,6 @@ public class PlayerMovementController : MonoBehaviour
   {
     int animatorSpeed = m_moveInput.z < 0 ? -1 : 1;
     m_animator.SetInteger("Speed", animatorSpeed);
-
-    Debug.Log(animatorSpeed);
 
     // Get rotation of camera on 2D axis and the right rotation for horizontal movement
     float cameraAngleRad = m_camera.transform.eulerAngles.y * Mathf.Deg2Rad;
