@@ -7,7 +7,7 @@ public class PlayerMovementController : MonoBehaviourPun
 {
   [SerializeField] private Camera playerCamera = null;
   [SerializeField] private GameObject neck = null;
-  [SerializeField] private float lookSpeedMultiplier = 5f;
+  [SerializeField] private float lookSpeedMultiplier = 10f;
   [SerializeField] private float moveSpeed = 1.5f;
   [SerializeField] private float runSpeedMultiplier = 2f;
   [SerializeField] private float jumpForceMultiplier = 25f;
