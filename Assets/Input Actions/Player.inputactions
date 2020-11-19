@@ -31,7 +31,7 @@
                 },
                 {
                     "name": "Crouch",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "aebb6ddd-3f68-4717-9fd1-839a4d79ab9a",
                     "expectedControlType": "Button",
                     "processors": "",

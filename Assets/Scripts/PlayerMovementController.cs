@@ -21,6 +21,7 @@ public class PlayerMovementController : MonoBehaviourPun
   private Vector3 moveInput = Vector3.zero;
   private bool isRunning = false;
   private bool jumpThisFrame = false;
+  private bool isCrouching = false;
 
   private float colliderExtent = 0f;
 
@@ -94,6 +95,11 @@ public class PlayerMovementController : MonoBehaviourPun
     isRunning = value.isPressed;
   }
 
+  public void OnCrouch(InputValue value)
+  {
+    isCrouching = value.isPressed;
+  }
+
   public void OnJump()
   {
     if (CheckIfGrounded())
@@ -163,6 +169,7 @@ public class PlayerMovementController : MonoBehaviourPun
     {
       animator.SetBool("Is Walking", false);
       animator.SetBool("Is Running", false);
+      animator.SetBool("Is Crouching", isCrouching);
     }
   }
 
@@ -229,6 +236,7 @@ public class PlayerMovementController : MonoBehaviourPun
     animator.SetFloat("Direction", moveInput.x);
     animator.SetBool("Is Walking", true);
     animator.SetBool("Is Running", isRunning);
+    animator.SetBool("Is Crouching", false);
 
     // Get rotation of camera on 2D axis and the right rotation for horizontal movement
     float cameraAngleRad = playerCamera.transform.eulerAngles.y * Mathf.Deg2Rad;
