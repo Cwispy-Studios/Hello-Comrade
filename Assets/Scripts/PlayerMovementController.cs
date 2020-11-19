@@ -10,6 +10,9 @@ public class PlayerMovementController : MonoBehaviourPun
   [SerializeField] private float lookSpeedMultiplier = 5f;
   [SerializeField] private float moveSpeed = 1.5f;
   [SerializeField] private float runSpeedMultiplier = 2f;
+  [SerializeField] private float jumpForceMultiplier = 25f;
+  [SerializeField] private float gravityForce = 30f;
+  [SerializeField] private float gravityForceMultiplier = 2.5f;
 
   private Rigidbody physicsController = null;
   private Animator animator = null;
@@ -17,6 +20,9 @@ public class PlayerMovementController : MonoBehaviourPun
   private Vector3 mouseInput = Vector3.zero;
   private Vector3 moveInput = Vector3.zero;
   private bool isRunning = false;
+  private bool jumpThisFrame = false;
+
+  private float colliderExtent = 0f;
 
   // Max look angles for mouse look, sets the rotational constraints for the neck
   private const float MaxVerticalLookDegrees = 70f;
@@ -54,6 +60,15 @@ public class PlayerMovementController : MonoBehaviourPun
     {
       Debug.LogError("Error! Player's Animator component is missing!", this);
     }
+
+    Collider capsuleCollider = GetComponent<Collider>();
+
+    if (capsuleCollider == null)
+    {
+      Debug.LogError("Error! Player's Collider component is missing!", this);
+    }
+
+    colliderExtent = capsuleCollider.bounds.extents.y;
   }
 
   public void OnMove(InputValue value)
@@ -79,9 +94,60 @@ public class PlayerMovementController : MonoBehaviourPun
     isRunning = value.isPressed;
   }
 
+  public void OnJump()
+  {
+    if (CheckIfGrounded())
+    {
+      jumpThisFrame = true;
+    }
+  }
+
+  private void Jump()
+  {
+    jumpThisFrame = false;
+
+    animator.SetTrigger("Jump");
+
+    physicsController.AddForce(Vector3.up * jumpForceMultiplier, ForceMode.Impulse);
+  }
+
+  private bool CheckIfGrounded()
+  {
+    Vector3 rayOrigin = physicsController.position;
+    rayOrigin.y += colliderExtent;
+
+    float rayDistance = colliderExtent + 0.1f;
+    float spherecastRadius = 0.2f;
+
+    Ray ray = new Ray(rayOrigin, Vector3.down);
+    return Physics.SphereCast(ray, spherecastRadius, rayDistance, ~(1 << 8));
+  }
+
+  private void ApplyGravity()
+  {
+    float gravityMultiplier = physicsController.velocity.y < 0f ? gravityForceMultiplier : 1f;
+    physicsController.AddForce(Vector3.down * gravityForce * gravityMultiplier, ForceMode.Acceleration);
+  }
+
   private void FixedUpdate()
   {
     if (!photonView.IsMine && PhotonNetwork.IsConnected) return;
+
+    // Already means player is grounded and can jump
+    if (jumpThisFrame)
+    {
+      Jump();
+    }
+
+    // Check if grounded
+    else
+    {
+      // Not grounded apply gravity
+      if (!CheckIfGrounded())
+      {
+        ApplyGravity();
+      }
+    }
 
     if (mouseInput != Vector3.zero)
     {
@@ -179,9 +245,9 @@ public class PlayerMovementController : MonoBehaviourPun
     }
 
     Vector3 velocity = ((verticalDirectionVector * moveInput.z) + (horizontalDirectionVector * moveInput.x))
-      * moveSpeed * Time.deltaTime;
+      * moveSpeed;
 
-    physicsController.MovePosition(physicsController.position + velocity);
+    physicsController.AddForce(velocity, ForceMode.VelocityChange);
 
     // Make the player character rotate towards the direction it is moving in
     Quaternion lookRotation = Quaternion.LookRotation(verticalDirectionVector);
@@ -194,5 +260,15 @@ public class PlayerMovementController : MonoBehaviourPun
     Vector3 neckRot = neck.transform.localEulerAngles;
     neckRot.x = 0f;
     neck.transform.localEulerAngles = neckRot;
+  }
+
+  private void OnCollisionEnter( Collision collision )
+  {
+    Debug.Log("Enter " + collision.collider.name);
+  }
+
+  private void OnCollisionExit( Collision collision )
+  {
+    Debug.Log("Exit " + collision.collider.name);
   }
 }
