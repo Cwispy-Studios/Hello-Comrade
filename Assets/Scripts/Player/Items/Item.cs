@@ -14,9 +14,9 @@ namespace Player.Items
     {
     }
 
-    /// <summary>Primary code for de-equipping item (GameObject handling etc)</summary>
+    /// <summary>Primary code for unequipping item (GameObject handling etc)</summary>
     /// <summary>Difference with DropItem is that this is used for when item is still in inventory but active item switches</summary>
-    public virtual void DeEquipItem()
+    public virtual void UnequipItem()
     {
     }
 
