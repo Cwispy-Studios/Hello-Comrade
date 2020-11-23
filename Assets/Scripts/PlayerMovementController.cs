@@ -123,7 +123,7 @@ public class PlayerMovementController : MonoBehaviourPun
     rayOrigin.y += colliderExtent;
 
     float rayDistance = colliderExtent + 0.1f;
-    float spherecastRadius = 0.2f;
+    float spherecastRadius = 0.1f;
 
     Ray ray = new Ray(rayOrigin, Vector3.down);
     return Physics.SphereCast(ray, spherecastRadius, rayDistance, ~(1 << 8));

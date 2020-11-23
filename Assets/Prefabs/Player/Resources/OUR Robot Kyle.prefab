@@ -1356,7 +1356,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
+  m_Radius: 0.25
   m_Height: 1.8
   m_Direction: 1
   m_Center: {x: 0, y: 0.9, z: 0}
@@ -1414,8 +1414,8 @@ MonoBehaviour:
   playerCamera: {fileID: 891808067236795902}
   neck: {fileID: 6785412803810564280}
   lookSpeedMultiplier: 0.25
-  moveSpeed: 0.35
-  runSpeedMultiplier: 2.5
+  moveSpeed: 0.3
+  runSpeedMultiplier: 2.25
   jumpForceMultiplier: 750
   gravityForce: 9.81
   gravityForceMultiplier: 5
@@ -1440,6 +1440,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 891808066117234343}
   - {fileID: 4579468763141233945}
+  - {fileID: 0}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
