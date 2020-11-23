@@ -1489,7 +1489,7 @@ MonoBehaviour:
     SynchronizeType: 1
     Name: Is Running
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: Is Crouching
   m_SynchronizeLayers:
   - SynchronizeType: 0
