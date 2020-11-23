@@ -1427,7 +1427,7 @@ ModelImporter:
     second: HumanoidJumpUp
   - first:
       74: 7400008
-    second: HumanoidMidAir
+    second: HumanoidCrouch
   - first:
       95: 9500000
     second: //RootNode
@@ -1463,14 +1463,14 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: HumanoidMidAir
+      name: HumanoidCrouch
       takeName: _207_Idle_JumpUpMedium_NoHands1Step_Idle
       internalID: 0
       firstFrame: 131
       lastFrame: 133
       wrapMode: 0
       orientationOffsetY: 0
-      level: 0
+      level: -0.5
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
@@ -1480,7 +1480,7 @@ ModelImporter:
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
       keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
+      keepOriginalPositionY: 0
       keepOriginalPositionXZ: 0
       heightFromFeet: 0
       mirror: 0
@@ -1786,7 +1786,7 @@ ModelImporter:
         weight: 0
       maskType: 0
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
+      additiveReferencePoseFrame: 56
     isReadable: 1
   meshes:
     lODScreenPercentages: []
