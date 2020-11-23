@@ -269,14 +269,4 @@ public class PlayerMovementController : MonoBehaviourPun
     neckRot.x = 0f;
     neck.transform.localEulerAngles = neckRot;
   }
-
-  private void OnCollisionEnter( Collision collision )
-  {
-    Debug.Log("Enter " + collision.collider.name);
-  }
-
-  private void OnCollisionExit( Collision collision )
-  {
-    Debug.Log("Exit " + collision.collider.name);
-  }
 }

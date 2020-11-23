@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     Debug.LogFormat("We are Instantiating LocalPlayer from {0}", SceneManager.GetActiveScene().name);
-    PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(0, 5f, 0), Quaternion.identity, 0);
+    PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(1f, 2f, 10f), Quaternion.identity, 0);
   }
 
   private void LoadPlaygroundLevel()
