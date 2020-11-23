@@ -7,18 +7,18 @@ using TMPro;
 
 public class LoadingScreenScript : MonoBehaviour
 {
-    [SerializeField] private Image progressBar;
-    [SerializeField] private TextMeshProUGUI loadingText;
-    [SerializeField] private TextMeshProUGUI progressText;
-    [SerializeField] private TextMeshProUGUI levelText;
-    [SerializeField] private TextMeshProUGUI descriptionText;
-    [SerializeField] private Image backgroundDisplay;
+    [SerializeField] private Image progressBar = null;
+    [SerializeField] private TextMeshProUGUI loadingText = null;
+    [SerializeField] private TextMeshProUGUI progressText = null;
+    [SerializeField] private TextMeshProUGUI levelText = null;
+    [SerializeField] private TextMeshProUGUI descriptionText = null;
+    [SerializeField] private Image backgroundDisplay = null;
 
-    [SerializeField] private Sprite backgroundImage;
-    [SerializeField] private string levelName;
-    [SerializeField] [TextArea] private string levelDescription;
+    [SerializeField] private Sprite backgroundImage = null;
+    [SerializeField] private string levelName = null;
+    [SerializeField] [TextArea] private string levelDescription = null;
     
-    private int _sceneToLoad;
+    private int _sceneToLoad = 0;
     
     // Start is called before the first frame update
     void Start()
