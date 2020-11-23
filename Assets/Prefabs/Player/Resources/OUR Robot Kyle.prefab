@@ -1344,7 +1344,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!136 &6785412803810564325
 CapsuleCollider:
@@ -1413,7 +1413,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 891808067236795902}
   neck: {fileID: 6785412803810564280}
-  lookSpeedMultiplier: 12
+  lookSpeedMultiplier: 0.25
   moveSpeed: 0.35
   runSpeedMultiplier: 2.5
   jumpForceMultiplier: 750

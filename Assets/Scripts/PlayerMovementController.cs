@@ -7,7 +7,7 @@ public class PlayerMovementController : MonoBehaviourPun
 {
   [SerializeField] private Camera playerCamera = null;
   [SerializeField] private GameObject neck = null;
-  [SerializeField] private float lookSpeedMultiplier = 10f;
+  [SerializeField] private float lookSpeedMultiplier = 1f;
   [SerializeField] private float moveSpeed = 1.5f;
   [SerializeField] private float runSpeedMultiplier = 2f;
   [SerializeField] private float jumpForceMultiplier = 25f;
@@ -191,8 +191,8 @@ public class PlayerMovementController : MonoBehaviourPun
     }
 
     // Assign the relevant movements to the camera rotation
-    cameraRot.x += mouseInput.y * lookSpeedMultiplier * -1f * Time.deltaTime;
-    cameraRot.y += mouseInput.x * lookSpeedMultiplier * Time.deltaTime;
+    cameraRot.x += mouseInput.y * lookSpeedMultiplier * -1f;
+    cameraRot.y += mouseInput.x * lookSpeedMultiplier;
 
     // Clamp looking up and down
     cameraRot.x = Mathf.Clamp(cameraRot.x, -MaxVerticalLookDegrees, MaxVerticalLookDegrees);
@@ -214,8 +214,9 @@ public class PlayerMovementController : MonoBehaviourPun
       neckLocalRot.x = Mathf.Clamp(neckLocalRot.x, -MaxHorizontalLookDegrees, MaxHorizontalLookDegrees);
 
       // Rotate the body by the angle diff
-      Quaternion deltaRotation = Quaternion.Euler(0f, -angleDiff, 0f);
-      physicsController.MoveRotation(physicsController.rotation * deltaRotation);
+      transform.Rotate(0f, -angleDiff, 0f, Space.World);
+      //Quaternion deltaRotation = Quaternion.Euler(0f, -angleDiff, 0f);
+      //physicsController.MoveRotation(physicsController.rotation * deltaRotation);
 
       // Also clamp local camera rotation
       Vector3 localCamRot = playerCamera.transform.localEulerAngles;
