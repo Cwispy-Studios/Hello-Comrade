@@ -106,7 +106,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -1488,6 +1488,9 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 1
     Name: Is Running
+  - Type: 4
+    SynchronizeType: 0
+    Name: Is Crouching
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
