@@ -24,7 +24,7 @@ namespace Player.Items
 
     private void Start()
     {
-      if (characterRigidbody == null) print("RigidBody not Initialized dimwit"); return;
+      if (characterRigidbody == null) return;
       TotalWeight = characterRigidbody.mass;
     }
 
