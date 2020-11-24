@@ -1283,6 +1283,7 @@ GameObject:
   - component: {fileID: 6785412803810564123}
   - component: {fileID: 6785412803810564325}
   - component: {fileID: 1231587389}
+  - component: {fileID: 282520194}
   - component: {fileID: 6785412803810564121}
   - component: {fileID: 891808066117234336}
   - component: {fileID: 891808066117234343}
@@ -1353,7 +1354,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6785412803810564326}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 4993e665076c9b34182acdac43c81c26, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.25
@@ -1399,6 +1400,18 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &282520194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6785412803810564326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c125804b001850343bd151e99861b35e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6785412803810564121
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1413,9 +1426,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 891808067236795902}
   neck: {fileID: 6785412803810564280}
-  lookSpeedMultiplier: 0.25
+  lookSpeedMultiplier: 0.2
   moveSpeed: 0.3
   runSpeedMultiplier: 2.25
+  maxStepDistance: 0.15
+  maxSlopeAngle: 40
   jumpForceMultiplier: 750
   gravityForce: 9.81
   gravityForceMultiplier: 5
