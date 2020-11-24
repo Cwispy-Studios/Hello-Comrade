@@ -75,10 +75,10 @@ public class PlayerMovementController : MonoBehaviourPun
   public void OnMove(InputValue value)
   {
     // Get keyboard move values
-    Vector2 moveInput = value.Get<Vector2>();
+    Vector2 keyboardMoveInput = value.Get<Vector2>();
 
-    this.moveInput.x = moveInput.x;
-    this.moveInput.z = moveInput.y;
+    moveInput.x = keyboardMoveInput.x;
+    moveInput.z = keyboardMoveInput.y;
   }
 
   public void OnLook(InputValue value)
