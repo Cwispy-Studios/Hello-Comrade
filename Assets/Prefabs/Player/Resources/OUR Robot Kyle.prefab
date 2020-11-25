@@ -1295,6 +1295,7 @@ GameObject:
   - component: {fileID: 891808066117234336}
   - component: {fileID: 891808066117234343}
   - component: {fileID: 4579468763141233945}
+  - component: {fileID: 3721774695890386845}
   m_Layer: 8
   m_Name: OUR Robot Kyle
   m_TagString: Untagged
@@ -1533,6 +1534,38 @@ MonoBehaviour:
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
+--- !u!114 &3721774695890386845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6785412803810564326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f905c6c5cd4cab943b1225c09ae9f7f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  occlusionEmitters:
+  - audioEvent: event:/Character Sounds/Footsteps Walk
+    soundOcclusionWidening: 1
+    playerOcclusionWidening: 1
+    occlusionLayer:
+      serializedVersion: 2
+      m_Bits: 1
+  - audioEvent: event:/Character Sounds/Footsteps Run
+    soundOcclusionWidening: 1
+    playerOcclusionWidening: 1
+    occlusionLayer:
+      serializedVersion: 2
+      m_Bits: 1
+  - audioEvent: event:/Character Sounds/Footsteps Sneak
+    soundOcclusionWidening: 1
+    playerOcclusionWidening: 1
+    occlusionLayer:
+      serializedVersion: 2
+      m_Bits: 1
+  Notes: '0: Walk, 1: Run, 2: Sneak'
 --- !u!1 &6785412803810564328
 GameObject:
   m_ObjectHideFlags: 0
