@@ -1517,17 +1517,11 @@ MonoBehaviour:
   ShowParameterInspector: 1
   m_SynchronizeParameters:
   - Type: 9
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: Jump
   - Type: 3
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: Speed
-  - Type: 4
-    SynchronizeType: 1
-    Name: Is Walking
-  - Type: 4
-    SynchronizeType: 1
-    Name: Is Running
   - Type: 4
     SynchronizeType: 1
     Name: Is Crouching
@@ -1548,20 +1542,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occlusionEmitters:
   - audioEvent: event:/Character Sounds/Footsteps Walk
-    soundOcclusionWidening: 1
-    playerOcclusionWidening: 1
+    soundOcclusionWidening: 0.25
+    playerOcclusionWidening: 0.25
     occlusionLayer:
       serializedVersion: 2
       m_Bits: 1
   - audioEvent: event:/Character Sounds/Footsteps Run
-    soundOcclusionWidening: 1
-    playerOcclusionWidening: 1
+    soundOcclusionWidening: 0.5
+    playerOcclusionWidening: 0.5
     occlusionLayer:
       serializedVersion: 2
       m_Bits: 1
   - audioEvent: event:/Character Sounds/Footsteps Sneak
-    soundOcclusionWidening: 1
-    playerOcclusionWidening: 1
+    soundOcclusionWidening: 0.1
+    playerOcclusionWidening: 0.1
     occlusionLayer:
       serializedVersion: 2
       m_Bits: 1

@@ -135,25 +135,12 @@ namespace CwispyStudios.HelloComrade.Player
 
       else
       {
-        animator.SetBool("Is Walking", false);
-        animator.SetBool("Is Running", false);
+        animator.SetFloat("Speed", 0f);
       }
     }
 
     private void MovePlayer()
     {
-      //animator.SetFloat("Speed", moveInput.z);
-      //animator.SetFloat("Direction", moveInput.x);
-      animator.SetBool("Is Walking", true);
-      animator.SetBool("Is Running", isRunning);
-
-      if (isSneaking)
-      {
-        animator.speed = sneakSpeedMultiplier;
-      }
-
-      else animator.speed = 1f;
-
       // Get rotation of camera on 2D axis and the right rotation for horizontal movement
       float cameraAngleRad = playerCamera.transform.eulerAngles.y * Mathf.Deg2Rad;
       float cameraRightAngleRad = (playerCamera.transform.eulerAngles.y + 90f) * Mathf.Deg2Rad;
@@ -163,16 +150,21 @@ namespace CwispyStudios.HelloComrade.Player
       Vector3 horizontalDirectionVector = new Vector3(Mathf.Sin(cameraRightAngleRad), 0f, Mathf.Cos(cameraRightAngleRad));
 
       float speed = moveSpeed;
+      float speedMultiplier = 1f;
 
       if (isRunning)
       {
-        speed *= runSpeedMultiplier;
+        speedMultiplier = runSpeedMultiplier;
       }
 
       else if (isSneaking)
       {
-        speed *= sneakSpeedMultiplier;
+        speedMultiplier = sneakSpeedMultiplier;
       }
+
+      speed *= speedMultiplier;
+
+      animator.SetFloat("Speed", speedMultiplier);
 
       Vector3 vectorDirection = ((verticalDirectionVector * moveInput.z) + (horizontalDirectionVector * moveInput.x));
 
@@ -324,7 +316,6 @@ namespace CwispyStudios.HelloComrade.Player
         {
           jumpThisFrame = true;
         }
-        
       }
     }
 
