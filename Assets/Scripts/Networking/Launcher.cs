@@ -2,7 +2,7 @@
 using Photon.Pun;
 using Photon.Realtime;
 
-namespace Networking
+namespace CwispyStudios.HelloComrade.Networking
 {
   public class Launcher : MonoBehaviourPunCallbacks
   {

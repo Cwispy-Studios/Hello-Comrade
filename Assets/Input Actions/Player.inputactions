@@ -31,7 +31,7 @@
                 },
                 {
                     "name": "Crouch",
-                    "type": "Value",
+                    "type": "Button",
                     "id": "aebb6ddd-3f68-4717-9fd1-839a4d79ab9a",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -41,6 +41,14 @@
                     "name": "Jump",
                     "type": "Button",
                     "id": "05ffe0b0-a95e-442d-86e4-b40ae56cf0d3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Sneak",
+                    "type": "Value",
+                    "id": "4920256a-a1e1-4be9-8ac2-ee92c5a16cee",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -182,7 +190,7 @@
                 {
                     "name": "",
                     "id": "fa837ae6-4316-4940-a53f-0852152cb6c6",
-                    "path": "<Keyboard>/leftCtrl",
+                    "path": "<Keyboard>/c",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -198,6 +206,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "86be455b-c1f3-46cf-8037-fa99f9b5b523",
+                    "path": "<Keyboard>/leftCtrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Sneak",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
