@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 891808067236795903}
   - component: {fileID: 891808067236795902}
-  - component: {fileID: 891808067236795901}
   - component: {fileID: 891808067236795896}
+  - component: {fileID: 5503181309794547822}
   m_Layer: 8
   m_Name: First Person Camera
   m_TagString: MainCamera
@@ -76,14 +76,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &891808067236795901
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 891808067236795900}
-  m_Enabled: 1
 --- !u!114 &891808067236795896
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,6 +107,20 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+--- !u!114 &5503181309794547822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 891808067236795900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attenuationObject: {fileID: 0}
+  ListenerNumber: -1
 --- !u!1 &3721774695577952326
 GameObject:
   m_ObjectHideFlags: 0
@@ -1452,6 +1458,9 @@ MonoBehaviour:
   jumpForce: 750
   gravityForce: 9.81
   gravityDownwardForceMultiplier: 5
+  FootstepsWalkEvent: event:/Character Sounds/Footsteps Walk
+  FootstepsRunEvent: event:/Character Sounds/Footsteps Run
+  FootstepsSneakEvent: event:/Character Sounds/Footsteps Sneak
 --- !u!114 &891808066117234336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1507,14 +1516,11 @@ MonoBehaviour:
   ShowParameterInspector: 1
   m_SynchronizeParameters:
   - Type: 9
-    SynchronizeType: 1
+    SynchronizeType: 0
     Name: Jump
   - Type: 3
-    SynchronizeType: 1
+    SynchronizeType: 0
     Name: Speed
-  - Type: 1
-    SynchronizeType: 1
-    Name: Direction
   - Type: 4
     SynchronizeType: 1
     Name: Is Walking

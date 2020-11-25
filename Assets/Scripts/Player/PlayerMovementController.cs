@@ -3,26 +3,31 @@ using UnityEngine.InputSystem;
 
 using Photon.Pun;
 
+using FMODUnity;
+
 namespace CwispyStudios.HelloComrade.Player
 {
   [RequireComponent(typeof(GroundDetector))]
   public class PlayerMovementController : MonoBehaviourPun
   {
-    [Tooltip("Player Objects")]
+    [Header("Player Objects")]
     [SerializeField] private Camera playerCamera = null;
     [SerializeField] private GameObject neck = null;
-    [Tooltip("Movement")]
+    [Header("Movement")]
     [SerializeField, Range(0.1f, 10f)] private float moveSpeed = 0.3f;
     [SerializeField, Range(1f, 3f)] private float runSpeedMultiplier = 2.25f;
     [SerializeField, Range(0.1f, 1f)] private float sneakSpeedMultiplier = 0.5f;
-    [Tooltip("Slope and Step")]
+    [Header("Slope and Step")]
     [SerializeField, Range(0f, 0.2f)] private float maxStepDistance = 0.15f;
     [SerializeField, Range(0f, 90f)] private float maxSlopeAngle = 40f;
-    [Tooltip("Jumping and Gravity")]
+    [Header("Jumping and Gravity")]
     [SerializeField] private float jumpForce = 750f;
     [SerializeField] private float gravityForce = 9.81f;
     [SerializeField] private float gravityDownwardForceMultiplier = 5f;
-    [Tooltip("Crouching")]
+    [Header("FMOD")]
+    [EventRef] public string FootstepsWalkEvent = "";
+    [EventRef] public string FootstepsRunEvent = "";
+    [EventRef] public string FootstepsSneakEvent = "";
 
     private const float StandingColliderHeight = 1.8f;
     private const float StandingColliderPosition = StandingColliderHeight * 0.5f;
@@ -137,8 +142,8 @@ namespace CwispyStudios.HelloComrade.Player
 
     private void MovePlayer()
     {
-      animator.SetFloat("Speed", moveInput.z);
-      animator.SetFloat("Direction", moveInput.x);
+      //animator.SetFloat("Speed", moveInput.z);
+      //animator.SetFloat("Direction", moveInput.x);
       animator.SetBool("Is Walking", true);
       animator.SetBool("Is Running", isRunning);
 
@@ -332,6 +337,34 @@ namespace CwispyStudios.HelloComrade.Player
       {
         isRunning = false;
       }
+    }
+
+    public void PlayFootstepWalkEvent()
+    {
+      if (!photonView.IsMine) return;
+
+      if (isSneaking)
+      {
+        photonView.RPC("PlayFootstepsSound", RpcTarget.AllViaServer, FootstepsSneakEvent, physicsController.position);
+      }
+
+      else
+      {
+        photonView.RPC("PlayFootstepsSound", RpcTarget.AllViaServer, FootstepsWalkEvent, physicsController.position);
+      }
+    }
+
+    public void PlayFootstepsRunEvent()
+    {
+      if (!photonView.IsMine) return;
+
+      photonView.RPC("PlayFootstepsSound", RpcTarget.AllViaServer, FootstepsRunEvent, physicsController.position);
+    }
+
+    [PunRPC]
+    private void PlayFootstepsSound( string fmodEvent, Vector3 position )
+    {
+      RuntimeManager.PlayOneShot(fmodEvent, position);
     }
   }
 }
