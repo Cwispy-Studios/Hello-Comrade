@@ -12,17 +12,24 @@ namespace CwispyStudios.HelloComrade.Player
     [SerializeField] private Camera playerCamera = null;
     [SerializeField] private GameObject neck = null;
     [Tooltip("Movement")]
-    [SerializeField, Range(0.1f, 10f)] private float moveSpeed = 1.5f;
-    [SerializeField, Range(1f, 3f)] private float runSpeedMultiplier = 2f;
+    [SerializeField, Range(0.1f, 10f)] private float moveSpeed = 0.3f;
+    [SerializeField, Range(1f, 3f)] private float runSpeedMultiplier = 2.25f;
     [SerializeField, Range(0.1f, 1f)] private float sneakSpeedMultiplier = 0.5f;
     [Tooltip("Slope and Step")]
     [SerializeField, Range(0f, 0.2f)] private float maxStepDistance = 0.15f;
     [SerializeField, Range(0f, 90f)] private float maxSlopeAngle = 40f;
     [Tooltip("Jumping and Gravity")]
-    [SerializeField] private float jumpForceMultiplier = 25f;
-    [SerializeField] private float gravityForce = 30f;
-    [SerializeField] private float gravityForceMultiplier = 2.5f;
+    [SerializeField] private float jumpForce = 750f;
+    [SerializeField] private float gravityForce = 9.81f;
+    [SerializeField] private float gravityDownwardForceMultiplier = 5f;
+    [Tooltip("Crouching")]
 
+    private const float StandingColliderHeight = 1.8f;
+    private const float StandingColliderPosition = StandingColliderHeight * 0.5f;
+    private const float CrouchingColliderHeight = 1.15f;
+    private const float CrouchingColliderPosition = CrouchingColliderHeight * 0.5f;
+
+    private CapsuleCollider playerCollider = null;
     private GroundDetector groundDetector = null;
     private Rigidbody physicsController = null;
     private Animator animator = null;
@@ -50,6 +57,13 @@ namespace CwispyStudios.HelloComrade.Player
       if (neck == null)
       {
         Debug.LogError("Error! Player's neck object is missing or not assigned!", this);
+      }
+
+      playerCollider = GetComponent<CapsuleCollider>();
+
+      if (playerCollider == null)
+      {
+        Debug.LogError("Error! Player's Collider component is missing!", this);
       }
 
       groundDetector = GetComponent<GroundDetector>();
@@ -80,12 +94,12 @@ namespace CwispyStudios.HelloComrade.Player
 
       animator.SetTrigger("Jump");
 
-      physicsController.AddForce(Vector3.up * jumpForceMultiplier, ForceMode.Impulse);
+      physicsController.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
 
     private void ApplyGravity()
     {
-      float gravityMultiplier = physicsController.velocity.y < 0f ? gravityForceMultiplier : 1f;
+      float gravityMultiplier = physicsController.velocity.y < 0f ? gravityDownwardForceMultiplier : 1f;
       physicsController.AddForce(Vector3.down * gravityForce * gravityMultiplier, ForceMode.Acceleration);
     }
 
@@ -178,7 +192,7 @@ namespace CwispyStudios.HelloComrade.Player
           }
         }
       }
-      
+
       else
       {
         // Check if grounded, then project on the plane
@@ -203,9 +217,62 @@ namespace CwispyStudios.HelloComrade.Player
       neck.transform.localEulerAngles = neckRot;
     }
 
-    private void SetCrouchCollider()
+    private bool SetCrouch( bool crouch )
     {
+      // Sets the new crouch collider, if it is standing and was crouching
+      // Check if the player is able to freely stand up
+      bool success = CheckAndSetCrouchCollider(crouch);
 
+      if (success)
+      {
+        isCrouching = crouch;
+        animator.SetBool("Is Crouching", isCrouching);
+      }
+
+      return success;
+    }
+
+    private bool CheckAndSetCrouchCollider( bool crouch )
+    {
+      // Player is going to crouch and was standing up
+      if (crouch && !isCrouching)
+      {
+        playerCollider.height = CrouchingColliderHeight;
+        Vector3 adjustedColliderPosition = playerCollider.center;
+        adjustedColliderPosition.y = CrouchingColliderPosition;
+        playerCollider.center = adjustedColliderPosition;
+
+        return true;
+      }
+
+      // Player is going to stand and was crouching
+      else if (!crouch && isCrouching)
+      {
+        // Do a spherecast upwards to check if player will collide with anything when standing 
+        Vector3 rayOrigin = physicsController.position;
+        rayOrigin.y += CrouchingColliderPosition;
+
+        float rayDistance = CrouchingColliderPosition + (StandingColliderHeight - CrouchingColliderHeight);
+        Ray ray = new Ray(rayOrigin, Vector3.up);
+
+        // If there is collision above do not crouch
+        if (Physics.Raycast(ray, rayDistance, ~(1 << 8)))
+        {
+          return false;
+        }
+        
+        else
+        {
+          playerCollider.height = StandingColliderHeight;
+          Vector3 adjustedColliderPosition = playerCollider.center;
+          adjustedColliderPosition.y = StandingColliderPosition;
+          playerCollider.center = adjustedColliderPosition;
+          return true;
+        }
+      }
+
+      // No change in status, do nothing
+      else return false;
     }
 
     public void OnMove( InputValue value )
@@ -230,20 +297,33 @@ namespace CwispyStudios.HelloComrade.Player
 
     public void OnCrouch()
     {
-      isCrouching = !isCrouching;
-
-      animator.SetBool("Is Crouching", isCrouching);
+      SetCrouch(!isCrouching);
     }
 
     public void OnJump()
     {
+      // Player must be on the ground to jump
       if (groundDetector.IsGrounded)
       {
-        jumpThisFrame = true;
+        // Check if crouching
+        if (isCrouching) 
+        {
+          // Check if player can stand up in its current position
+          if (SetCrouch(false))
+          {
+            jumpThisFrame = true;
+          }
+        }
+
+        else
+        {
+          jumpThisFrame = true;
+        }
+        
       }
     }
 
-    public void OnSneak( InputValue value  )
+    public void OnSneak( InputValue value )
     {
       isSneaking = value.isPressed;
 

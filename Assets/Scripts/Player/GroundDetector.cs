@@ -4,7 +4,7 @@ namespace CwispyStudios.HelloComrade.Player
 {
   public class GroundDetector : MonoBehaviour
   {
-    private float colliderExtent = 0f;
+    private Collider playerCollider;
 
     [HideInInspector] public bool IsGrounded { get; private set; } = false;
     [HideInInspector] public float GroundAngle { get; private set; }
@@ -12,14 +12,12 @@ namespace CwispyStudios.HelloComrade.Player
 
     private void Awake()
     {
-      Collider capsuleCollider = GetComponent<Collider>();
+      playerCollider = GetComponent<Collider>();
 
-      if (capsuleCollider == null)
+      if (playerCollider == null)
       {
         Debug.LogError("Error! Player's Collider component is missing!", this);
       }
-
-      colliderExtent = capsuleCollider.bounds.extents.y;
     }
 
     private void Start()
@@ -34,6 +32,8 @@ namespace CwispyStudios.HelloComrade.Player
 
     private void DetectGround()
     {
+      float colliderExtent = playerCollider.bounds.extents.y;
+
       Vector3 rayOrigin = transform.position;
       rayOrigin.y += colliderExtent;
 

@@ -1449,9 +1449,9 @@ MonoBehaviour:
   sneakSpeedMultiplier: 0.5
   maxStepDistance: 0.15
   maxSlopeAngle: 40
-  jumpForceMultiplier: 750
+  jumpForce: 750
   gravityForce: 9.81
-  gravityForceMultiplier: 5
+  gravityDownwardForceMultiplier: 5
 --- !u!114 &891808066117234336
 MonoBehaviour:
   m_ObjectHideFlags: 0
