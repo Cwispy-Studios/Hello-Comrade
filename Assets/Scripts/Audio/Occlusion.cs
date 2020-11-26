@@ -97,6 +97,7 @@ namespace CwispyStudios.HelloComrade.Audio
 
       if (listenerDistance <= emitter.MaxDistanceAudible)
       {
+        //if (emitter.PlayerOcclusionWidening != 0 )
         OccludeBetween(emitter);
       }
     }

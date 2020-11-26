@@ -24,10 +24,6 @@ namespace CwispyStudios.HelloComrade.Player
     [SerializeField] private float jumpForce = 750f;
     [SerializeField] private float gravityForce = 9.81f;
     [SerializeField] private float gravityDownwardForceMultiplier = 5f;
-    [Header("FMOD")]
-    [EventRef] public string FootstepsWalkEvent = "";
-    [EventRef] public string FootstepsRunEvent = "";
-    [EventRef] public string FootstepsSneakEvent = "";
 
     private const float StandingColliderHeight = 1.8f;
     private const float StandingColliderPosition = StandingColliderHeight * 0.5f;
@@ -135,7 +131,7 @@ namespace CwispyStudios.HelloComrade.Player
 
       else
       {
-        animator.SetFloat("Speed", 0f);
+        animator.SetFloat("Speed Multiplier", 0f);
       }
     }
 
@@ -164,7 +160,7 @@ namespace CwispyStudios.HelloComrade.Player
 
       speed *= speedMultiplier;
 
-      animator.SetFloat("Speed", speedMultiplier);
+      animator.SetFloat("Speed Multiplier", speedMultiplier);
 
       Vector3 vectorDirection = ((verticalDirectionVector * moveInput.z) + (horizontalDirectionVector * moveInput.x));
 
@@ -328,34 +324,6 @@ namespace CwispyStudios.HelloComrade.Player
       {
         isRunning = false;
       }
-    }
-
-    public void PlayFootstepWalkEvent()
-    {
-      if (!photonView.IsMine) return;
-
-      if (isSneaking)
-      {
-        photonView.RPC("PlayFootstepsSound", RpcTarget.AllViaServer, FootstepsSneakEvent, physicsController.position);
-      }
-
-      else
-      {
-        photonView.RPC("PlayFootstepsSound", RpcTarget.AllViaServer, FootstepsWalkEvent, physicsController.position);
-      }
-    }
-
-    public void PlayFootstepsRunEvent()
-    {
-      if (!photonView.IsMine) return;
-
-      photonView.RPC("PlayFootstepsSound", RpcTarget.AllViaServer, FootstepsRunEvent, physicsController.position);
-    }
-
-    [PunRPC]
-    private void PlayFootstepsSound( string fmodEvent, Vector3 position )
-    {
-      RuntimeManager.PlayOneShot(fmodEvent, position);
     }
   }
 }
