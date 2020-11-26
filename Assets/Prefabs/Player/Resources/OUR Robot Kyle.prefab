@@ -1490,6 +1490,8 @@ MonoBehaviour:
     occlusionLayer:
       serializedVersion: 2
       m_Bits: 1
+  parameterName: Ground Type
+  groundDetector: {fileID: 282520194}
   Notes: '0: Walk, 1: Run, 2: Sneak'
 --- !u!114 &891808066117234336
 MonoBehaviour:

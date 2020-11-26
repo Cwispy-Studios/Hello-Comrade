@@ -13,41 +13,37 @@ namespace CwispyStudios.HelloComrade.Audio
     private GameObject listener;
 
     private bool onSameObjectAsPlayer = false;
+    private OcclusionEmitter currentEmitter = null;
 
     private void Awake()
     {
       foreach (OcclusionEmitter emitter in occlusionEmitters)
       {
-        emitter.Initialise(gameObject);
-      }
-    }
+        emitter.Initialise();
 
-    private void Start()
-    {
-      // There should only be one by the time this code runs, since every other player will have their camera deleted.
-      var allListeners = FindObjectsOfType<StudioListener>();
+        var allListeners = FindObjectsOfType<StudioListener>();
 
-      foreach (StudioListener studioListener in allListeners)
-      {
-        GameObject listenerObject = studioListener.gameObject;
-        GameObject parentObject = listenerObject.transform.parent.gameObject;
-
-        // Find the camera that belongs to the local player
-        if (parentObject.GetPhotonView().IsMine)
+        foreach (StudioListener studioListener in allListeners)
         {
-          listener = listenerObject;
+          GameObject listenerObject = studioListener.gameObject;
+          GameObject parentObject = listenerObject.transform.parent.gameObject;
 
-          // Since some sounds play on the local player, occlusion should not affect them.
-          // Check if this is such a sound
-          if (parentObject.GetComponentInChildren<Occlusion>())
+          // Find the camera that belongs to the local player
+          if (parentObject.GetPhotonView().IsMine)
           {
-            onSameObjectAsPlayer = true;
-          }
+            listener = listenerObject;
 
-          break;
+            // Since some sounds play on the local player, occlusion should not affect them.
+            // Check if this sound will be played on the local player
+            if (parentObject.GetComponentInChildren<Occlusion>() == this)
+            {
+              onSameObjectAsPlayer = true;
+            }
+
+            break;
+          }
         }
       }
-
     }
 
     private void OccludeBetween( OcclusionEmitter emitter )
@@ -103,28 +99,47 @@ namespace CwispyStudios.HelloComrade.Audio
       return numHits;
     }
 
-    private void OccludeEvent(OcclusionEmitter emitter)
+    public bool SetEmitterAndCheckWithinListeningDistance( int eventIndex = 0 )
     {
+      if (eventIndex < 0 || eventIndex >= occlusionEmitters.Length) return false;
+
+      currentEmitter = occlusionEmitters[eventIndex];
+
       float listenerDistance = Vector3.Distance(transform.position, listener.transform.position);
 
-      if (listenerDistance <= emitter.MaxDistanceAudible)
+      return listenerDistance <= currentEmitter.MaxDistanceAudible;
+    }
+
+    public void SetEmitterParameters( string[] paramNames, params float[] paramValues )
+    {
+      if (paramNames.Length != paramValues.Length)
       {
-        if (!onSameObjectAsPlayer)
-        {
-          OccludeBetween(emitter);
-        }
-         
-        else
-        {
-          emitter.PlaySound(transform.position, 0);
-        }
+        Debug.LogError("Error! Mismatch in number of parameters and number of parameter values!", this);
+        return;
+      }
+
+      for (int i = 0; i < paramNames.Length; ++i)
+      {
+        currentEmitter.SetParameter(paramNames[i], paramValues[i]);
       }
     }
 
-    [PunRPC]
-    public void RpcPlayEvent( int eventIndex )
+    public void SetEmitterParameter( string paramName, float paramValue )
     {
-      OccludeEvent(occlusionEmitters[eventIndex]);
+      currentEmitter.SetParameter(paramName, paramValue);
+    }
+
+    public void OccludeEventAndStartEmitter()
+    {
+      if (!onSameObjectAsPlayer)
+      {
+        OccludeBetween(currentEmitter);
+      }
+
+      else
+      {
+        currentEmitter.PlaySound(transform.position, 0);
+      }
     }
   }
 }

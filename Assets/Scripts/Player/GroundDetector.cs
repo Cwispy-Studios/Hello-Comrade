@@ -45,5 +45,13 @@ namespace CwispyStudios.HelloComrade.Player
       GroundHit = hit;
       GroundAngle = Vector3.Angle(GroundHit.normal, transform.up);
     }
+
+    public string GetGroundTag()
+    {
+      if (GroundHit.transform)
+        return GroundHit.collider.tag;
+
+      else return "";
+    }
   }
 }
