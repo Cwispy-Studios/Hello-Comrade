@@ -1929,14 +1929,14 @@ ModelImporter:
       curves: []
       events:
       - time: 0.4189181
-        functionName: PlayFootstepsRun
+        functionName: PlayFootsteps
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
       - time: 0.9143865
-        functionName: PlayFootstepsRun
+        functionName: PlayFootsteps
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

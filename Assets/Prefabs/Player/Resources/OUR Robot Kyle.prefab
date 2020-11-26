@@ -1292,7 +1292,6 @@ GameObject:
   - component: {fileID: 282520194}
   - component: {fileID: 1401956766}
   - component: {fileID: 6785412803810564121}
-  - component: {fileID: 3721774695890386845}
   - component: {fileID: 891808066117234336}
   - component: {fileID: 891808066117234343}
   - component: {fileID: -2028178694794278143}
@@ -1451,7 +1450,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 891808067236795902}
   neck: {fileID: 6785412803810564280}
-  moveSpeed: 0.3
+  walkSpeed: 0.3
   runSpeedMultiplier: 2.25
   sneakSpeedMultiplier: 0.5
   maxStepDistance: 0.15
@@ -1459,40 +1458,34 @@ MonoBehaviour:
   jumpForce: 750
   gravityForce: 9.81
   gravityDownwardForceMultiplier: 5
---- !u!114 &3721774695890386845
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6785412803810564326}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f905c6c5cd4cab943b1225c09ae9f7f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  occlusionEmitters:
-  - audioEvent: event:/Character Sounds/Footsteps Walk
+  footstepsEvent:
+    audioEvent: event:/Character Sounds/Footsteps
     soundOcclusionWidening: 0.25
     playerOcclusionWidening: 0.25
     occlusionLayer:
       serializedVersion: 2
       m_Bits: 1
-  - audioEvent: event:/Character Sounds/Footsteps Run
-    soundOcclusionWidening: 0.5
-    playerOcclusionWidening: 0.5
+  footstepsWalkEvent:
+    audioEvent: event:/Character Sounds/Footsteps Walk
+    soundOcclusionWidening: 0.25
+    playerOcclusionWidening: 0.25
     occlusionLayer:
       serializedVersion: 2
       m_Bits: 1
-  - audioEvent: event:/Character Sounds/Footsteps Sneak
-    soundOcclusionWidening: 0.1
-    playerOcclusionWidening: 0.1
+  footstepsRunEvent:
+    audioEvent: event:/Character Sounds/Footsteps Run
+    soundOcclusionWidening: 0.25
+    playerOcclusionWidening: 0.25
     occlusionLayer:
       serializedVersion: 2
       m_Bits: 1
-  parameterName: Ground Type
-  groundDetector: {fileID: 282520194}
-  Notes: '0: Walk, 1: Run, 2: Sneak'
+  footstepsSneakEvent:
+    audioEvent: event:/Character Sounds/Footsteps Sneak
+    soundOcclusionWidening: 0.25
+    playerOcclusionWidening: 0.25
+    occlusionLayer:
+      serializedVersion: 2
+      m_Bits: 1
 --- !u!114 &891808066117234336
 MonoBehaviour:
   m_ObjectHideFlags: 0

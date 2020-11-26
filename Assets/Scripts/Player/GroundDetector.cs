@@ -46,12 +46,32 @@ namespace CwispyStudios.HelloComrade.Player
       GroundAngle = Vector3.Angle(GroundHit.normal, transform.up);
     }
 
-    public string GetGroundTag()
+    public float GetGroundLayerValue()
     {
       if (GroundHit.transform)
-        return GroundHit.collider.tag;
+        return ConvertGroundTagToValue(GroundHit.collider.tag);
 
-      else return "";
+      else return 0f;
+    }
+
+    private float ConvertGroundTagToValue( string tagName )
+    {
+      switch (tagName)
+      {
+        case "Hardwood":
+          return 0f;
+
+        case "Grass":
+          return 1f;
+
+        case "Asphalt":
+          return 0f;
+
+        case "Concrete":
+          return 0f;
+
+        default: return 0f;
+      }
     }
   }
 }

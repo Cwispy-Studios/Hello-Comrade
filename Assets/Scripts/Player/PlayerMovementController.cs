@@ -5,6 +5,8 @@ using Photon.Pun;
 
 using FMODUnity;
 
+using CwispyStudios.HelloComrade.Audio;
+
 namespace CwispyStudios.HelloComrade.Player
 {
   [RequireComponent(typeof(GroundDetector))]
@@ -14,7 +16,7 @@ namespace CwispyStudios.HelloComrade.Player
     [SerializeField] private Camera playerCamera = null;
     [SerializeField] private GameObject neck = null;
     [Header("Movement")]
-    [SerializeField, Range(0.1f, 10f)] private float moveSpeed = 0.3f;
+    [SerializeField, Range(0.1f, 10f)] private float walkSpeed = 0.3f;
     [SerializeField, Range(1f, 3f)] private float runSpeedMultiplier = 2.25f;
     [SerializeField, Range(0.1f, 1f)] private float sneakSpeedMultiplier = 0.5f;
     [Header("Slope and Step")]
@@ -24,6 +26,11 @@ namespace CwispyStudios.HelloComrade.Player
     [SerializeField] private float jumpForce = 750f;
     [SerializeField] private float gravityForce = 9.81f;
     [SerializeField] private float gravityDownwardForceMultiplier = 5f;
+    [Header("FMOD Events")]
+    [SerializeField] private AudioEmitter footstepsEvent = null;
+    [SerializeField] private AudioEmitter footstepsWalkEvent = null;
+    [SerializeField] private AudioEmitter footstepsRunEvent = null;
+    [SerializeField] private AudioEmitter footstepsSneakEvent = null;
 
     private const float StandingColliderHeight = 1.8f;
     private const float StandingColliderPosition = StandingColliderHeight * 0.5f;
@@ -35,6 +42,7 @@ namespace CwispyStudios.HelloComrade.Player
     private Rigidbody physicsController = null;
     private Animator animator = null;
 
+    //private float moveSpeedMultiplier = 1f;
     private Vector3 moveInput = Vector3.zero;
     private bool isRunning = false;
     private bool jumpThisFrame = false;
@@ -47,7 +55,18 @@ namespace CwispyStudios.HelloComrade.Player
       {
         Destroy(playerCamera.gameObject);
         Destroy(GetComponent<PlayerInput>());
-        return;
+        footstepsEvent.Initialise(transform, false);
+        footstepsWalkEvent.Initialise(transform, false);
+        footstepsRunEvent.Initialise(transform, false);
+        footstepsSneakEvent.Initialise(transform, false);
+      }
+
+      else
+      {
+        footstepsEvent.Initialise(transform, true);
+        footstepsWalkEvent.Initialise(transform, true);
+        footstepsRunEvent.Initialise(transform, true);
+        footstepsSneakEvent.Initialise(transform, true);
       }
 
       if (playerCamera == null)
@@ -145,7 +164,7 @@ namespace CwispyStudios.HelloComrade.Player
       Vector3 verticalDirectionVector = new Vector3(Mathf.Sin(cameraAngleRad), 0f, Mathf.Cos(cameraAngleRad));
       Vector3 horizontalDirectionVector = new Vector3(Mathf.Sin(cameraRightAngleRad), 0f, Mathf.Cos(cameraRightAngleRad));
 
-      float speed = moveSpeed;
+      float speed = walkSpeed;
       float speedMultiplier = 1f;
 
       if (isRunning)
@@ -324,6 +343,44 @@ namespace CwispyStudios.HelloComrade.Player
       {
         isRunning = false;
       }
+    }
+
+    public void PlayFootsteps()
+    {
+      if (!photonView.IsMine) return;
+
+      int index = isRunning ? 1 : isSneaking ? 2 : 0;
+      photonView.RPC("RpcPlayFootsteps", RpcTarget.AllViaServer, index);
+    }
+
+    [PunRPC]
+    private void RpcPlayFootsteps( int eventIndexToPlay )
+    {
+      AudioEmitter eventToPlay;
+
+      switch (eventIndexToPlay)
+      {
+        case 0: eventToPlay = footstepsWalkEvent;
+          break;
+
+        case 1:
+          eventToPlay = footstepsRunEvent;
+          break;
+
+        case 2:
+          eventToPlay = footstepsSneakEvent;
+          break;
+
+        default:
+          eventToPlay = null;
+          break;
+      }
+
+      eventToPlay.SetParameter("Ground Type", groundDetector.GetGroundLayerValue());
+
+      //float value = isRunning ? 1f : isSneaking ? 2f : 0f;
+      //footstepsEvent.SetParameter("Move Type", value);
+      eventToPlay.PlaySound();
     }
   }
 }
