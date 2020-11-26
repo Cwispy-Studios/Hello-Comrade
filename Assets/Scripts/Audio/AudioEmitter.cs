@@ -104,14 +104,14 @@ namespace CwispyStudios.HelloComrade.Audio
       Vector3 startPoint = start;
       Vector3 endPoint = end;
 
-      Debug.DrawLine(startPoint, endPoint, Color.red, 0.5f);
+      Debug.DrawLine(startPoint, endPoint, Color.red, 0.2f);
 
       float numHits = 0;
       Collider lastHitObject = null;
 
       while (Physics.Linecast(startPoint, endPoint, out RaycastHit hit, occlusionLayer))
       {
-        // Every new wall/object hit increased the hit by 1
+        // Every new wall/object hit increases the hit by 1
         // Every 1 metre of a wall/object traversed through increases the hit by 1
         if (lastHitObject == hit.collider)
         {

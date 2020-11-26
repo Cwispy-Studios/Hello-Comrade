@@ -58,7 +58,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 80
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -1455,9 +1455,9 @@ MonoBehaviour:
   sneakSpeedMultiplier: 0.45
   maxStepDistance: 0.15
   maxSlopeAngle: 40
-  jumpForce: 750
+  jumpForce: 800
   gravityForce: 9.81
-  gravityDownwardForceMultiplier: 5
+  gravityDownwardForceMultiplier: 4.5
   footstepsEvent:
     audioEvent: event:/Character Sounds/Footsteps
     soundOcclusionWidening: 0.25
