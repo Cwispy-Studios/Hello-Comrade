@@ -1450,9 +1450,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 891808067236795902}
   neck: {fileID: 6785412803810564280}
-  walkSpeed: 0.3
-  runSpeedMultiplier: 2.25
-  sneakSpeedMultiplier: 0.5
+  walkSpeed: 0.35
+  runSpeedMultiplier: 1.9
+  sneakSpeedMultiplier: 0.45
   maxStepDistance: 0.15
   maxSlopeAngle: 40
   jumpForce: 750
@@ -1544,7 +1544,7 @@ MonoBehaviour:
     SynchronizeType: 2
     Name: Speed Multiplier
   - Type: 9
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: Jump
   - Type: 4
     SynchronizeType: 1

@@ -66,7 +66,7 @@ namespace CwispyStudios.HelloComrade.Audio
       return null;
     }
 
-    private int GetOcclusionAmount()
+    private float GetOcclusionAmount()
     {
       Vector3 soundLeft = sourceObject.position + (-sourceObject.right * soundOcclusionWidening);
       Vector3 soundRight = sourceObject.position + (sourceObject.right * soundOcclusionWidening);
@@ -78,7 +78,7 @@ namespace CwispyStudios.HelloComrade.Audio
 
       Vector3 listenerAbove = listener.transform.position + (listener.transform.up * playerOcclusionWidening);
 
-      int totalNumHits = 0;
+      float totalNumHits = 0;
 
       totalNumHits += CastLines(soundLeft, listenerLeft, occlusionLayer);
       totalNumHits += CastLines(soundLeft, listener.transform.position, occlusionLayer);
@@ -99,19 +99,32 @@ namespace CwispyStudios.HelloComrade.Audio
       return totalNumHits;
     }
 
-    private int CastLines( Vector3 start, Vector3 end, LayerMask occlusionLayer )
+    private float CastLines( Vector3 start, Vector3 end, LayerMask occlusionLayer )
     {
       Vector3 startPoint = start;
       Vector3 endPoint = end;
 
-      int numHits = 0;
+      Debug.DrawLine(startPoint, endPoint, Color.red, 0.5f);
+
+      float numHits = 0;
+      Collider lastHitObject = null;
 
       while (Physics.Linecast(startPoint, endPoint, out RaycastHit hit, occlusionLayer))
       {
-        Debug.DrawLine(startPoint, endPoint, Color.red, 1f);
+        // Every new wall/object hit increased the hit by 1
+        // Every 1 metre of a wall/object traversed through increases the hit by 1
+        if (lastHitObject == hit.collider)
+        {
+          numHits += 0.1f;
+        }
+
+        else
+        {
+          ++numHits;
+          lastHitObject = hit.collider;
+        }
 
         startPoint = Vector3.MoveTowards(hit.point, endPoint, 0.1f);
-        ++numHits;
       }
 
       return numHits;
