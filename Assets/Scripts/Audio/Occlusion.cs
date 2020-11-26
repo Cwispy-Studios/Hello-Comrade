@@ -12,6 +12,8 @@ namespace CwispyStudios.HelloComrade.Audio
 
     private GameObject listener;
 
+    private bool onSameObjectAsPlayer = false;
+
     private void Awake()
     {
       foreach (OcclusionEmitter emitter in occlusionEmitters)
@@ -30,12 +32,22 @@ namespace CwispyStudios.HelloComrade.Audio
         GameObject listenerObject = studioListener.gameObject;
         GameObject parentObject = listenerObject.transform.parent.gameObject;
 
+        // Find the camera that belongs to the local player
         if (parentObject.GetPhotonView().IsMine)
         {
           listener = listenerObject;
+
+          // Since some sounds play on the local player, occlusion should not affect them.
+          // Check if this is such a sound
+          if (parentObject.GetComponentInChildren<Occlusion>())
+          {
+            onSameObjectAsPlayer = true;
+          }
+
           break;
         }
       }
+
     }
 
     private void OccludeBetween( OcclusionEmitter emitter )
@@ -97,8 +109,15 @@ namespace CwispyStudios.HelloComrade.Audio
 
       if (listenerDistance <= emitter.MaxDistanceAudible)
       {
-        //if (emitter.PlayerOcclusionWidening != 0 )
-        OccludeBetween(emitter);
+        if (!onSameObjectAsPlayer)
+        {
+          OccludeBetween(emitter);
+        }
+         
+        else
+        {
+          emitter.PlaySound(transform.position, 0);
+        }
       }
     }
 
