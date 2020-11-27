@@ -1,11 +1,16 @@
 ﻿using UnityEngine;
 
+using ExitGames.Client.Photon; // SendOptions
+using Photon.Pun; // RaiseEvent
+using Photon.Realtime; // RaiseOptions
+
 namespace CwispyStudios.HelloComrade.Player
 {
   public class GroundDetector : MonoBehaviour
   {
     private Collider playerCollider;
 
+    [HideInInspector] public bool WasGrounded { get; private set; } = false;
     [HideInInspector] public bool IsGrounded { get; private set; } = false;
     [HideInInspector] public float GroundAngle { get; private set; }
     [HideInInspector] public RaycastHit GroundHit { get; private set; }
@@ -23,6 +28,8 @@ namespace CwispyStudios.HelloComrade.Player
     private void Start()
     {
       DetectGround();
+
+      WasGrounded = IsGrounded;
     }
 
     private void Update()
@@ -41,7 +48,16 @@ namespace CwispyStudios.HelloComrade.Player
       float spherecastRadius = 0.1f;
 
       Ray ray = new Ray(rayOrigin, Vector3.down);
+      WasGrounded = IsGrounded;
       IsGrounded = Physics.SphereCast(ray, spherecastRadius, out RaycastHit hit, rayDistance, ~(1 << 8));
+
+      // Land on the ground
+      if (!WasGrounded && IsGrounded)
+      {
+        PhotonNetwork.RaiseEvent(
+          PhotonEvents.GroundDetectorOnLandEventCode, null, new RaiseEventOptions { Receivers = ReceiverGroup.All }, SendOptions.SendReliable);
+      }
+
       GroundHit = hit;
       GroundAngle = Vector3.Angle(GroundHit.normal, transform.up);
     }

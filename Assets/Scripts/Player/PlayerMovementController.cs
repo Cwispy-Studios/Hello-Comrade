@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
+using ExitGames.Client.Photon;
 using Photon.Pun;
-
-using FMODUnity;
 
 using CwispyStudios.HelloComrade.Audio;
 
@@ -42,11 +41,13 @@ namespace CwispyStudios.HelloComrade.Player
     private Rigidbody physicsController = null;
     private Animator animator = null;
 
-    //private float moveSpeedMultiplier = 1f;
+    private float standSpeedMultiplier = 1f;
+    private float crouchSpeedMultiplier = 1f;
+
     private Vector3 moveInput = Vector3.zero;
-    private bool isRunning = false;
     private bool jumpThisFrame = false;
     private bool isCrouching = false;
+    private bool isRunning = false;
     private bool isSneaking = false;
 
     private void Awake()
@@ -108,13 +109,33 @@ namespace CwispyStudios.HelloComrade.Player
       }
     }
 
+    private void OnEnable()
+    {
+      PhotonNetwork.NetworkingClient.EventReceived += OnLand;
+    }
+
+    private void OnDisable()
+    {
+      PhotonNetwork.NetworkingClient.EventReceived += OnLand;
+    }
+
     private void Jump()
     {
       jumpThisFrame = false;
 
-      animator.SetTrigger("Jump");
-
       physicsController.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+    }
+
+    private void OnLand( EventData photonEvent )
+    {
+      byte eventCode = photonEvent.Code;
+
+      if (eventCode == PhotonEvents.GroundDetectorOnLandEventCode)
+      {
+        animator.SetTrigger("Land");
+
+        // Play audio
+      }
     }
 
     private void ApplyGravity()
@@ -145,13 +166,18 @@ namespace CwispyStudios.HelloComrade.Player
 
       if (moveInput != Vector3.zero)
       {
+        animator.SetFloat("Stand Speed Multiplier", standSpeedMultiplier);
+
         MovePlayer();
       }
 
       else
       {
-        animator.SetFloat("Speed Multiplier", 0f);
+        animator.SetFloat("Stand Speed Multiplier", 0f);
+        animator.SetFloat("Crouch Speed Multiplier", 0f);
       }
+
+      animator.SetBool("On Ground", groundDetector.IsGrounded);
     }
 
     private void MovePlayer()
@@ -164,22 +190,7 @@ namespace CwispyStudios.HelloComrade.Player
       Vector3 verticalDirectionVector = new Vector3(Mathf.Sin(cameraAngleRad), 0f, Mathf.Cos(cameraAngleRad));
       Vector3 horizontalDirectionVector = new Vector3(Mathf.Sin(cameraRightAngleRad), 0f, Mathf.Cos(cameraRightAngleRad));
 
-      float speed = walkSpeed;
-      float speedMultiplier = 1f;
-
-      if (isRunning)
-      {
-        speedMultiplier = runSpeedMultiplier;
-      }
-
-      else if (isSneaking)
-      {
-        speedMultiplier = sneakSpeedMultiplier;
-      }
-
-      speed *= speedMultiplier;
-
-      animator.SetFloat("Speed Multiplier", speedMultiplier);
+      float speed = walkSpeed * standSpeedMultiplier;
 
       Vector3 vectorDirection = ((verticalDirectionVector * moveInput.z) + (horizontalDirectionVector * moveInput.x));
 
@@ -304,8 +315,33 @@ namespace CwispyStudios.HelloComrade.Player
       if (isRunning)
       {
         isSneaking = false;
+        standSpeedMultiplier = runSpeedMultiplier;
+      }
+
+      // Stop running, but player may also be sneaking so check that they are not so it does not override that
+      else if (!isSneaking)
+      {
+        standSpeedMultiplier = 1f;
       }
     }
+    public void OnSneak( InputValue value )
+    {
+      isSneaking = value.isPressed;
+
+      // Sneaking overrides other actions
+      if (isSneaking)
+      {
+        isRunning = false;
+        standSpeedMultiplier = sneakSpeedMultiplier;
+      }
+
+      // Stop running, but player may also be running so check that they are not so it does not override that
+      else if (!isRunning)
+      {
+        standSpeedMultiplier = 1f;
+      }
+    }
+
 
     public void OnCrouch()
     {
@@ -326,22 +362,12 @@ namespace CwispyStudios.HelloComrade.Player
             jumpThisFrame = true;
           }
         }
-
+        
+        // Player is already standing, can jump
         else
         {
           jumpThisFrame = true;
         }
-      }
-    }
-
-    public void OnSneak( InputValue value )
-    {
-      isSneaking = value.isPressed;
-
-      // Sneaking overrides other actions
-      if (isSneaking)
-      {
-        isRunning = false;
       }
     }
 
