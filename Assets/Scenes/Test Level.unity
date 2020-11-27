@@ -3930,7 +3930,6 @@ GameObject:
   m_Component:
   - component: {fileID: 292079672}
   - component: {fileID: 292079674}
-  - component: {fileID: 292079673}
   - component: {fileID: 292079676}
   m_Layer: 14
   m_Name: Main Entrance Indoor
@@ -3953,29 +3952,6 @@ Transform:
   m_Father: {fileID: 2076819970}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &292079673
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 292079671}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CollisionTag: 
-  Event: snapshot:/Indoors
-  PlayEvent: 3
-  StopEvent: 0
-  AllowFadeout: 1
-  TriggerOnce: 0
-  Preload: 1
-  Params: []
-  OverrideAttenuation: 0
-  OverrideMinDistance: 0
-  OverrideMaxDistance: 0
 --- !u!65 &292079674
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12458,7 +12434,6 @@ GameObject:
   m_Component:
   - component: {fileID: 302592813}
   - component: {fileID: 302592815}
-  - component: {fileID: 302592814}
   - component: {fileID: 302592817}
   m_Layer: 14
   m_Name: Basement Indoor
@@ -12481,29 +12456,6 @@ Transform:
   m_Father: {fileID: 2076819970}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -40.382004}
---- !u!114 &302592814
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 302592812}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CollisionTag: 
-  Event: snapshot:/Indoors
-  PlayEvent: 3
-  StopEvent: 0
-  AllowFadeout: 1
-  TriggerOnce: 0
-  Preload: 1
-  Params: []
-  OverrideAttenuation: 0
-  OverrideMinDistance: 0
-  OverrideMaxDistance: 0
 --- !u!65 &302592815
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -17959,7 +17911,6 @@ GameObject:
   m_Component:
   - component: {fileID: 645348590}
   - component: {fileID: 645348592}
-  - component: {fileID: 645348591}
   - component: {fileID: 645348594}
   m_Layer: 14
   m_Name: Back Entrance Outdoor
@@ -17982,29 +17933,6 @@ Transform:
   m_Father: {fileID: 2076819970}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &645348591
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 645348589}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CollisionTag: 
-  Event: snapshot:/Outdoors
-  PlayEvent: 3
-  StopEvent: 0
-  AllowFadeout: 1
-  TriggerOnce: 0
-  Preload: 1
-  Params: []
-  OverrideAttenuation: 0
-  OverrideMinDistance: 0
-  OverrideMaxDistance: 0
 --- !u!65 &645348592
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -40133,7 +40061,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1195219587}
   - component: {fileID: 1195219589}
-  - component: {fileID: 1195219588}
   - component: {fileID: 1195219591}
   m_Layer: 14
   m_Name: Basement Outdoor
@@ -40156,29 +40083,6 @@ Transform:
   m_Father: {fileID: 2076819970}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1195219588
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1195219586}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CollisionTag: 
-  Event: snapshot:/Outdoors
-  PlayEvent: 3
-  StopEvent: 0
-  AllowFadeout: 1
-  TriggerOnce: 0
-  Preload: 1
-  Params: []
-  OverrideAttenuation: 0
-  OverrideMinDistance: 0
-  OverrideMaxDistance: 0
 --- !u!65 &1195219589
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -61622,7 +61526,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1887114342}
   - component: {fileID: 1887114344}
-  - component: {fileID: 1887114343}
   - component: {fileID: 1887114346}
   m_Layer: 14
   m_Name: Main Entrance Outdoor
@@ -61645,29 +61548,6 @@ Transform:
   m_Father: {fileID: 2076819970}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1887114343
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1887114341}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CollisionTag: 
-  Event: snapshot:/Outdoors
-  PlayEvent: 3
-  StopEvent: 0
-  AllowFadeout: 1
-  TriggerOnce: 0
-  Preload: 1
-  Params: []
-  OverrideAttenuation: 0
-  OverrideMinDistance: 0
-  OverrideMaxDistance: 0
 --- !u!65 &1887114344
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -62687,7 +62567,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1961992631}
   - component: {fileID: 1961992633}
-  - component: {fileID: 1961992632}
   - component: {fileID: 1961992635}
   m_Layer: 14
   m_Name: Back Entrance Indoor
@@ -62710,29 +62589,6 @@ Transform:
   m_Father: {fileID: 2076819970}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1961992632
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1961992630}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CollisionTag: 
-  Event: snapshot:/Indoors
-  PlayEvent: 3
-  StopEvent: 0
-  AllowFadeout: 1
-  TriggerOnce: 0
-  Preload: 1
-  Params: []
-  OverrideAttenuation: 0
-  OverrideMinDistance: 0
-  OverrideMaxDistance: 0
 --- !u!65 &1961992633
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -62769,7 +62625,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1977882241}
   - component: {fileID: 1977882243}
-  - component: {fileID: 1977882242}
   - component: {fileID: 1977882245}
   m_Layer: 14
   m_Name: Spawn Zone
@@ -62792,29 +62647,6 @@ Transform:
   m_Father: {fileID: 2076819970}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1977882242
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1977882240}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CollisionTag: 
-  Event: snapshot:/Outdoors
-  PlayEvent: 3
-  StopEvent: 0
-  AllowFadeout: 1
-  TriggerOnce: 0
-  Preload: 1
-  Params: []
-  OverrideAttenuation: 0
-  OverrideMinDistance: 0
-  OverrideMaxDistance: 0
 --- !u!65 &1977882243
 BoxCollider:
   m_ObjectHideFlags: 0

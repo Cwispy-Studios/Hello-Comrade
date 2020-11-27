@@ -137,8 +137,11 @@ namespace CwispyStudios.HelloComrade.Audio
 
     public void PlaySound()
     {
-      float distance = Vector3.Distance(sourceObject.position, listener.transform.position);
-      if (distance > maxDistanceAudible) return;
+      if (maxDistanceAudible > 0f)
+      {
+        float distance = Vector3.Distance(sourceObject.position, listener.transform.position);
+        if (distance > maxDistanceAudible) return;
+      }
 
       // Other parameters should have already been set
       if (soundOcclusionWidening > 0f && playerOcclusionWidening > 0f)

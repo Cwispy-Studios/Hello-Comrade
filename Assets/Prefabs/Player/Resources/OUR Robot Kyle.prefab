@@ -1579,6 +1579,20 @@ MonoBehaviour:
     occlusionLayer:
       serializedVersion: 2
       m_Bits: 0
+  outdoorReverb:
+    audioEvent: snapshot:/Outdoors
+    soundOcclusionWidening: 0
+    playerOcclusionWidening: 0
+    occlusionLayer:
+      serializedVersion: 2
+      m_Bits: 0
+  indoorReverb:
+    audioEvent: snapshot:/Indoors
+    soundOcclusionWidening: 0
+    playerOcclusionWidening: 0
+    occlusionLayer:
+      serializedVersion: 2
+      m_Bits: 0
 --- !u!1 &6785412803810564328
 GameObject:
   m_ObjectHideFlags: 0

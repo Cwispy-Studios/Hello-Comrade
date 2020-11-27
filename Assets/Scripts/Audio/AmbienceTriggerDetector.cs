@@ -9,8 +9,12 @@ namespace CwispyStudios.HelloComrade.Audio
     [SerializeField] private AudioEmitter outdoorAmbience = null;
     [SerializeField] private AudioEmitter indoorAmbience = null;
 
+    [SerializeField] private AudioEmitter outdoorReverb = null;
+    [SerializeField] private AudioEmitter indoorReverb = null;
+
     private AmbienceType currentAmbienceType = AmbienceType.None;
     private AudioEmitter currentEmitter = null;
+    private AudioEmitter currentReverb = null;
 
     private void Awake()
     {
@@ -18,6 +22,8 @@ namespace CwispyStudios.HelloComrade.Audio
 
       outdoorAmbience.Initialise(transform);
       indoorAmbience.Initialise(transform);
+      outdoorReverb.Initialise(transform);
+      indoorReverb.Initialise(transform);
     }
 
     private void OnTriggerEnter( Collider other )
@@ -40,10 +46,13 @@ namespace CwispyStudios.HelloComrade.Audio
               if (currentEmitter != null)
               {
                 currentEmitter.StopSound();
+                currentReverb.StopSound(false);
               }
 
               currentEmitter = outdoorAmbience;
+              currentReverb = outdoorReverb;
               currentEmitter.PlaySound();
+              currentReverb.PlaySound();
             }
 
             break;
@@ -55,10 +64,13 @@ namespace CwispyStudios.HelloComrade.Audio
               if (currentEmitter != null)
               {
                 currentEmitter.StopSound();
+                currentReverb.StopSound(false);
               }
 
               currentEmitter = indoorAmbience;
+              currentReverb = indoorReverb;
               currentEmitter.PlaySound();
+              currentReverb.PlaySound();
             }
 
             break;
