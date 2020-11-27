@@ -137,6 +137,9 @@ namespace CwispyStudios.HelloComrade.Audio
 
     public void PlaySound()
     {
+      float distance = Vector3.Distance(sourceObject.position, listener.transform.position);
+      if (distance > maxDistanceAudible) return;
+
       // Other parameters should have already been set
       if (soundOcclusionWidening > 0f && playerOcclusionWidening > 0f)
       {
@@ -145,6 +148,20 @@ namespace CwispyStudios.HelloComrade.Audio
 
       audioEventInstance.set3DAttributes(RuntimeUtils.To3DAttributes(sourceObject.position));
       audioEventInstance.start();
+    }
+
+    public void StopSound( bool fadeout = true )
+    {
+      audioEventInstance.getPlaybackState(out PLAYBACK_STATE state);
+
+      if (state == PLAYBACK_STATE.PLAYING)
+      {
+        if (fadeout)
+          audioEventInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+
+        else
+          audioEventInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+      }
     }
   }
 }

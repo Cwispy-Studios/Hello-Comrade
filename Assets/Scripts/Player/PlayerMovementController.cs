@@ -377,9 +377,6 @@ namespace CwispyStudios.HelloComrade.Player
       }
 
       eventToPlay.SetParameter("Ground Type", groundDetector.GetGroundLayerValue());
-
-      //float value = isRunning ? 1f : isSneaking ? 2f : 0f;
-      //footstepsEvent.SetParameter("Move Type", value);
       eventToPlay.PlaySound();
     }
   }
