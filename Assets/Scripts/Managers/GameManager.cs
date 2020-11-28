@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using CwispyStudios.HelloComrade.Scene_Interactables.Lighting;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 using Photon.Pun;
@@ -11,6 +12,10 @@ public class GameManager : MonoBehaviourPunCallbacks
 
   private void Start()
   {
+    // TEMP 
+    LightSwitch.AssignLightIDs();
+    // ---
+    
     if (playerPrefab == null)
     {
       Debug.LogError("<Color=Red><a>Missing</a></Color> playerPrefab Reference. Please set it up in GameObject 'Game Manager'", this);

@@ -10,7 +10,7 @@ namespace Player.Items
     private const int InventorySize = 4;
 
     // Inventory
-    private Item[] inventoryArray = new Item[InventorySize];
+    public Item[] inventoryArray = new Item[InventorySize];
     private int itemsInInventory = 0;
     private int currentIndex = 0;
     private bool lockInventory = false; // true if current item picked up is a non-pocketable item
