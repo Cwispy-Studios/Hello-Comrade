@@ -56,8 +56,10 @@ namespace CwispyStudios.HelloComrade.Player
       // Land on the ground
       if (!WasGrounded && IsGrounded)
       {
+        object[] data = new object[] { photonView.ViewID };
+
         PhotonNetwork.RaiseEvent(
-          PhotonEvents.GroundDetectorOnLandEventCode, null, new RaiseEventOptions { Receivers = ReceiverGroup.All }, SendOptions.SendReliable);
+          PhotonEvents.GroundDetectorOnLandEventCode, data, new RaiseEventOptions { Receivers = ReceiverGroup.All }, SendOptions.SendReliable);
       }
 
       if (IsGrounded)

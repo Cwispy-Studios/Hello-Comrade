@@ -133,7 +133,10 @@ namespace CwispyStudios.HelloComrade.Player
 
     private void OnLand( EventData photonEvent )
     {
-      if (!photonView.IsMine) return;
+      object[] data = (object[])photonEvent.CustomData;
+      int photonId = (int)data[0];
+
+      if (photonId != photonView.ViewID) return;
 
       byte eventCode = photonEvent.Code;
 
