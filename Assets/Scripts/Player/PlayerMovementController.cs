@@ -133,15 +133,14 @@ namespace CwispyStudios.HelloComrade.Player
 
     private void OnLand( EventData photonEvent )
     {
-      object[] data = (object[])photonEvent.CustomData;
-      int photonId = (int)data[0];
-
-      if (photonId != photonView.ViewID) return;
-
       byte eventCode = photonEvent.Code;
 
       if (eventCode == PhotonEvents.GroundDetectorOnLandEventCode)
       {
+        int photonId = (int)photonEvent.CustomData;
+
+        if (photonId != photonView.ViewID) return;
+
         animator.SetTrigger("Land");
 
         landEvent.SetParameter("Ground Type", groundDetector.GetGroundLayerValue());
