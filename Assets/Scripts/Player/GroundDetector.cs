@@ -72,15 +72,15 @@ namespace CwispyStudios.HelloComrade.Player
 
       if (foundGround)
       {
+        IsGrounded = true;
         GroundHit = hit;
 
         // Find the distance to ground
         float distanceToGround = hit.distance - colliderExtent;
 
-        // Distance to ground is miniscule, player is firmly grounded
+        // Distance to ground is miniscule, player is firmly grounded and will not need to fall
         if (distanceToGround <= 0.01f)
         {
-          IsGrounded = true;
           IsFalling = false;
         }
 
@@ -88,7 +88,6 @@ namespace CwispyStudios.HelloComrade.Player
         // Player is still grounded in such cases, and animation will not trigger
         else
         {
-          IsGrounded = true;
           IsFalling = true;
         }
       }

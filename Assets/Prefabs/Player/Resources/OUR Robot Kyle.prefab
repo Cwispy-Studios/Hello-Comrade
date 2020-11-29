@@ -1449,7 +1449,7 @@ Rigidbody:
   m_GameObject: {fileID: 6785412803810564326}
   serializedVersion: 2
   m_Mass: 65
-  m_Drag: 7.5
+  m_Drag: 6
   m_AngularDrag: 15
   m_UseGravity: 0
   m_IsKinematic: 0
@@ -1572,14 +1572,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 891808067236795902}
   neck: {fileID: 6785412803810564280}
-  walkSpeed: 0.35
+  walkSpeed: 0.27
   runSpeedMultiplier: 1.9
   sneakSpeedMultiplier: 0.45
-  maxStepDistance: 0.2
-  maxSlopeAngle: 72
-  jumpForce: 800
+  maxStepDistance: 0.15
+  maxSlopeAngle: 50
+  jumpForce: 720
   gravityForce: 9.81
-  gravityDownwardForceMultiplier: 4.5
+  baseGravityDownwardForceMultiplier: 3
+  increasingDownwardForceMultiplier: 100
+  terminalVelocity: 53
   footstepsWalkEvent:
     audioEvent: event:/Character Sounds/Footsteps Walk
     soundOcclusionWidening: 0.25

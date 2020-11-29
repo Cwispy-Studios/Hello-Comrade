@@ -15,16 +15,18 @@ namespace CwispyStudios.HelloComrade.Player
     [SerializeField] private Camera playerCamera = null;
     [SerializeField] private GameObject neck = null;
     [Header("Movement")]
-    [SerializeField, Range(0.1f, 10f)] private float walkSpeed = 0.3f;
-    [SerializeField, Range(1f, 3f)] private float runSpeedMultiplier = 2.25f;
-    [SerializeField, Range(0.1f, 1f)] private float sneakSpeedMultiplier = 0.5f;
+    [SerializeField, Range(0.01f, 1f)] private float walkSpeed = 0.27f;
+    [SerializeField, Range(1f, 3f)] private float runSpeedMultiplier = 1.9f;
+    [SerializeField, Range(0.1f, 1f)] private float sneakSpeedMultiplier = 0.45f;
     [Header("Slope and Step")]
     [SerializeField, Range(0f, 0.2f)] private float maxStepDistance = 0.15f;
     [SerializeField, Range(0f, 90f)] private float maxSlopeAngle = 50f;
     [Header("Jumping and Gravity")]
-    [SerializeField] private float jumpForce = 750f;
-    [SerializeField] private float gravityForce = 9.81f;
-    [SerializeField] private float gravityDownwardForceMultiplier = 5f;
+    [SerializeField, Range(100f, 2000f)] private float jumpForce = 720f;
+    [SerializeField, Range(1f, 100f)] private float gravityForce = 9.81f;
+    [SerializeField, Range(2f, 15f)] private float baseGravityDownwardForceMultiplier = 3f;
+    [SerializeField, Range(5f, 250f)] private float increasingDownwardForceMultiplier = 100f;
+    [SerializeField, Range(10f, 100f)] private float terminalVelocity = 53f;
     [Header("FMOD Events")]
     [SerializeField] private AudioEmitter footstepsWalkEvent = null;
     [SerializeField] private AudioEmitter footstepsRunEvent = null;
@@ -45,6 +47,7 @@ namespace CwispyStudios.HelloComrade.Player
     /// If you change this value in runtime you are a bad person.
     /// </summary>
     private float crouchingCameraYPosition;
+    private float timeSpentFalling = 0f;
 
     private CapsuleCollider playerCollider = null;
     private GroundDetector groundDetector = null;
@@ -152,6 +155,11 @@ namespace CwispyStudios.HelloComrade.Player
         ApplyGravity();
       }
 
+      else
+      {
+        timeSpentFalling = 0f;
+      }
+
       if (moveInput != Vector3.zero)
       {
         animator.SetFloat("Stand Speed Multiplier", standSpeedMultiplier);
@@ -197,8 +205,27 @@ namespace CwispyStudios.HelloComrade.Player
 
     private void ApplyGravity()
     {
-      float gravityMultiplier = physicsController.velocity.y < 0f ? gravityDownwardForceMultiplier : 1f;
-      physicsController.AddForce(Vector3.down * gravityForce * gravityMultiplier, ForceMode.Acceleration);
+      float downwardForce = gravityForce;
+
+      if (physicsController.velocity.y < 0f)
+      {
+        timeSpentFalling += Time.fixedDeltaTime;
+        downwardForce *= baseGravityDownwardForceMultiplier;
+        downwardForce += timeSpentFalling * increasingDownwardForceMultiplier;
+
+        if (physicsController.velocity.y > terminalVelocity)
+        {
+          Vector3 limitedVelocity = physicsController.velocity;
+          limitedVelocity.y = terminalVelocity;
+          physicsController.velocity = limitedVelocity;
+        }
+
+        Debug.Log(downwardForce);
+      }
+
+      physicsController.AddForce(Vector3.down * downwardForce, ForceMode.Acceleration);
+
+      Debug.Log(physicsController.velocity);
     }
 
     private void MovePlayer()
