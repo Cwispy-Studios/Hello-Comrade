@@ -1580,13 +1580,6 @@ MonoBehaviour:
   jumpForce: 800
   gravityForce: 9.81
   gravityDownwardForceMultiplier: 4.5
-  footstepsEvent:
-    audioEvent: event:/Character Sounds/Footsteps
-    soundOcclusionWidening: 0.25
-    playerOcclusionWidening: 0.25
-    occlusionLayer:
-      serializedVersion: 2
-      m_Bits: 1
   footstepsWalkEvent:
     audioEvent: event:/Character Sounds/Footsteps Walk
     soundOcclusionWidening: 0.25
@@ -1605,6 +1598,20 @@ MonoBehaviour:
     audioEvent: event:/Character Sounds/Footsteps Sneak
     soundOcclusionWidening: 0.25
     playerOcclusionWidening: 0.25
+    occlusionLayer:
+      serializedVersion: 2
+      m_Bits: 1
+  jumpEvent:
+    audioEvent: event:/Character Sounds/Jump
+    soundOcclusionWidening: 0.25
+    playerOcclusionWidening: 0.25
+    occlusionLayer:
+      serializedVersion: 2
+      m_Bits: 1
+  landEvent:
+    audioEvent: event:/Character Sounds/Land
+    soundOcclusionWidening: 1
+    playerOcclusionWidening: 1
     occlusionLayer:
       serializedVersion: 2
       m_Bits: 1

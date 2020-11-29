@@ -49,7 +49,7 @@ namespace CwispyStudios.HelloComrade.Player
 
       Ray ray = new Ray(rayOrigin, Vector3.down);
       WasGrounded = IsGrounded;
-      IsGrounded = Physics.SphereCast(ray, spherecastRadius, out RaycastHit hit, rayDistance, ~(1 << 8));
+      IsGrounded = Physics.SphereCast(ray, spherecastRadius, out RaycastHit hit, rayDistance, (1 << 0));
 
       // Land on the ground
       if (!WasGrounded && IsGrounded)
@@ -58,7 +58,8 @@ namespace CwispyStudios.HelloComrade.Player
           PhotonEvents.GroundDetectorOnLandEventCode, null, new RaiseEventOptions { Receivers = ReceiverGroup.All }, SendOptions.SendReliable);
       }
 
-      GroundHit = hit;
+      if (IsGrounded)
+        GroundHit = hit;
       GroundAngle = Vector3.Angle(GroundHit.normal, transform.up);
     }
 
@@ -81,7 +82,7 @@ namespace CwispyStudios.HelloComrade.Player
           return 1f;
 
         case "Asphalt":
-          return 0f;
+          return 2f;
 
         case "Concrete":
           return 0f;

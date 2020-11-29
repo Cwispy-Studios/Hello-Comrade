@@ -26,10 +26,11 @@ namespace CwispyStudios.HelloComrade.Player
     [SerializeField] private float gravityForce = 9.81f;
     [SerializeField] private float gravityDownwardForceMultiplier = 5f;
     [Header("FMOD Events")]
-    [SerializeField] private AudioEmitter footstepsEvent = null;
     [SerializeField] private AudioEmitter footstepsWalkEvent = null;
     [SerializeField] private AudioEmitter footstepsRunEvent = null;
     [SerializeField] private AudioEmitter footstepsSneakEvent = null;
+    [SerializeField] private AudioEmitter jumpEvent = null;
+    [SerializeField] private AudioEmitter landEvent = null;
 
     private const float StandingColliderHeight = 1.8f;
     private const float StandingColliderPosition = StandingColliderHeight * 0.5f;
@@ -56,18 +57,20 @@ namespace CwispyStudios.HelloComrade.Player
       {
         Destroy(playerCamera.gameObject);
         Destroy(GetComponent<PlayerInput>());
-        footstepsEvent.Initialise(transform, false);
         footstepsWalkEvent.Initialise(transform, false);
         footstepsRunEvent.Initialise(transform, false);
         footstepsSneakEvent.Initialise(transform, false);
+        jumpEvent.Initialise(transform, false);
+        landEvent.Initialise(transform, false);
       }
 
       else
       {
-        footstepsEvent.Initialise(transform, true);
         footstepsWalkEvent.Initialise(transform, true);
         footstepsRunEvent.Initialise(transform, true);
         footstepsSneakEvent.Initialise(transform, true);
+        jumpEvent.Initialise(transform, true);
+        landEvent.Initialise(transform, true);
       }
 
       if (playerCamera == null)
@@ -124,6 +127,9 @@ namespace CwispyStudios.HelloComrade.Player
       jumpThisFrame = false;
 
       physicsController.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+
+
+      photonView.RPC("RpcPlayJump", RpcTarget.AllViaServer);
     }
 
     private void OnLand( EventData photonEvent )
@@ -134,7 +140,8 @@ namespace CwispyStudios.HelloComrade.Player
       {
         animator.SetTrigger("Land");
 
-        // Play audio
+        landEvent.SetParameter("Ground Type", groundDetector.GetGroundLayerValue());
+        landEvent.PlaySound();
       }
     }
 
@@ -404,6 +411,13 @@ namespace CwispyStudios.HelloComrade.Player
 
       eventToPlay.SetParameter("Ground Type", groundDetector.GetGroundLayerValue());
       eventToPlay.PlaySound();
+    }
+
+    [PunRPC]
+    private void RpcPlayJump()
+    {
+      jumpEvent.SetParameter("Ground Type", groundDetector.GetGroundLayerValue());
+      jumpEvent.PlaySound();
     }
   }
 }
