@@ -1989,7 +1989,7 @@ ModelImporter:
         weight: 0
       maskType: 0
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
+      additiveReferencePoseFrame: 56
     - serializedVersion: 16
       name: HumanoidJumpUp
       takeName: _207_Idle_JumpUpMedium_NoHands1Step_Idle
@@ -2314,7 +2314,7 @@ ModelImporter:
         weight: 0
       maskType: 0
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
+      additiveReferencePoseFrame: 56
     - serializedVersion: 16
       name: HumanoidMidAir
       takeName: _207_Idle_JumpUpMedium_NoHands1Step_Idle

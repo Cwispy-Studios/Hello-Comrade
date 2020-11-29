@@ -119,7 +119,7 @@ namespace CwispyStudios.HelloComrade.Player
 
     private void OnDisable()
     {
-      PhotonNetwork.NetworkingClient.EventReceived += OnLand;
+      PhotonNetwork.NetworkingClient.EventReceived -= OnLand;
     }
 
     private void Jump()
@@ -128,12 +128,13 @@ namespace CwispyStudios.HelloComrade.Player
 
       physicsController.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
 
-
       photonView.RPC("RpcPlayJump", RpcTarget.AllViaServer);
     }
 
     private void OnLand( EventData photonEvent )
     {
+      if (!photonView.IsMine) return;
+
       byte eventCode = photonEvent.Code;
 
       if (eventCode == PhotonEvents.GroundDetectorOnLandEventCode)
