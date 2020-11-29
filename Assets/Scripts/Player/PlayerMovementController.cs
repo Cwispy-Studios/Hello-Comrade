@@ -137,13 +137,15 @@ namespace CwispyStudios.HelloComrade.Player
 
       if (eventCode == PhotonEvents.GroundDetectorOnLandEventCode)
       {
-        int photonId = (int)photonEvent.CustomData;
+        object[] data = (object[]) photonEvent.CustomData;
+        int photonId = (int) data[0];
+        float groundLayerValue = (float) data[1];
 
         if (photonId != photonView.ViewID) return;
 
         animator.SetTrigger("Land");
 
-        landEvent.SetParameter("Ground Type", groundDetector.GetGroundLayerValue());
+        landEvent.SetParameter("Ground Type", groundLayerValue);
         landEvent.PlaySound();
       }
     }
@@ -386,11 +388,11 @@ namespace CwispyStudios.HelloComrade.Player
       if (!photonView.IsMine) return;
 
       int index = isRunning ? 1 : isSneaking ? 2 : 0;
-      photonView.RPC("RpcPlayFootsteps", RpcTarget.AllViaServer, index);
+      photonView.RPC("RpcPlayFootsteps", RpcTarget.AllViaServer, index, groundDetector.GetGroundLayerValue());
     }
 
     [PunRPC]
-    private void RpcPlayFootsteps( int eventIndexToPlay )
+    private void RpcPlayFootsteps( int eventIndexToPlay, float groundLayerValue )
     {
       AudioEmitter eventToPlay;
 
@@ -412,7 +414,7 @@ namespace CwispyStudios.HelloComrade.Player
           break;
       }
 
-      eventToPlay.SetParameter("Ground Type", groundDetector.GetGroundLayerValue());
+      eventToPlay.SetParameter("Ground Type", groundLayerValue);
       eventToPlay.PlaySound();
     }
 

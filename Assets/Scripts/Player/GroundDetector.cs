@@ -53,15 +53,18 @@ namespace CwispyStudios.HelloComrade.Player
       WasGrounded = IsGrounded;
       IsGrounded = Physics.SphereCast(ray, spherecastRadius, out RaycastHit hit, rayDistance, (1 << 0));
 
+      if (IsGrounded)
+        GroundHit = hit;
+
       // Land on the ground
       if (!WasGrounded && IsGrounded)
       {
+        object[] data = new object[] { photonView.ViewID, GetGroundLayerValue() };
+
         PhotonNetwork.RaiseEvent(
-          PhotonEvents.GroundDetectorOnLandEventCode, photonView.ViewID, new RaiseEventOptions { Receivers = ReceiverGroup.All }, SendOptions.SendReliable);
+          PhotonEvents.GroundDetectorOnLandEventCode, data, new RaiseEventOptions { Receivers = ReceiverGroup.All }, SendOptions.SendReliable);
       }
 
-      if (IsGrounded)
-        GroundHit = hit;
       GroundAngle = Vector3.Angle(GroundHit.normal, transform.up);
     }
 
