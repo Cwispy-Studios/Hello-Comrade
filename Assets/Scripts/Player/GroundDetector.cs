@@ -6,7 +6,7 @@ using Photon.Realtime; // RaiseOptions
 
 namespace CwispyStudios.HelloComrade.Player
 {
-  public class GroundDetector : MonoBehaviour
+  public class GroundDetector : MonoBehaviourPun
   {
     private Collider playerCollider;
 
@@ -34,6 +34,8 @@ namespace CwispyStudios.HelloComrade.Player
 
     private void Update()
     {
+      if (!photonView.IsMine) return;
+
       DetectGround();
     }
 
