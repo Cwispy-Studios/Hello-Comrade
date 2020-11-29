@@ -12,6 +12,7 @@ namespace CwispyStudios.HelloComrade.Player
 
     [HideInInspector] public bool WasGrounded { get; private set; } = false;
     [HideInInspector] public bool IsGrounded { get; private set; } = false;
+    [HideInInspector] public bool IsFalling { get; private set; } = false;
     [HideInInspector] public float GroundAngle { get; private set; }
     [HideInInspector] public RaycastHit GroundHit { get; private set; }
 
@@ -46,17 +47,43 @@ namespace CwispyStudios.HelloComrade.Player
       Vector3 rayOrigin = transform.position;
       rayOrigin.y += colliderExtent;
 
-      float rayDistance = colliderExtent + 0.01f;
-      float spherecastRadius = 0.1f;
+      float rayDistance = colliderExtent + 0.15f;
+      float spherecastRadius = 0.15f;
 
       Ray ray = new Ray(rayOrigin, Vector3.down);
       WasGrounded = IsGrounded;
-      IsGrounded = Physics.SphereCast(ray, spherecastRadius, out RaycastHit hit, rayDistance, (1 << 0));
+      bool foundGround = Physics.SphereCast(ray, spherecastRadius, out RaycastHit hit, rayDistance, (1 << 0));
 
-      if (IsGrounded)
+      if (foundGround)
+      {
         GroundHit = hit;
 
-      // Land on the ground
+        // Find the distance to ground
+        float distanceToGround = hit.distance - colliderExtent;
+
+        // Distance to ground is miniscule, player is firmly grounded
+        if (distanceToGround <= 0.01f)
+        {
+          IsGrounded = true;
+          IsFalling = false;
+        }
+
+        // Small gaps and minor falls, do not trigger fall animation but should still apply gravity
+        // Player is still grounded in such cases, and animation will not trigger
+        else
+        {
+          IsGrounded = true;
+          IsFalling = true;
+        }
+      }
+      
+      else
+      {
+        IsGrounded = false;
+        IsFalling = true;
+      }
+
+      // Landed on the ground
       if (!WasGrounded && IsGrounded)
       {
         object[] data = new object[] { photonView.ViewID, GetGroundLayerValue() };

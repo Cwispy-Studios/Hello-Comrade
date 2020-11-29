@@ -1575,8 +1575,8 @@ MonoBehaviour:
   walkSpeed: 0.35
   runSpeedMultiplier: 1.9
   sneakSpeedMultiplier: 0.45
-  maxStepDistance: 0.15
-  maxSlopeAngle: 40
+  maxStepDistance: 0.2
+  maxSlopeAngle: 72
   jumpForce: 800
   gravityForce: 9.81
   gravityDownwardForceMultiplier: 4.5

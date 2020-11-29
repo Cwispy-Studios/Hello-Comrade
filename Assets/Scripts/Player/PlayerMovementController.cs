@@ -20,7 +20,7 @@ namespace CwispyStudios.HelloComrade.Player
     [SerializeField, Range(0.1f, 1f)] private float sneakSpeedMultiplier = 0.5f;
     [Header("Slope and Step")]
     [SerializeField, Range(0f, 0.2f)] private float maxStepDistance = 0.15f;
-    [SerializeField, Range(0f, 90f)] private float maxSlopeAngle = 40f;
+    [SerializeField, Range(0f, 90f)] private float maxSlopeAngle = 50f;
     [Header("Jumping and Gravity")]
     [SerializeField] private float jumpForce = 750f;
     [SerializeField] private float gravityForce = 9.81f;
@@ -170,7 +170,7 @@ namespace CwispyStudios.HelloComrade.Player
       else
       {
         // Not grounded apply gravity
-        if (!groundDetector.IsGrounded)
+        if (groundDetector.IsFalling)
         {
           ApplyGravity();
         }
@@ -202,22 +202,28 @@ namespace CwispyStudios.HelloComrade.Player
       Vector3 verticalDirectionVector = new Vector3(Mathf.Sin(cameraAngleRad), 0f, Mathf.Cos(cameraAngleRad));
       Vector3 horizontalDirectionVector = new Vector3(Mathf.Sin(cameraRightAngleRad), 0f, Mathf.Cos(cameraRightAngleRad));
 
-      float speed = walkSpeed * standSpeedMultiplier;
-
       Vector3 vectorDirection = ((verticalDirectionVector * moveInput.z) + (horizontalDirectionVector * moveInput.x));
 
-      if (physicsController.SweepTest(vectorDirection, out RaycastHit hit, speed))
+      float finalSpeed = walkSpeed * standSpeedMultiplier;
+
+      // Check in the direction of movement of the rigidbody to see if it will collide with anything
+      // This is mainly to ensure that the rigidbody is able to move up and down slopes properly
+      // without walking into or over them
+      if (physicsController.SweepTest(vectorDirection, out RaycastHit hit, finalSpeed, QueryTriggerInteraction.Ignore))
       {
+        // Player is able to step over objects
         if (hit.point.y - physicsController.position.y <= maxStepDistance)
         {
+          // Find the angle of the object we hit
           float hitAngle = Vector3.Angle(hit.normal, Vector3.up);
 
+          // Player can walk up this angle, adjust the movement angle 
           if (hitAngle <= maxSlopeAngle)
           {
             vectorDirection = Vector3.ProjectOnPlane(vectorDirection, hit.normal);
           }
 
-          // Step up
+          // Step up the object
           else
           {
             Vector3 currentPosition = physicsController.position;
@@ -237,7 +243,7 @@ namespace CwispyStudios.HelloComrade.Player
         }
       }
 
-      physicsController.AddForce(vectorDirection * speed, ForceMode.VelocityChange);
+      physicsController.AddForce(vectorDirection * finalSpeed, ForceMode.VelocityChange);
 
       // Make the player character rotate towards the direction it is moving in
       Quaternion lookRotation = Quaternion.LookRotation(verticalDirectionVector);
