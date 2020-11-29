@@ -1684,6 +1684,9 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 1
     Name: On Ground
+  - Type: 9
+    SynchronizeType: 1
+    Name: Jump
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0

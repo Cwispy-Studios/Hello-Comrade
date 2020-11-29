@@ -10,10 +10,26 @@ namespace CwispyStudios.HelloComrade.Player
   {
     private Collider playerCollider;
 
+    /// <summary>
+    /// Whether the player is on the ground the previous fixed update.
+    /// </summary>
     [HideInInspector] public bool WasGrounded { get; private set; } = false;
+    /// <summary>
+    /// Whether the player is on the ground this current fixed update.
+    /// </summary>
     [HideInInspector] public bool IsGrounded { get; private set; } = false;
+    /// <summary>
+    /// Whether the player should be falling because they are a certain distance
+    /// from the ground. Note: A player can both be grounded and falling at the same time.
+    /// </summary>
     [HideInInspector] public bool IsFalling { get; private set; } = false;
+    /// <summary>
+    /// The angle of the ground the player is or was last over.
+    /// </summary>
     [HideInInspector] public float GroundAngle { get; private set; }
+    /// <summary>
+    /// The raycast information of the last detected object below the player.
+    /// </summary>
     [HideInInspector] public RaycastHit GroundHit { get; private set; }
 
     private void Awake()

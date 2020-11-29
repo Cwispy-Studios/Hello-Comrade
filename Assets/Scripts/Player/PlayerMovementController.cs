@@ -37,6 +37,15 @@ namespace CwispyStudios.HelloComrade.Player
     private const float CrouchingColliderHeight = 1.15f;
     private const float CrouchingColliderPosition = CrouchingColliderHeight * 0.5f;
 
+    /// <summary>
+    /// If you change this value in runtime you are a bad person.
+    /// </summary>
+    private float standingCameraYPosition;
+    /// <summary>
+    /// If you change this value in runtime you are a bad person.
+    /// </summary>
+    private float crouchingCameraYPosition;
+
     private CapsuleCollider playerCollider = null;
     private GroundDetector groundDetector = null;
     private Rigidbody physicsController = null;
@@ -71,6 +80,9 @@ namespace CwispyStudios.HelloComrade.Player
         footstepsSneakEvent.Initialise(transform, true);
         jumpEvent.Initialise(transform, true);
         landEvent.Initialise(transform, true);
+
+        standingCameraYPosition = playerCamera.transform.position.y;
+        crouchingCameraYPosition = standingCameraYPosition - (StandingColliderHeight - CrouchingColliderHeight);
       }
 
       if (playerCamera == null)
@@ -122,6 +134,39 @@ namespace CwispyStudios.HelloComrade.Player
       PhotonNetwork.NetworkingClient.EventReceived -= OnLand;
     }
 
+    private void FixedUpdate()
+    {
+      if (!photonView.IsMine && PhotonNetwork.IsConnected) return;
+
+      animator.SetBool("On Ground", groundDetector.IsGrounded);
+
+      // Already means player is grounded and can jump
+      if (jumpThisFrame)
+      {
+        Jump();
+      }
+
+      // Check if player is falling and gravity should be applied
+      else if (groundDetector.IsFalling)
+      {
+        ApplyGravity();
+      }
+
+      if (moveInput != Vector3.zero)
+      {
+        animator.SetFloat("Stand Speed Multiplier", standSpeedMultiplier);
+
+        MovePlayer();
+      }
+
+      else
+      {
+        animator.SetFloat("Stand Speed Multiplier", 0f);
+        animator.SetFloat("Crouch Speed Multiplier", 0f);
+      }
+    }
+
+
     private void Jump()
     {
       jumpThisFrame = false;
@@ -154,42 +199,6 @@ namespace CwispyStudios.HelloComrade.Player
     {
       float gravityMultiplier = physicsController.velocity.y < 0f ? gravityDownwardForceMultiplier : 1f;
       physicsController.AddForce(Vector3.down * gravityForce * gravityMultiplier, ForceMode.Acceleration);
-    }
-
-    private void FixedUpdate()
-    {
-      if (!photonView.IsMine && PhotonNetwork.IsConnected) return;
-
-      // Already means player is grounded and can jump
-      if (jumpThisFrame)
-      {
-        Jump();
-      }
-
-      // Check if grounded
-      else
-      {
-        // Not grounded apply gravity
-        if (groundDetector.IsFalling)
-        {
-          ApplyGravity();
-        }
-      }
-
-      if (moveInput != Vector3.zero)
-      {
-        animator.SetFloat("Stand Speed Multiplier", standSpeedMultiplier);
-
-        MovePlayer();
-      }
-
-      else
-      {
-        animator.SetFloat("Stand Speed Multiplier", 0f);
-        animator.SetFloat("Crouch Speed Multiplier", 0f);
-      }
-
-      animator.SetBool("On Ground", groundDetector.IsGrounded);
     }
 
     private void MovePlayer()
@@ -427,6 +436,8 @@ namespace CwispyStudios.HelloComrade.Player
     [PunRPC]
     private void RpcPlayJump()
     {
+      animator.SetTrigger("Jump");
+
       jumpEvent.SetParameter("Ground Type", groundDetector.GetGroundLayerValue());
       jumpEvent.PlaySound();
     }
