@@ -40,6 +40,7 @@ namespace CwispyStudios.HelloComrade.Audio
       }
 
       audioEventInstance = RuntimeManager.CreateInstance(audioEvent);
+      audioEventInstance.set3DAttributes(RuntimeUtils.To3DAttributes(sourceObject.position));
 
       audioEventDescription = RuntimeManager.GetEventDescription(audioEvent);
       audioEventDescription.getMaximumDistance(out maxDistanceAudible);
