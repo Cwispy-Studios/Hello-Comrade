@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Player.Items
 {
-  public class Item : MonoBehaviour
+  public class Item : MonoBehaviourPun
   {
     [Header("Item Properties")] 
     public int Weight;

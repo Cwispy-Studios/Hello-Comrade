@@ -16,7 +16,7 @@ namespace CwispyStudios.HelloComrade.Player.Items.Util
     public override void UseItem()
     {
       on = !on;
-      SetLights(id);
+      photonView.RPC("SetLights", RpcTarget.All, id);
     }
 
     private void Awake()
