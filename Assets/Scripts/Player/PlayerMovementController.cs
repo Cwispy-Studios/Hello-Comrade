@@ -433,6 +433,7 @@ namespace CwispyStudios.HelloComrade.Player
         }
       }
     }
+
     public void OnSneak( InputValue value )
     {
       sneakingButtonHeld = isSneaking = value.isPressed;
