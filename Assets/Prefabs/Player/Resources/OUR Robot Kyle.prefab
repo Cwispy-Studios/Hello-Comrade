@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &785835898985808884
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5674698670562251042}
+  m_Layer: 8
+  m_Name: Crouch Camera Position
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5674698670562251042
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 785835898985808884}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.08, z: 0.1499608}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6785412803810526406}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &891808067236795900
 GameObject:
   m_ObjectHideFlags: 0
@@ -184,7 +214,7 @@ RectTransform:
   m_Children:
   - {fileID: 5450225902891175087}
   m_Father: {fileID: 6785412803810526406}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1415,6 +1445,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 891808067236795903}
+  - {fileID: 5674698670562251042}
   - {fileID: 6785412803810526370}
   - {fileID: 6785412803810526372}
   - {fileID: 4723230382149094205}
@@ -1572,9 +1603,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 891808067236795902}
   neck: {fileID: 6785412803810564280}
+  crouchCameraPositionObject: {fileID: 785835898985808884}
   walkSpeed: 0.27
   runSpeedMultiplier: 1.9
   sneakSpeedMultiplier: 0.45
+  crouchSpeedMultiplier: 0.8
   maxStepDistance: 0.15
   maxSlopeAngle: 50
   jumpForce: 720
@@ -2143,7 +2176,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6785412803810526406}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &6785412803807450598
 SkinnedMeshRenderer:
@@ -2274,7 +2307,7 @@ Transform:
   - {fileID: 6785412803810526420}
   - {fileID: 6785412803810526374}
   m_Father: {fileID: 6785412803810526406}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6785412803810564422
 GameObject:

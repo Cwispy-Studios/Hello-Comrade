@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 using ExitGames.Client.Photon;
@@ -14,10 +16,12 @@ namespace CwispyStudios.HelloComrade.Player
     [Header("Player Objects")]
     [SerializeField] private Camera playerCamera = null;
     [SerializeField] private GameObject neck = null;
+    [SerializeField] private GameObject crouchCameraPositionObject = null;
     [Header("Movement")]
     [SerializeField, Range(0.01f, 1f)] private float walkSpeed = 0.27f;
     [SerializeField, Range(1f, 3f)] private float runSpeedMultiplier = 1.9f;
     [SerializeField, Range(0.1f, 1f)] private float sneakSpeedMultiplier = 0.45f;
+    [SerializeField, Range(0.5f, 1f)] private float crouchSpeedMultiplier = 0.8f;
     [Header("Slope and Step")]
     [SerializeField, Range(0f, 0.2f)] private float maxStepDistance = 0.15f;
     [SerializeField, Range(0f, 90f)] private float maxSlopeAngle = 50f;
@@ -42,11 +46,11 @@ namespace CwispyStudios.HelloComrade.Player
     /// <summary>
     /// If you change this value in runtime you are a bad person.
     /// </summary>
-    private float standingCameraYPosition;
+    private Vector3 standingCameraLocalPosition;
     /// <summary>
     /// If you change this value in runtime you are a bad person.
     /// </summary>
-    private float crouchingCameraYPosition;
+    private Vector3 crouchingCameraLocalPosition;
     private float timeSpentFalling = 0f;
 
     private CapsuleCollider playerCollider = null;
@@ -54,8 +58,7 @@ namespace CwispyStudios.HelloComrade.Player
     private Rigidbody physicsController = null;
     private Animator animator = null;
 
-    private float standSpeedMultiplier = 1f;
-    private float crouchSpeedMultiplier = 1f;
+    private float moveSpeedMultiplier = 1f;
 
     private Vector3 moveInput = Vector3.zero;
     private bool jumpThisFrame = false;
@@ -84,8 +87,8 @@ namespace CwispyStudios.HelloComrade.Player
         jumpEvent.Initialise(transform, true);
         landEvent.Initialise(transform, true);
 
-        standingCameraYPosition = playerCamera.transform.position.y;
-        crouchingCameraYPosition = standingCameraYPosition - (StandingColliderHeight - CrouchingColliderHeight);
+        standingCameraLocalPosition = playerCamera.transform.localPosition;
+        crouchingCameraLocalPosition = crouchCameraPositionObject.transform.localPosition;
       }
 
       if (playerCamera == null)
@@ -96,6 +99,11 @@ namespace CwispyStudios.HelloComrade.Player
       if (neck == null)
       {
         Debug.LogError("Error! Player's neck object is missing or not assigned!", this);
+      }
+
+      if (crouchCameraPositionObject == null)
+      {
+        Debug.LogError("Error! Player's crouch camera position object is missing or not assigned!", this);
       }
 
       playerCollider = GetComponent<CapsuleCollider>();
@@ -162,15 +170,14 @@ namespace CwispyStudios.HelloComrade.Player
 
       if (moveInput != Vector3.zero)
       {
-        animator.SetFloat("Stand Speed Multiplier", standSpeedMultiplier);
+        animator.SetFloat("Speed Multiplier", moveSpeedMultiplier);
 
         MovePlayer();
       }
 
       else
       {
-        animator.SetFloat("Stand Speed Multiplier", 0f);
-        animator.SetFloat("Crouch Speed Multiplier", 0f);
+        animator.SetFloat("Speed Multiplier", 0f);
       }
     }
 
@@ -219,13 +226,9 @@ namespace CwispyStudios.HelloComrade.Player
           limitedVelocity.y = terminalVelocity;
           physicsController.velocity = limitedVelocity;
         }
-
-        Debug.Log(downwardForce);
       }
 
       physicsController.AddForce(Vector3.down * downwardForce, ForceMode.Acceleration);
-
-      Debug.Log(physicsController.velocity);
     }
 
     private void MovePlayer()
@@ -240,7 +243,13 @@ namespace CwispyStudios.HelloComrade.Player
 
       Vector3 vectorDirection = ((verticalDirectionVector * moveInput.z) + (horizontalDirectionVector * moveInput.x));
 
-      float finalSpeed = walkSpeed * standSpeedMultiplier;
+      float finalSpeed = walkSpeed * moveSpeedMultiplier;
+
+      // Crouch speed multiplier only affects when on the ground
+      if (isCrouching && groundDetector.IsGrounded)
+      {
+        finalSpeed *= crouchSpeedMultiplier;
+      }
 
       // Check in the direction of movement of the rigidbody to see if it will collide with anything
       // This is mainly to ensure that the rigidbody is able to move up and down slopes properly
@@ -304,6 +313,8 @@ namespace CwispyStudios.HelloComrade.Player
       {
         isCrouching = crouch;
         animator.SetBool("Is Crouching", isCrouching);
+
+        ChangeCameraPosition();
       }
 
       return success;
@@ -352,6 +363,36 @@ namespace CwispyStudios.HelloComrade.Player
       else return false;
     }
 
+    private void ChangeCameraPosition()
+    {
+      StopAllCoroutines();
+
+      if (isCrouching)
+      {
+        StartCoroutine("LerpCameraToPosition", crouchingCameraLocalPosition);
+      }
+
+      else
+      {
+        StartCoroutine("LerpCameraToPosition", standingCameraLocalPosition);
+      }
+    }
+
+    private IEnumerator LerpCameraToPosition( Vector3 targetPosition )
+    {
+      Vector3 playerCameraPosition = playerCamera.transform.localPosition;
+
+      while (Vector3.Distance(playerCameraPosition, targetPosition) > 0.05f)
+      {
+        playerCameraPosition = Vector3.MoveTowards(playerCameraPosition, targetPosition, 2f * Time.deltaTime);
+        playerCamera.transform.localPosition = playerCameraPosition;
+
+        yield return null;
+      }
+
+      playerCamera.transform.localPosition = targetPosition;
+    }
+
     public void OnMove( InputValue value )
     {
       // Get keyboard move values
@@ -369,13 +410,13 @@ namespace CwispyStudios.HelloComrade.Player
       if (isRunning)
       {
         isSneaking = false;
-        standSpeedMultiplier = runSpeedMultiplier;
+        moveSpeedMultiplier = runSpeedMultiplier;
       }
 
       // Stop running, but player may also be sneaking so check that they are not so it does not override that
       else if (!isSneaking)
       {
-        standSpeedMultiplier = 1f;
+        moveSpeedMultiplier = 1f;
       }
     }
     public void OnSneak( InputValue value )
@@ -386,13 +427,13 @@ namespace CwispyStudios.HelloComrade.Player
       if (isSneaking)
       {
         isRunning = false;
-        standSpeedMultiplier = sneakSpeedMultiplier;
+        moveSpeedMultiplier = sneakSpeedMultiplier;
       }
 
       // Stop running, but player may also be running so check that they are not so it does not override that
       else if (!isRunning)
       {
-        standSpeedMultiplier = 1f;
+        moveSpeedMultiplier = 1f;
       }
     }
 
