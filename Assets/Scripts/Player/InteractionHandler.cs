@@ -19,6 +19,7 @@ namespace CwispyStudios.HelloComrade.Player
 
     private void Start()
     {
+      inventory = GetComponent<CharacterInventory>();
       playerCamera = GetComponentInChildren<Camera>();
       centerVector = new Vector3((int) (Screen.width / 2), (int) (Screen.height / 2), 0);
       interactablesMask = LayerMask.GetMask("Scene Interactables");
