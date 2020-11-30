@@ -16,16 +16,16 @@ namespace Player.Items
     private bool lockInventory = false; // true if current item picked up is a non-pocketable item
     
     // Interaction with other components
-    [Header("Linked Components")]
-    [SerializeField] private Rigidbody characterRigidbody = null;
+    //[Header("Linked Components")]
+    //[SerializeField] private Rigidbody characterRigidbody = null;
 
-    [Header("Inventory Attributes")] 
-    public float TotalWeight = 0;
+    //[Header("Inventory Attributes")] 
+    //public float TotalWeight = 0;
 
     private void Start()
     {
-      if (characterRigidbody == null) return;
-      TotalWeight = characterRigidbody.mass;
+      //if (characterRigidbody == null) return;
+      //TotalWeight = characterRigidbody.mass;
     }
 
     /// <summary>Scroll through items in inventory</summary>
@@ -51,6 +51,11 @@ namespace Player.Items
     public void PocketItem(Item newItem)
     {
       AddItem(newItem);
+    }
+
+    public void InteractItem()
+    {
+      inventoryArray[currentIndex].UseItem();
     }
 
     /// <summary>Drop Item from inventory slot into the world</summary>
@@ -104,8 +109,8 @@ namespace Player.Items
 
     private void SetWeight(int value)
     {
-      TotalWeight += value;
-      characterRigidbody.mass = TotalWeight;
+      //TotalWeight += value;
+      //characterRigidbody.mass = TotalWeight;
     }
 
     private int ReturnFreeSlot()

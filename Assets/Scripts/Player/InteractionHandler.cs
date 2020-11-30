@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using CwispyStudios.HelloComrade.Scene_Interactables;
+using Player.Items;
 using UnityEngine;
 
 namespace CwispyStudios.HelloComrade.Player
@@ -11,6 +12,7 @@ namespace CwispyStudios.HelloComrade.Player
     [Header("Input Settings")] [SerializeField]
     private float maxInteractDistance; // Max distance at which the player can interact with an item
 
+    private CharacterInventory inventory;
     private Camera playerCamera;
     private Vector3 centerVector;
     private LayerMask interactablesMask;
@@ -30,6 +32,11 @@ namespace CwispyStudios.HelloComrade.Player
       {
         hit.collider.gameObject.GetComponent<Interactable>().LeftMouseClick();
       }
+    }
+
+    private void OnInteractRMB()
+    {
+      inventory.InteractItem();
     }
   }
 }
