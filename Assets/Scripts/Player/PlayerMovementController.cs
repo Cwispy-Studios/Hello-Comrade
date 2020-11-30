@@ -64,7 +64,9 @@ namespace CwispyStudios.HelloComrade.Player
     private bool jumpThisFrame = false;
     private bool isCrouching = false;
     private bool isRunning = false;
+    private bool runningButtonHeld = false;
     private bool isSneaking = false;
+    private bool sneakingButtonHeld = false;
 
     private void Awake()
     {
@@ -404,7 +406,7 @@ namespace CwispyStudios.HelloComrade.Player
 
     public void OnRun( InputValue value )
     {
-      isRunning = value.isPressed;
+      runningButtonHeld = isRunning = value.isPressed;
 
       // Running overrides other actions
       if (isRunning)
@@ -413,15 +415,27 @@ namespace CwispyStudios.HelloComrade.Player
         moveSpeedMultiplier = runSpeedMultiplier;
       }
 
-      // Stop running, but player may also be sneaking so check that they are not so it does not override that
-      else if (!isSneaking)
+      // Stop running
+      else
       {
-        moveSpeedMultiplier = 1f;
+        // Check if sneak button is still held down, if it is then player moves to sneaking
+        if (sneakingButtonHeld)
+        {
+          isSneaking = true;
+          moveSpeedMultiplier = sneakSpeedMultiplier;
+        }
+
+        // Player may be already sneaking (sneaking overrode running and both keys still held down
+        // but run key was let go off)
+        else if (!isSneaking)
+        {
+          moveSpeedMultiplier = 1f;
+        }
       }
     }
     public void OnSneak( InputValue value )
     {
-      isSneaking = value.isPressed;
+      sneakingButtonHeld = isSneaking = value.isPressed;
 
       // Sneaking overrides other actions
       if (isSneaking)
@@ -431,9 +445,21 @@ namespace CwispyStudios.HelloComrade.Player
       }
 
       // Stop running, but player may also be running so check that they are not so it does not override that
-      else if (!isRunning)
+      else 
       {
-        moveSpeedMultiplier = 1f;
+        // Check if run button is still held down, if it is then player moves to running
+        if (runningButtonHeld)
+        {
+          isRunning = true;
+          moveSpeedMultiplier = runSpeedMultiplier;
+        }
+
+        // Player may be already running (running overrode sneaking and both keys still held down
+        // but sneak key was let go off)
+        else if (!isRunning)
+        {
+          moveSpeedMultiplier = 1f;
+        }
       }
     }
 

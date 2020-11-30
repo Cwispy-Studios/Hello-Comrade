@@ -1707,12 +1707,6 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 1
     Name: Is Crouching
-  - Type: 1
-    SynchronizeType: 1
-    Name: Stand Speed Multiplier
-  - Type: 1
-    SynchronizeType: 1
-    Name: Crouch Speed Multiplier
   - Type: 9
     SynchronizeType: 1
     Name: Land
@@ -1722,6 +1716,9 @@ MonoBehaviour:
   - Type: 9
     SynchronizeType: 1
     Name: Jump
+  - Type: 1
+    SynchronizeType: 1
+    Name: Speed Multiplier
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
