@@ -35,6 +35,10 @@ MonoBehaviour:
   RpcList:
   - PlayFootstepsSound
   - RpcPlayEvent
+  - RpcPlayFootsteps
+  - RpcPlayJump
+  - SetLights
+  - SwitchLights
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
