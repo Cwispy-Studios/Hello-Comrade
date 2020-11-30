@@ -163,6 +163,7 @@ GameObject:
   - component: {fileID: 8086101741979497310}
   - component: {fileID: 3555398991717513407}
   - component: {fileID: 3617321903009294392}
+  - component: {fileID: 7872171859040902058}
   m_Layer: 8
   m_Name: Spot Light
   m_TagString: Untagged
@@ -258,6 +259,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Weight: 1
+--- !u!114 &7872171859040902058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1307157125177922220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  observableSearch: 2
+  Synchronization: 3
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 3617321903009294392}
+  viewIdField: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &3721774695577952326
 GameObject:
   m_ObjectHideFlags: 0
