@@ -33,12 +33,10 @@ MonoBehaviour:
   RunInBackground: 1
   StartInOfflineMode: 0
   RpcList:
-  - PlayFootstepsSound
-  - RpcPlayEvent
   - RpcPlayFootsteps
   - RpcPlayJump
   - SetLights
-  - SwitchLights
+  - ToggleLight
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

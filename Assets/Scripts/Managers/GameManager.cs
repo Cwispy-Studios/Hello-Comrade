@@ -1,4 +1,4 @@
-﻿using CwispyStudios.HelloComrade.Scene_Interactables.Lighting;
+﻿using CwispyStudios.HelloComrade.Interactions.Lighting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,10 +12,6 @@ public class GameManager : MonoBehaviourPunCallbacks
 
   private void Start()
   {
-    // TEMP 
-    LightSwitch.AssignLightIDs();
-    // ---
-    
     if (playerPrefab == null)
     {
       Debug.LogError("<Color=Red><a>Missing</a></Color> playerPrefab Reference. Please set it up in GameObject 'Game Manager'", this);
@@ -35,6 +31,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     Debug.LogFormat("PhotonNetwork : Loading Playground Level");
     PhotonNetwork.LoadLevel(1);
   }
+
   public override void OnLeftRoom()
   {
     SceneManager.LoadScene(0);
