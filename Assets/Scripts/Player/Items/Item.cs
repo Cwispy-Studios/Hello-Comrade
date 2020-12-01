@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Photon.Pun;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Player.Items
+using Photon.Pun;
+
+namespace CwispyStudios.HelloComrade.Player.Items
 {
   public class Item : MonoBehaviourPun
   {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Player.Items
+namespace CwispyStudios.HelloComrade.Player.Items
 {
   public class CarryOnItems : Item
   {

@@ -1636,13 +1636,13 @@ MonoBehaviour:
   playerCamera: {fileID: 891808067236795902}
   neck: {fileID: 6785412803810564280}
   crouchCameraPositionObject: {fileID: 785835898985808884}
-  walkSpeed: 0.27
+  walkSpeed: 0.25
   runSpeedMultiplier: 1.9
   sneakSpeedMultiplier: 0.45
   crouchSpeedMultiplier: 0.8
   maxStepDistance: 0.15
   maxSlopeAngle: 50
-  jumpForce: 720
+  jumpForce: 700
   gravityForce: 9.81
   baseGravityDownwardForceMultiplier: 3
   increasingDownwardForceMultiplier: 100
@@ -1807,6 +1807,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxInteractDistance: 1
+  interactableMask:
+    serializedVersion: 2
+    m_Bits: 32768
 --- !u!114 &7189511733669262585
 MonoBehaviour:
   m_ObjectHideFlags: 0

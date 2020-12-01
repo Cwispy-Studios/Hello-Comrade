@@ -1,59 +1,46 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using UnityEngine;
+
 using Photon.Pun;
-using Player.Items;
-using UnityEngine;
 
 namespace CwispyStudios.HelloComrade.Player.Items.Util
 {
-  public class FlashLight : PocketItem, IPunObservable
+  public class FlashLight : PocketableItem, IPunObservable
   {
-    private bool on;
-    private int id;
+    private bool isOn;
+
     private Light flashLight;
-    /// <summary>Primary code for execution of item code</summary>
-    public override void UseItem()
-    {
-      on = !on;
-      photonView.RPC("SetLights", RpcTarget.All, id);
-    }
 
     private void Awake()
     {
       flashLight = GetComponent<Light>();
-      AssignId();
     }
 
-    private void AssignId()
+    /// <summary>Primary code for execution of item code</summary>
+    public override void UseItem()
     {
-      id = FindObjectsOfType<FlashLight>().Length;
+      isOn = !isOn;
+      photonView.RPC("SetLights", RpcTarget.All);
     }
 
-    [PunRPC]
-    private void SetLights(int updateId)
-    {
-      if (updateId != id) return;
-      flashLight.enabled = on;
-    }
-    
-    #region IPunObservable implementation
-
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    public void OnPhotonSerializeView( PhotonStream stream, PhotonMessageInfo info )
     {
       if (stream.IsWriting)
       {
         // We own this player: send the others our data
-        stream.SendNext(on);
+        stream.SendNext(isOn);
       }
       else
       {
         // Network player, receive data
-        on = (bool)stream.ReceiveNext();
-        SetLights(id);
+        isOn = (bool)stream.ReceiveNext();
+        SetLights();
       }
     }
 
-    #endregion
+    [PunRPC]
+    private void SetLights()
+    {
+      flashLight.enabled = isOn;
+    }
   }
 }

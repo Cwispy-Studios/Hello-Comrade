@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Player.Items
+namespace CwispyStudios.HelloComrade.Player.Items
 {
   public class CharacterInventory : MonoBehaviour
   {
@@ -53,7 +50,7 @@ namespace Player.Items
       AddItem(newItem);
     }
 
-    public void InteractItem()
+    public void InteractHeldItem()
     {
       inventoryArray[currentIndex].UseItem();
     }

@@ -190,7 +190,7 @@ namespace CwispyStudios.HelloComrade.Player
 
       physicsController.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
 
-      photonView.RPC("RpcPlayJump", RpcTarget.AllViaServer);
+      photonView.RPC("RpcPlayJump", RpcTarget.All);
     }
 
     private void OnLand( EventData photonEvent )
@@ -498,7 +498,7 @@ namespace CwispyStudios.HelloComrade.Player
       if (!photonView.IsMine) return;
 
       int index = isRunning ? 1 : isSneaking ? 2 : 0;
-      photonView.RPC("RpcPlayFootsteps", RpcTarget.AllViaServer, index, groundDetector.GetGroundLayerValue());
+      photonView.RPC("RpcPlayFootsteps", RpcTarget.All, index, groundDetector.GetGroundLayerValue());
     }
 
     [PunRPC]
