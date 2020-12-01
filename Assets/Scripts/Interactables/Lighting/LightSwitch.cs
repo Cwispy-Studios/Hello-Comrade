@@ -48,6 +48,7 @@ namespace CwispyStudios.HelloComrade.Interactions.Lighting
         // We own this player: send the others our data
         stream.SendNext(isOn);
       }
+
       else
       {
         // Network player, receive data

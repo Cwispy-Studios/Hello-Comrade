@@ -395,7 +395,7 @@ namespace CwispyStudios.HelloComrade.Player
       playerCamera.transform.localPosition = targetPosition;
     }
 
-    public void OnMove( InputValue value )
+    private void OnMove( InputValue value )
     {
       // Get keyboard move values
       Vector2 keyboardMoveInput = value.Get<Vector2>();
@@ -404,7 +404,7 @@ namespace CwispyStudios.HelloComrade.Player
       moveInput.z = keyboardMoveInput.y;
     }
 
-    public void OnRun( InputValue value )
+    private void OnRun( InputValue value )
     {
       runningButtonHeld = isRunning = value.isPressed;
 
@@ -434,7 +434,7 @@ namespace CwispyStudios.HelloComrade.Player
       }
     }
 
-    public void OnSneak( InputValue value )
+    private void OnSneak( InputValue value )
     {
       sneakingButtonHeld = isSneaking = value.isPressed;
 
@@ -464,13 +464,12 @@ namespace CwispyStudios.HelloComrade.Player
       }
     }
 
-
-    public void OnCrouch()
+    private void OnCrouch()
     {
       SetCrouch(!isCrouching);
     }
 
-    public void OnJump()
+    private void OnJump()
     {
       // Player must be on the ground to jump
       if (groundDetector.IsGrounded)
@@ -493,7 +492,7 @@ namespace CwispyStudios.HelloComrade.Player
       }
     }
 
-    public void PlayFootsteps()
+    private void PlayFootsteps()
     {
       if (!photonView.IsMine) return;
 

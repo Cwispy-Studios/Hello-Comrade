@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviourPunCallbacks
   [Tooltip("Prefab for the player character model")]
   [SerializeField] private GameObject playerPrefab = null;
 
-  private void Start()
+  private void Awake()
   {
     if (playerPrefab == null)
     {
@@ -19,6 +19,9 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     Debug.LogFormat("We are Instantiating LocalPlayer from {0}", SceneManager.GetActiveScene().name);
     PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(1f, 2f, 10f), Quaternion.identity, 0);
+
+    Cursor.visible = false;
+    Cursor.lockState = CursorLockMode.Locked;
   }
 
   private void LoadPlaygroundLevel()

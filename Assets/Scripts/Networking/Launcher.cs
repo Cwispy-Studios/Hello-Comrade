@@ -20,6 +20,9 @@ namespace CwispyStudios.HelloComrade.Networking
     {
       progressLabel.SetActive(false);
       controlPanel.SetActive(true);
+
+      Cursor.visible = true;
+      Cursor.lockState = CursorLockMode.None;
     }
 
     public void Connect()

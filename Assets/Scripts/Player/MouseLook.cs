@@ -95,7 +95,7 @@ namespace CwispyStudios.HelloComrade.Player
       neck.transform.localEulerAngles = neckLocalRot;
     }
 
-    public void OnLook( InputValue value )
+    private void OnLook( InputValue value )
     {
       // Get mouse movements
       Vector2 mouseDelta = value.Get<Vector2>();
