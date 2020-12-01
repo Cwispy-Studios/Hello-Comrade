@@ -82,7 +82,7 @@ namespace CwispyStudios.HelloComrade.Player.Items
       
       itemsInInventory++;
 
-      SetWeight(newItem.Weight);
+      SetWeight(newItem.ItemMass);
 
       inventoryArray[currentIndex] = newItem;
       
@@ -97,14 +97,14 @@ namespace CwispyStudios.HelloComrade.Player.Items
       
       itemsInInventory--;
 
-      SetWeight(-inventoryArray[removeId].Weight);
+      SetWeight(-inventoryArray[removeId].ItemMass);
 
       inventoryArray[removeId] = null;
       
       // TODO Add call later to UI for updating inventory
     }
 
-    private void SetWeight(int value)
+    private void SetWeight(float value)
     {
       //TotalWeight += value;
       //characterRigidbody.mass = TotalWeight;

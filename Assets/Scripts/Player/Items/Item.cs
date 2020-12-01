@@ -6,8 +6,13 @@ namespace CwispyStudios.HelloComrade.Player.Items
 {
   public class Item : MonoBehaviourPun
   {
-    [Header("Item Properties")] 
-    public int Weight;
+    private float itemMass;
+    public float ItemMass { get; private set; }
+
+    private void Awake()
+    {
+      itemMass = GetComponent<Rigidbody>().mass;
+    }
 
     /// <summary>Primary code for equipping item (GameObject handling etc)</summary>
     public virtual void EquipItem()

@@ -6,10 +6,11 @@ using UnityEngine.InputSystem;
 using ExitGames.Client.Photon;
 using Photon.Pun;
 
-using CwispyStudios.HelloComrade.Audio;
-
 namespace CwispyStudios.HelloComrade.Player
 {
+  using Audio;
+  using Items;
+
   [RequireComponent(typeof(GroundDetector))]
   public class PlayerMovementController : MonoBehaviourPun
   {
@@ -183,6 +184,20 @@ namespace CwispyStudios.HelloComrade.Player
       }
     }
 
+    private void OnCollisionEnter( Collision collision )
+    {
+      if (!photonView.IsMine) return;
+
+      Item itemComponent = collision.collider.GetComponent<Item>();
+
+      if (itemComponent)
+      {
+        //Rigidbody itemPhysics = itemComponent.GetComponent<Rigidbody>();
+        //itemPhysics.AddForceAtPosition(physicsController.velocity, collision.GetContact(0).point);
+
+        //Debug.Log(physicsController.velocity);
+      }
+    }
 
     private void Jump()
     {

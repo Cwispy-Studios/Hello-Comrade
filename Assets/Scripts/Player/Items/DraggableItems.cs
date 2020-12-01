@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 
-public class DraggableItems : MonoBehaviour
+namespace CwispyStudios.HelloComrade.Player.Items
 {
+  public class DraggableItems : Item
+  {
 
+  }
 }
