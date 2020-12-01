@@ -17,9 +17,17 @@ namespace CwispyStudios.HelloComrade.Player.Items
       itemMass = physicsController.mass;
     }
 
+    public virtual void ActiveBehaviour()
+    {
+
+    }
+
     /// <summary>Primary code for equipping item (GameObject handling etc)</summary>
     public virtual void EquipItem()
     {
+      if (photonView.IsMine) return;
+      
+      photonView.TransferOwnership(PhotonNetwork.LocalPlayer);
     }
 
     /// <summary>Primary code for unequipping item (GameObject handling etc)</summary>

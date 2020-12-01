@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 7551259597364277259}
   - component: {fileID: 1249391240661112428}
   - component: {fileID: 2000785325900273939}
+  - component: {fileID: 5039196666075381329}
   m_Layer: 0
   m_Name: PFB_Lamp
   m_TagString: Untagged
@@ -138,3 +139,25 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.31574237, y: 0.14527826, z: 0.20322172}
   m_Center: {x: 0, y: 0.2646642, z: 0}
+--- !u!114 &5039196666075381329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000014169349716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  observableSearch: 2
+  Synchronization: 3
+  OwnershipTransfer: 1
+  ObservedComponents: []
+  viewIdField: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0

@@ -12,7 +12,7 @@ namespace CwispyStudios.HelloComrade.Player.Items.Util
 
     private void Awake()
     {
-      flashLight = GetComponent<Light>();
+      flashLight = GetComponentInChildren<Light>();
     }
 
     /// <summary>Primary code for execution of item code</summary>

@@ -5,10 +5,14 @@ namespace CwispyStudios.HelloComrade.Player.Items
 {
   public class CharacterInventory : MonoBehaviour
   {
+    [Tooltip("The wrist that will hold active pocketable items. Should be the right wrist.")]
+    [SerializeField] private ActiveHand activeHand = null;
+
     private const int MaxInventorySize = 1;
 
     // Inventory
-    public Item[] inventoryArray = new Item[MaxInventorySize];
+    public Item[] inventoryList = new Item[MaxInventorySize];
+    private Item activeItem = null;
     private int itemsInInventory = 0;
     private int currentIndex = 0;
     private bool lockInventory = false; // true if current item picked up is a non-pocketable item
@@ -41,11 +45,11 @@ namespace CwispyStudios.HelloComrade.Player.Items
         currentIndex += MaxInventorySize;
       }
 
-      SwitchActiveGameObject();
+      SwitchActiveItem();
     }
 
     /// <summary>Add Item to inventory slot for non-pocketable items</summary>
-    public void HoldItem( Item newItem )
+    public void CarryItem( Item newItem )
     {
       AddItem(newItem);
 
@@ -60,15 +64,15 @@ namespace CwispyStudios.HelloComrade.Player.Items
 
     public void InteractHeldItem()
     {
-      inventoryArray[currentIndex].UseItem();
+      inventoryList[currentIndex].UseItem();
     }
 
     /// <summary>Drop Item from inventory slot into the world</summary>
     public void DropItem(int id)
     {
       // Get item and execute use code
-      if (inventoryArray[id] == null) return;
-      inventoryArray[id].DropItem();
+      if (inventoryList[id] == null) return;
+      inventoryList[id].DropItem();
       RemoveItem(id);
     }
 
@@ -76,8 +80,8 @@ namespace CwispyStudios.HelloComrade.Player.Items
     public void ConsumeItem(int id)
     {
       // Get item and execute use code
-      if (inventoryArray[id] == null) return;
-      inventoryArray[id].UseItem();
+      if (inventoryList[id] == null) return;
+      inventoryList[id].UseItem();
       RemoveItem(id);
     }
 
@@ -92,7 +96,7 @@ namespace CwispyStudios.HelloComrade.Player.Items
 
       SetWeight(newItem.ItemMass);
 
-      inventoryArray[currentIndex] = newItem;
+      inventoryList[currentIndex] = newItem;
       
       newItem.EquipItem();
       
@@ -105,9 +109,9 @@ namespace CwispyStudios.HelloComrade.Player.Items
       
       itemsInInventory--;
 
-      SetWeight(-inventoryArray[removeId].ItemMass);
+      SetWeight(-inventoryList[removeId].ItemMass);
 
-      inventoryArray[removeId] = null;
+      inventoryList[removeId] = null;
       
       // TODO Add call later to UI for updating inventory
     }
@@ -122,9 +126,9 @@ namespace CwispyStudios.HelloComrade.Player.Items
     {
       int freeId = MaxInventorySize; // default return is the size of the inventory
 
-      for (int i = 0; i < inventoryArray.Length; i++)
+      for (int i = 0; i < inventoryList.Length; i++)
       {
-        if (inventoryArray[i] != null) continue;
+        if (inventoryList[i] != null) continue;
         freeId = i;
         break;
       }
@@ -133,13 +137,17 @@ namespace CwispyStudios.HelloComrade.Player.Items
     }
 
     /// <summary>Deactivate old GameObject and Activate new GameObject</summary>
-    private void SwitchActiveGameObject()
+    private void SwitchActiveItem()
     {
     }
 
+    /// <summary>
+    /// Input System callback when mouse wheel is scrolled.
+    /// </summary>
+    /// <param name="value"></param>
     private void OnScrollInventory( InputValue value )
     {
-      ScrollInventorySlots(value.Get<float>() >= 0f);
+      ScrollInventorySlots(value.Get<float>() > 0f);
     }
   }
 }

@@ -17,8 +17,9 @@ GameObject:
   - component: {fileID: 545757608373050841}
   - component: {fileID: 2406426286812796088}
   - component: {fileID: 1901960279361801067}
-  - component: {fileID: 3109348642832529989}
   - component: {fileID: 727913548461194169}
+  - component: {fileID: 3109348642832529989}
+  - component: {fileID: -393044796449674118}
   m_Layer: 0
   m_Name: PFB_CoffeeTable
   m_TagString: Untagged
@@ -168,18 +169,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.07, y: 0.4713562, z: 0.05}
   m_Center: {x: -0.35, y: 0.23567814, z: -0.17}
---- !u!114 &3109348642832529989
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000010909621472}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e0c6086a7ae4f640ac17d6875d262eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!65 &727913548461194169
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -193,3 +182,37 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.07, y: 0.4713562, z: 0.05}
   m_Center: {x: 0.34, y: 0.23567814, z: 0.16}
+--- !u!114 &3109348642832529989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000010909621472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e0c6086a7ae4f640ac17d6875d262eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-393044796449674118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000010909621472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  observableSearch: 2
+  Synchronization: 3
+  OwnershipTransfer: 1
+  ObservedComponents: []
+  viewIdField: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0

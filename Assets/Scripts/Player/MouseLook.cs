@@ -17,6 +17,7 @@ namespace CwispyStudios.HelloComrade.Player
 
     private Rigidbody physicsController = null;
 
+    private Vector3 centerScreenVector;
     private Vector3 mouseInput = Vector3.zero;
 
     private void Awake()
@@ -27,6 +28,8 @@ namespace CwispyStudios.HelloComrade.Player
       {
         Debug.LogError("Error! Player's Rigidbody component is missing!", this);
       }
+
+      centerScreenVector = new Vector3(Screen.width / 2, Screen.height / 2, 0f);
     }
 
     private void Update()
@@ -102,6 +105,13 @@ namespace CwispyStudios.HelloComrade.Player
 
       mouseInput.x = mouseDelta.x;
       mouseInput.y = mouseDelta.y;
+    }
+
+    public bool GetLookingAtObject( float distance, int layerMask, out RaycastHit hit )
+    {
+      Ray ray = playerCamera.ScreenPointToRay(centerScreenVector);
+
+      return Physics.Raycast(ray, out hit, distance, layerMask);
     }
   }
 }
