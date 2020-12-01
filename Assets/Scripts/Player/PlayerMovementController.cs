@@ -202,7 +202,6 @@ namespace CwispyStudios.HelloComrade.Player
     private void Jump()
     {
       jumpThisFrame = false;
-
       physicsController.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
 
       photonView.RPC("RpcPlayJump", RpcTarget.All);

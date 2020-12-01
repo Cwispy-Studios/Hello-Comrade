@@ -191,7 +191,7 @@ Light:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1307157125177922220}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
@@ -1739,13 +1739,13 @@ MonoBehaviour:
     SynchronizeType: 1
     Name: Is Crouching
   - Type: 9
-    SynchronizeType: 1
+    SynchronizeType: 0
     Name: Land
   - Type: 4
     SynchronizeType: 1
     Name: On Ground
   - Type: 9
-    SynchronizeType: 1
+    SynchronizeType: 0
     Name: Jump
   - Type: 1
     SynchronizeType: 1
@@ -1766,14 +1766,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outdoorAmbience:
-    audioEvent: event:/Ambiences/Outdoor Ambience
+    audioEvent: event:/Level/Ambiences/Outdoor Ambience
     soundOcclusionWidening: 0
     playerOcclusionWidening: 0
     occlusionLayer:
       serializedVersion: 2
       m_Bits: 0
   indoorAmbience:
-    audioEvent: event:/Ambiences/Indoor Ambience
+    audioEvent: event:/Level/Ambiences/Indoor Ambience
     soundOcclusionWidening: 0
     playerOcclusionWidening: 0
     occlusionLayer:

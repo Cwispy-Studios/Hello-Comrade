@@ -4,9 +4,12 @@ using Photon.Pun;
 
 namespace CwispyStudios.HelloComrade.Interactions.Lighting
 {
+  using Audio;
+
   public class LightSwitch : Interactable, IPunObservable
   {
     [SerializeField] private Transform switchTransform = null;
+    [SerializeField] private AudioEmitter switchToggleEvent = null;
 
     private static readonly Quaternion SwitchOnPosition = Quaternion.Euler(-65, 0, 0);
     private static readonly Quaternion SwitchOffPosition = Quaternion.Euler(-15, 0, 0);
@@ -18,12 +21,15 @@ namespace CwispyStudios.HelloComrade.Interactions.Lighting
     private void Awake()
     {
       linkedLights = GetComponentsInChildren<Light>();
+
+      switchToggleEvent.Initialise(transform);
     }
 
     private void ToggleLight()
     {
       isOn = !isOn;
       SetLightState();
+      PlaySwitchToggleSound();
     }
 
     private void SetLightState()
@@ -33,6 +39,12 @@ namespace CwispyStudios.HelloComrade.Interactions.Lighting
         linkedLight.enabled = isOn;
         switchTransform.localRotation = isOn ? SwitchOnPosition : SwitchOffPosition;
       }
+    }
+
+    private void PlaySwitchToggleSound()
+    {
+      switchToggleEvent.SetParameter("State", isOn ? 1f : 0f);
+      switchToggleEvent.PlaySound();
     }
 
     public override void OnInteract()
@@ -52,7 +64,14 @@ namespace CwispyStudios.HelloComrade.Interactions.Lighting
       else
       {
         // Network player, receive data
-        isOn = (bool)stream.ReceiveNext();
+        bool newState = (bool)stream.ReceiveNext();
+
+        if (newState != isOn)
+        {
+          isOn = newState;
+          PlaySwitchToggleSound();
+        }
+
         SetLightState();
       }
     }

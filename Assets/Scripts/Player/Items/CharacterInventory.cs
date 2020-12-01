@@ -1,13 +1,14 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace CwispyStudios.HelloComrade.Player.Items
 {
   public class CharacterInventory : MonoBehaviour
   {
-    private const int InventorySize = 4;
+    private const int MaxInventorySize = 1;
 
     // Inventory
-    public Item[] inventoryArray = new Item[InventorySize];
+    public Item[] inventoryArray = new Item[MaxInventorySize];
     private int itemsInInventory = 0;
     private int currentIndex = 0;
     private bool lockInventory = false; // true if current item picked up is a non-pocketable item
@@ -19,25 +20,32 @@ namespace CwispyStudios.HelloComrade.Player.Items
     //[Header("Inventory Attributes")] 
     //public float TotalWeight = 0;
 
-    private void Start()
+    private void Awake()
     {
       //if (characterRigidbody == null) return;
       //TotalWeight = characterRigidbody.mass;
     }
 
     /// <summary>Scroll through items in inventory</summary>
-    public void ScrollItem(bool positiveIncrement)
+    public void ScrollInventorySlots( bool positiveIncrement )
     {
-      if (lockInventory)
-        DropItem(currentIndex);
+      // Disable scrolling if player is holding carried item
+      if (lockInventory) return;
 
       // Switch currentIndex and use SwitchActiveGameObject to physically change object 
       currentIndex += positiveIncrement ? 1 : -1;
+      currentIndex %= MaxInventorySize;
+
+      if (currentIndex < 0)
+      {
+        currentIndex += MaxInventorySize;
+      }
+
       SwitchActiveGameObject();
     }
 
     /// <summary>Add Item to inventory slot for non-pocketable items</summary>
-    public void HoldItem(Item newItem)
+    public void HoldItem( Item newItem )
     {
       AddItem(newItem);
 
@@ -45,7 +53,7 @@ namespace CwispyStudios.HelloComrade.Player.Items
     }
 
     /// <summary>Add Item to inventory slot for pocketable items</summary>
-    public void PocketItem(Item newItem)
+    public void PocketItem( Item newItem )
     {
       AddItem(newItem);
     }
@@ -76,7 +84,7 @@ namespace CwispyStudios.HelloComrade.Player.Items
     private void AddItem(Item newItem)
     {
       int freeId = ReturnFreeSlot();
-      if (freeId == InventorySize) return;
+      if (freeId == MaxInventorySize) return;
 
       currentIndex = freeId;
       
@@ -112,7 +120,7 @@ namespace CwispyStudios.HelloComrade.Player.Items
 
     private int ReturnFreeSlot()
     {
-      int freeId = InventorySize; // default return is the size of the inventory
+      int freeId = MaxInventorySize; // default return is the size of the inventory
 
       for (int i = 0; i < inventoryArray.Length; i++)
       {
@@ -127,6 +135,11 @@ namespace CwispyStudios.HelloComrade.Player.Items
     /// <summary>Deactivate old GameObject and Activate new GameObject</summary>
     private void SwitchActiveGameObject()
     {
+    }
+
+    private void OnScrollInventory( InputValue value )
+    {
+      ScrollInventorySlots(value.Get<float>() >= 0f);
     }
   }
 }

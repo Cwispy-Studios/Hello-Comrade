@@ -6714,6 +6714,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   switchTransform: {fileID: 34686478}
+  switchToggleEvent:
+    audioEvent: event:/Level/Light Switch Toggle
+    soundOcclusionWidening: 1
+    playerOcclusionWidening: 1
+    occlusionLayer:
+      serializedVersion: 2
+      m_Bits: 0
 --- !u!205 &227635225
 LODGroup:
   m_ObjectHideFlags: 0
@@ -19975,7 +19982,7 @@ MonoBehaviour:
   prefixField: -1
   observableSearch: 2
   Synchronization: 3
-  OwnershipTransfer: 0
+  OwnershipTransfer: 1
   ObservedComponents:
   - {fileID: 419847072}
   viewIdField: 13
@@ -20007,6 +20014,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   switchTransform: {fileID: 1993710818}
+  switchToggleEvent:
+    audioEvent: event:/Level/Light Switch Toggle
+    soundOcclusionWidening: 1
+    playerOcclusionWidening: 1
+    occlusionLayer:
+      serializedVersion: 2
+      m_Bits: 0
 --- !u!205 &419847073
 LODGroup:
   m_ObjectHideFlags: 0
@@ -21644,7 +21658,7 @@ MonoBehaviour:
   prefixField: -1
   observableSearch: 2
   Synchronization: 3
-  OwnershipTransfer: 0
+  OwnershipTransfer: 1
   ObservedComponents:
   - {fileID: 517016973}
   viewIdField: 11
@@ -21676,6 +21690,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   switchTransform: {fileID: 259904802}
+  switchToggleEvent:
+    audioEvent: event:/Level/Light Switch Toggle
+    soundOcclusionWidening: 1
+    playerOcclusionWidening: 1
+    occlusionLayer:
+      serializedVersion: 2
+      m_Bits: 0
 --- !u!205 &517016974
 LODGroup:
   m_ObjectHideFlags: 0
@@ -26782,7 +26803,7 @@ MonoBehaviour:
   prefixField: -1
   observableSearch: 2
   Synchronization: 3
-  OwnershipTransfer: 0
+  OwnershipTransfer: 1
   ObservedComponents:
   - {fileID: 740289777}
   viewIdField: 5
@@ -26814,6 +26835,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   switchTransform: {fileID: 149303827}
+  switchToggleEvent:
+    audioEvent: event:/Level/Light Switch Toggle
+    soundOcclusionWidening: 1
+    playerOcclusionWidening: 1
+    occlusionLayer:
+      serializedVersion: 2
+      m_Bits: 0
 --- !u!205 &740289778
 LODGroup:
   m_ObjectHideFlags: 0
@@ -29836,7 +29864,7 @@ MonoBehaviour:
   prefixField: -1
   observableSearch: 2
   Synchronization: 3
-  OwnershipTransfer: 0
+  OwnershipTransfer: 1
   ObservedComponents:
   - {fileID: 860438452}
   viewIdField: 10
@@ -29868,6 +29896,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   switchTransform: {fileID: 1845790703}
+  switchToggleEvent:
+    audioEvent: event:/Level/Light Switch Toggle
+    soundOcclusionWidening: 1
+    playerOcclusionWidening: 1
+    occlusionLayer:
+      serializedVersion: 2
+      m_Bits: 0
 --- !u!205 &860438453
 LODGroup:
   m_ObjectHideFlags: 0
@@ -30023,7 +30058,7 @@ MonoBehaviour:
   prefixField: -1
   observableSearch: 2
   Synchronization: 3
-  OwnershipTransfer: 0
+  OwnershipTransfer: 1
   ObservedComponents:
   - {fileID: 876226467}
   viewIdField: 2
@@ -30055,6 +30090,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   switchTransform: {fileID: 1081747801}
+  switchToggleEvent:
+    audioEvent: event:/Level/Light Switch Toggle
+    soundOcclusionWidening: 1
+    playerOcclusionWidening: 1
+    occlusionLayer:
+      serializedVersion: 2
+      m_Bits: 0
 --- !u!205 &876226468
 LODGroup:
   m_ObjectHideFlags: 0
@@ -40269,7 +40311,7 @@ MonoBehaviour:
   prefixField: -1
   observableSearch: 2
   Synchronization: 3
-  OwnershipTransfer: 0
+  OwnershipTransfer: 1
   ObservedComponents:
   - {fileID: 933043796}
   viewIdField: 8
@@ -40301,6 +40343,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   switchTransform: {fileID: 1293476629}
+  switchToggleEvent:
+    audioEvent: event:/Level/Light Switch Toggle
+    soundOcclusionWidening: 1
+    playerOcclusionWidening: 1
+    occlusionLayer:
+      serializedVersion: 2
+      m_Bits: 0
 --- !u!205 &933043797
 LODGroup:
   m_ObjectHideFlags: 0
@@ -46152,7 +46201,7 @@ MonoBehaviour:
   prefixField: -1
   observableSearch: 2
   Synchronization: 3
-  OwnershipTransfer: 0
+  OwnershipTransfer: 1
   ObservedComponents:
   - {fileID: 1069755443}
   viewIdField: 6
@@ -46184,6 +46233,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   switchTransform: {fileID: 510443036}
+  switchToggleEvent:
+    audioEvent: event:/Level/Light Switch Toggle
+    soundOcclusionWidening: 1
+    playerOcclusionWidening: 1
+    occlusionLayer:
+      serializedVersion: 2
+      m_Bits: 0
 --- !u!205 &1069755444
 LODGroup:
   m_ObjectHideFlags: 0
@@ -47878,7 +47934,7 @@ MonoBehaviour:
   prefixField: -1
   observableSearch: 2
   Synchronization: 3
-  OwnershipTransfer: 0
+  OwnershipTransfer: 1
   ObservedComponents:
   - {fileID: 1117938731}
   viewIdField: 12
@@ -47910,6 +47966,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   switchTransform: {fileID: 1694716296}
+  switchToggleEvent:
+    audioEvent: event:/Level/Light Switch Toggle
+    soundOcclusionWidening: 1
+    playerOcclusionWidening: 1
+    occlusionLayer:
+      serializedVersion: 2
+      m_Bits: 0
 --- !u!205 &1117938732
 LODGroup:
   m_ObjectHideFlags: 0
@@ -54546,7 +54609,7 @@ MonoBehaviour:
   prefixField: -1
   observableSearch: 2
   Synchronization: 3
-  OwnershipTransfer: 0
+  OwnershipTransfer: 1
   ObservedComponents:
   - {fileID: 1312239160}
   viewIdField: 4
@@ -54578,6 +54641,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   switchTransform: {fileID: 331193018}
+  switchToggleEvent:
+    audioEvent: event:/Level/Light Switch Toggle
+    soundOcclusionWidening: 1
+    playerOcclusionWidening: 1
+    occlusionLayer:
+      serializedVersion: 2
+      m_Bits: 0
 --- !u!205 &1312239161
 LODGroup:
   m_ObjectHideFlags: 0
@@ -79747,7 +79817,7 @@ MonoBehaviour:
   prefixField: -1
   observableSearch: 2
   Synchronization: 3
-  OwnershipTransfer: 0
+  OwnershipTransfer: 1
   ObservedComponents:
   - {fileID: 1916385626}
   viewIdField: 14
@@ -79779,6 +79849,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   switchTransform: {fileID: 996391402}
+  switchToggleEvent:
+    audioEvent: event:/Level/Light Switch Toggle
+    soundOcclusionWidening: 1
+    playerOcclusionWidening: 1
+    occlusionLayer:
+      serializedVersion: 2
+      m_Bits: 0
 --- !u!205 &1916385627
 LODGroup:
   m_ObjectHideFlags: 0
@@ -84499,7 +84576,7 @@ MonoBehaviour:
   prefixField: -1
   observableSearch: 2
   Synchronization: 3
-  OwnershipTransfer: 0
+  OwnershipTransfer: 1
   ObservedComponents:
   - {fileID: 2083305369}
   viewIdField: 7
@@ -84531,6 +84608,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   switchTransform: {fileID: 1960296854}
+  switchToggleEvent:
+    audioEvent: event:/Level/Light Switch Toggle
+    soundOcclusionWidening: 1
+    playerOcclusionWidening: 1
+    occlusionLayer:
+      serializedVersion: 2
+      m_Bits: 0
 --- !u!205 &2083305370
 LODGroup:
   m_ObjectHideFlags: 0
@@ -84728,6 +84812,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   switchTransform: {fileID: 1753478333}
+  switchToggleEvent:
+    audioEvent: event:/Level/Light Switch Toggle
+    soundOcclusionWidening: 1
+    playerOcclusionWidening: 1
+    occlusionLayer:
+      serializedVersion: 2
+      m_Bits: 0
 --- !u!205 &2104729752
 LODGroup:
   m_ObjectHideFlags: 0
@@ -85911,6 +86002,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   switchTransform: {fileID: 4516137061815029232}
+  switchToggleEvent:
+    audioEvent: event:/Level/Light Switch Toggle
+    soundOcclusionWidening: 1
+    playerOcclusionWidening: 1
+    occlusionLayer:
+      serializedVersion: 2
+      m_Bits: 0
 --- !u!114 &4516137061814735321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85928,7 +86026,7 @@ MonoBehaviour:
   prefixField: -1
   observableSearch: 2
   Synchronization: 3
-  OwnershipTransfer: 0
+  OwnershipTransfer: 1
   ObservedComponents:
   - {fileID: 4516137061814735320}
   viewIdField: 1

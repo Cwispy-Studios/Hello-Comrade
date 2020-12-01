@@ -25,7 +25,7 @@ namespace CwispyStudios.HelloComrade.Player
       centerScreenVector = new Vector3(Screen.width / 2, Screen.height / 2, 0f);
     }
 
-    private void OnInteractLMB()
+    private void OnInteract()
     {
       Ray ray = playerCamera.ScreenPointToRay(centerScreenVector);
 
@@ -35,7 +35,7 @@ namespace CwispyStudios.HelloComrade.Player
       }
     }
 
-    private void OnInteractRMB()
+    private void OnUse()
     {
       inventory.InteractHeldItem();
     }

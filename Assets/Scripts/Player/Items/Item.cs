@@ -9,9 +9,12 @@ namespace CwispyStudios.HelloComrade.Player.Items
     private float itemMass;
     public float ItemMass { get; private set; }
 
+    private Rigidbody physicsController = null;
+
     private void Awake()
     {
-      itemMass = GetComponent<Rigidbody>().mass;
+      physicsController = GetComponent<Rigidbody>();
+      itemMass = physicsController.mass;
     }
 
     /// <summary>Primary code for equipping item (GameObject handling etc)</summary>
@@ -38,6 +41,14 @@ namespace CwispyStudios.HelloComrade.Player.Items
     /// <summary>Primary code for execution of item deletion code</summary>
     public virtual void DestroyItem()
     {
+    }
+
+    private void OnCollisionEnter( Collision collision )
+    {
+      Debug.Log("Collision!: " + Time.time.ToString("F10"), this);
+
+      Debug.Log(collision.contactCount + " " + collision.impulse + " " + collision.relativeVelocity);
+
     }
   }
 }

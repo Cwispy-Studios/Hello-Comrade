@@ -54,7 +54,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "InteractLMB",
+                    "name": "Interact",
                     "type": "Button",
                     "id": "99ee1d36-330e-475a-a868-bcee16d878c6",
                     "expectedControlType": "Button",
@@ -62,10 +62,18 @@
                     "interactions": ""
                 },
                 {
-                    "name": "InteractRMB",
+                    "name": "Use",
                     "type": "Button",
                     "id": "d5b481a9-3068-4039-9f9d-273a687d4830",
                     "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Scroll Inventory",
+                    "type": "Value",
+                    "id": "206f846c-8b69-4748-9394-07ccb7620d88",
+                    "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": ""
                 }
@@ -243,7 +251,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "InteractLMB",
+                    "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -254,7 +262,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "InteractRMB",
+                    "action": "Use",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2b2955c9-c831-4bb4-a892-ec53f6b2df69",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Scroll Inventory",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
