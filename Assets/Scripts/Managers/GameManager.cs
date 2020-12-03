@@ -18,7 +18,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     Debug.LogFormat("We are Instantiating LocalPlayer from {0}", SceneManager.GetActiveScene().name);
-    PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(1f, 2f, 10f), Quaternion.identity, 0);
+    GameObject playerObject = PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(1f, 2f, 10f), Quaternion.identity, 0);
+    PhotonNetwork.LocalPlayer.TagObject = playerObject;
 
     Cursor.visible = false;
     Cursor.lockState = CursorLockMode.Locked;

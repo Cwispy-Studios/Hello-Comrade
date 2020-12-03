@@ -107,11 +107,11 @@ namespace CwispyStudios.HelloComrade.Player
       mouseInput.y = mouseDelta.y;
     }
 
-    public bool GetLookingAtObject( float distance, int layerMask, out RaycastHit hit )
+    public bool GetLookingAtObject( float distance, int layerMask, out RaycastHit hit, QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.Ignore )
     {
       Ray ray = playerCamera.ScreenPointToRay(centerScreenVector);
 
-      return Physics.Raycast(ray, out hit, distance, layerMask);
+      return Physics.Raycast(ray, out hit, distance, layerMask, queryTriggerInteraction);
     }
   }
 }

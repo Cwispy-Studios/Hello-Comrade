@@ -1,15 +1,18 @@
 ﻿using UnityEngine;
 
-using CwispyStudios.HelloComrade.Interactions;
-using CwispyStudios.HelloComrade.Player.Items;
+using Photon.Pun;
 
 namespace CwispyStudios.HelloComrade.Player
 {
+  using Interactions;
+  using Items;
+
   public class InteractionHandler : MonoBehaviour
   {
     [Header("Input Settings")]
     [SerializeField] private float maxInteractDistance = 1f; // Max distance at which the player can interact with an item
     [SerializeField] private LayerMask interactableMask = (1 << 15);
+    [SerializeField] private LayerMask itemMask = 1;
 
     // Cache components
     private CharacterInventory inventory;
@@ -29,9 +32,33 @@ namespace CwispyStudios.HelloComrade.Player
       }
     }
 
-    private void OnUse()
+    private void OnPickUp()
     {
-      inventory.InteractHeldItem();
+      // Find the object player is looking at 
+      if (mouseLook.GetLookingAtObject(maxInteractDistance, itemMask, out RaycastHit hit))
+      {
+        // Check if the object is an item
+        Item item = hit.collider.GetComponent<Item>();
+
+        if (item)
+        {
+          ItemType itemType = item.Type;
+
+          switch (itemType)
+          {
+            case ItemType.Pocketable:
+              inventory.PocketItem(item);
+              break;
+
+            case ItemType.Carried:
+              inventory.CarryItem(item);
+              break;
+
+            case ItemType.Dragged:
+              break;
+          }
+        }
+      }
     }
   }
 }

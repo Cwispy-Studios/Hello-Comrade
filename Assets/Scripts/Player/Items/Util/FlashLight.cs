@@ -7,40 +7,90 @@ namespace CwispyStudios.HelloComrade.Player.Items.Util
   public class FlashLight : PocketableItem, IPunObservable
   {
     private bool isOn;
+    private bool lastOnState = false;
 
-    private Light flashLight;
+    /// <summary>
+    /// If flashlight is equipped (object is on the player), light source is in the player's camera (head).
+    /// Otherwise it is in the prefab itself.
+    /// </summary>
+    private Light lightSource;
 
     private void Awake()
     {
-      flashLight = GetComponentInChildren<Light>();
+      lightSource = GetComponentInChildren<Light>();
+    }
+
+    private void GetLightSourceInPlayer()
+    {
+      PlayerMovementController player = GetComponentInParent<PlayerMovementController>();
+      lightSource = player.GetComponentInChildren<Light>();
+    }
+
+    private void SetLights()
+    {
+      lightSource.enabled = isOn;
+    }
+
+    [PunRPC]
+    public override void OnEquipItem()
+    {
+      base.OnEquipItem();
+
+      isOn = lastOnState;
+      SetLights();
+      // Play audio
+    }
+
+    [PunRPC]
+    public override void OnUnequipItem()
+    {
+      lastOnState = isOn;
+      isOn = false;
+      SetLights();
+      // Play audio
+
+      base.OnUnequipItem();
     }
 
     /// <summary>Primary code for execution of item code</summary>
-    public override void UseItem()
+    public override void OnUseItem()
     {
       isOn = !isOn;
-      photonView.RPC("SetLights", RpcTarget.All);
+      SetLights();
+      // Play audio
+    }
+
+    [PunRPC]
+    public override void OnPickUpItem( int viewID )
+    {
+      base.OnPickUpItem(viewID);
+
+      GetLightSourceInPlayer();
+    }
+
+    public override void OnDropItem()
+    {
+      lightSource = GetComponentInChildren<Light>();
     }
 
     public void OnPhotonSerializeView( PhotonStream stream, PhotonMessageInfo info )
     {
       if (stream.IsWriting)
       {
-        // We own this player: send the others our data
         stream.SendNext(isOn);
       }
+
       else
       {
-        // Network player, receive data
-        isOn = (bool)stream.ReceiveNext();
-        SetLights();
-      }
-    }
+        bool newState = (bool)stream.ReceiveNext();
 
-    [PunRPC]
-    private void SetLights()
-    {
-      flashLight.enabled = isOn;
+        if (newState != isOn)
+        {
+          isOn = newState;
+          SetLights();
+          // Play audio
+        }
+      }
     }
   }
 }

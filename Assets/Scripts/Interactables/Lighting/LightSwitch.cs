@@ -69,10 +69,10 @@ namespace CwispyStudios.HelloComrade.Interactions.Lighting
         if (newState != isOn)
         {
           isOn = newState;
+          SetLightState();
           PlaySwitchToggleSound();
         }
 
-        SetLightState();
       }
     }
   }
