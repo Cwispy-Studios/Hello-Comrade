@@ -1714,7 +1714,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 365839a04f6628a4ea8c67ec8971104b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeSlot: {fileID: 7733331958987076070}
+  activeSlot: {fileID: 0}
 --- !u!1 &6785412803810564328
 GameObject:
   m_ObjectHideFlags: 0
@@ -2133,7 +2133,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0aa851515cd3747d6b3b3e461199a2ed, type: 2}
+  - {fileID: 2100000, guid: 1f26c61b0a8ff844bb0f128e0ae409b1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

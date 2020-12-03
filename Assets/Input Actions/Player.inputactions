@@ -78,10 +78,10 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Pick Up",
-                    "type": "Button",
-                    "id": "5b9dbf44-b849-4cf6-b2f5-bd0810548748",
-                    "expectedControlType": "Button",
+                    "name": "InteractHold",
+                    "type": "Value",
+                    "id": "51309a21-c890-4598-b5d0-9ec71797b509",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": ""
                 }
@@ -287,12 +287,12 @@
                 },
                 {
                     "name": "",
-                    "id": "bebf5626-be58-4b4c-9d4d-8ef52d0b1512",
-                    "path": "<Keyboard>/e",
+                    "id": "a10dd835-5ffe-4fe0-a61b-13fc171ac8c4",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Pick Up",
+                    "action": "InteractHold",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

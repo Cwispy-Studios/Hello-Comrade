@@ -31,6 +31,14 @@ namespace CwispyStudios.HelloComrade.Player
         hit.collider.GetComponent<Interactable>().OnInteract();
       }
     }
+    
+    private void OnInteractHold()
+    {
+      if (mouseLook.GetLookingAtObject(maxInteractDistance, interactableMask, out RaycastHit hit))
+      {
+        hit.collider.GetComponent<Interactable>().OnInteract(hit);
+      }
+    }
 
     private void OnPickUp()
     {
