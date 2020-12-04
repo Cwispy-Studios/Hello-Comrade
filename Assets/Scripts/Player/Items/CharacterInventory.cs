@@ -206,15 +206,24 @@ namespace CwispyStudios.HelloComrade.Player.Items
       // Loop through inventory and get photon ids of every item 
       List<int> viewIds = new List<int>();
 
+      int viewIdOfActiveItem = -1;
+
       for (int i = 0; i < inventoryList.Length; ++i)
       {
         if (inventoryList[i] != null)
         {
-          viewIds.Add(inventoryList[i].photonView.ViewID);
+          int viewId = inventoryList[i].photonView.ViewID;
+          viewIds.Add(viewId);
+
+          // Get the view id of the active item, this will be active and all the others are inactive
+          if (currentIndex == i)
+          {
+            viewIdOfActiveItem = viewId;
+          }
         }
       }
 
-      photonView.RPC("SyncInventoryItemsForNewPlayer", RpcTarget.AllViaServer, newPlayer, viewIds.ToArray(), 0);
+      photonView.RPC("SyncInventoryItemsForNewPlayer", RpcTarget.AllViaServer, newPlayer, viewIds.ToArray(), viewIdOfActiveItem);
     }
 
     [PunRPC]
@@ -225,8 +234,21 @@ namespace CwispyStudios.HelloComrade.Player.Items
 
       for (int i = 0; i < viewIds.Length; ++i)
       {
-        PhotonView item = PhotonNetwork.GetPhotonView(viewIds[i]);
-        item.GetComponent<Item>().OnPickUpItem(activeSlot.GetPhotonView().ViewID);
+        int viewId = viewIds[i];
+
+        PhotonView itemView = PhotonNetwork.GetPhotonView(viewId);
+        Item item = itemView.GetComponent<Item>();
+        item.OnPickUpItem(activeSlot.GetPhotonView().ViewID);
+
+        if (viewIdOfActiveItem == viewId)
+        {
+          item.OnEquipItem();
+        }
+
+        else
+        {
+          item.OnUnequipItem();
+        }
       }
     }
   }

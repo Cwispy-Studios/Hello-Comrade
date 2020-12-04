@@ -78,6 +78,7 @@ namespace CwispyStudios.HelloComrade.Player.Items.Util
       if (stream.IsWriting)
       {
         stream.SendNext(isOn);
+        stream.SendNext(lastOnState);
       }
 
       else
@@ -90,6 +91,8 @@ namespace CwispyStudios.HelloComrade.Player.Items.Util
           SetLights();
           // Play audio
         }
+
+        lastOnState = (bool)stream.ReceiveNext();
       }
     }
   }

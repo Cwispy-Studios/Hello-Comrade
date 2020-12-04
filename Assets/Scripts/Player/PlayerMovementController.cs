@@ -2,6 +2,7 @@
 
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering.Universal; // Universal Additional Camera Data
 
 using ExitGames.Client.Photon;
 using Photon.Pun;
@@ -73,7 +74,9 @@ namespace CwispyStudios.HelloComrade.Player
     {
       if (!photonView.IsMine && PhotonNetwork.IsConnected)
       {
-        Destroy(playerCamera.gameObject);
+        Destroy(playerCamera.GetUniversalAdditionalCameraData());
+        Destroy(playerCamera);
+        Destroy(playerCamera.GetComponent<FMODUnity.StudioListener>());
         Destroy(GetComponent<PlayerInput>());
         footstepsWalkEvent.Initialise(transform, false);
         footstepsRunEvent.Initialise(transform, false);
