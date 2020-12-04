@@ -14,14 +14,13 @@ namespace CwispyStudios.HelloComrade.Interactions.Lighting
     private static readonly Quaternion SwitchOnPosition = Quaternion.Euler(-65, 0, 0);
     private static readonly Quaternion SwitchOffPosition = Quaternion.Euler(-15, 0, 0);
 
-    private Light[] linkedLights;
+    [Header("All lights linked to this switch")]
+    [SerializeField] private Light[] linkedLights = null;
 
     private bool isOn = false;
 
     private void Awake()
     {
-      linkedLights = GetComponentsInChildren<Light>();
-
       switchToggleEvent.Initialise(transform);
     }
 
