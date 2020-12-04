@@ -6,7 +6,7 @@ namespace CwispyStudios.HelloComrade.Player.Items
 {
   public enum ItemType
   {
-    Pocketable = 0,
+    Pocketed = 0,
     Carried = 1,
     Dragged = 2
   }
@@ -14,7 +14,7 @@ namespace CwispyStudios.HelloComrade.Player.Items
   [RequireComponent(typeof(Rigidbody))]
   public class Item : MonoBehaviourPun
   {
-    [SerializeField] private ItemType itemType = ItemType.Pocketable;
+    private ItemType itemType;
     public ItemType Type { get { return itemType; } }
 
     private float itemMass;
@@ -24,6 +24,21 @@ namespace CwispyStudios.HelloComrade.Player.Items
 
     public virtual void Awake()
     {
+      if (GetComponent<PocketedItem>())
+      {
+        itemType = ItemType.Pocketed;
+      }
+
+      else if (GetComponent<CarriedItem>())
+      {
+        itemType = ItemType.Carried;
+      }
+
+      else if (GetComponent<DraggedItem>())
+      {
+        itemType = ItemType.Dragged;
+      }
+
       physicsController = GetComponent<Rigidbody>();
       itemMass = physicsController.mass;
     }
@@ -48,7 +63,7 @@ namespace CwispyStudios.HelloComrade.Player.Items
     /// <summary>
     /// When the item gets picked up by a player
     /// </summary>
-    public virtual void OnPickUpItem( int viewID )
+    public virtual void OnPickUpItem( int playerPhotonActorNumber )
     {
     }
 

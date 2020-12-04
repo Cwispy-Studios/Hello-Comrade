@@ -4,7 +4,7 @@ using Photon.Pun;
 
 namespace CwispyStudios.HelloComrade.Player.Items.Util
 {
-  public class FlashLight : PocketableItem, IPunObservable
+  public class FlashLight : PocketedItem, IPunObservable
   {
     private bool isOn;
     private bool lastOnState = false;

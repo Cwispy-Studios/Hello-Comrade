@@ -54,7 +54,7 @@ namespace CwispyStudios.HelloComrade.Player
 
           switch (itemType)
           {
-            case ItemType.Pocketable:
+            case ItemType.Pocketed:
               inventory.PocketItem(item);
               break;
 

@@ -52,22 +52,19 @@ namespace CwispyStudios.HelloComrade.Player.Items
       int freeIndex = ReturnFreeSlot();
       if (freeIndex == -1) return false;
 
+      return AddItemToInventory(newItem, freeIndex);
+    }
+
+    private bool AddItemToInventory( Item newItem, int atIndex )
+    {
+      if (atIndex < 0 || atIndex >= inventoryList.Length) return false;
+      if (inventoryList[atIndex] != null) return false;
+
       // Character gets heavier from weight of item
       AddItemMassToCharacterMass(newItem.ItemMass);
 
       // Assign the item to the found index of the inventory list
-      inventoryList[freeIndex] = newItem;
-
-      // If new item is in the active slot
-      if (freeIndex == currentIndex)
-      {
-        SwitchActiveItem();
-      }
-
-      else
-      {
-        newItem.OnUnequipItem();
-      }
+      inventoryList[atIndex] = newItem;
 
       // TODO Add call later to UI for updating inventory
 
@@ -147,11 +144,15 @@ namespace CwispyStudios.HelloComrade.Player.Items
     /// <summary>Add Item to inventory slot for pocketable items</summary>
     public void PocketItem( Item newItem )
     {
-      if (AddItemToInventory(newItem))
+      // Cannot pocket items if holding a carried item
+      if (!lockInventory && AddItemToInventory(newItem))
       {
         // Transfer ownership to local player who picked it up
         newItem.TransferPhotonOwnership();
-        newItem.photonView.RPC("OnPickUpItem", RpcTarget.All, activeSlot.GetPhotonView().ViewID);
+        newItem.photonView.RPC("OnPickUpItem", RpcTarget.All, PhotonNetwork.LocalPlayer.ActorNumber);
+
+        newItem.OnUnequipItem();
+        SwitchActiveItem();
       }
     }
 
@@ -159,10 +160,16 @@ namespace CwispyStudios.HelloComrade.Player.Items
     public void CarryItem( Item newItem )
     {
       // Can only carry item if hand is free
-      //if ()
-      //AddItemToInventory(newItem);
+      if (AddItemToInventory(newItem, currentIndex))
+      {
+        lockInventory = true;
 
-      //lockInventory = true;
+        // Transfer ownership to local player who picked it up
+        newItem.TransferPhotonOwnership();
+        newItem.photonView.RPC("OnPickUpItem", RpcTarget.All, PhotonNetwork.LocalPlayer.ActorNumber);
+
+        SwitchActiveItem();
+      }
     }
 
     /// <summary>
@@ -187,6 +194,8 @@ namespace CwispyStudios.HelloComrade.Player.Items
         activeItem = null;
 
         RemoveCurrentItem();
+
+        lockInventory = false;
       }
     }
 
@@ -240,7 +249,8 @@ namespace CwispyStudios.HelloComrade.Player.Items
 
         PhotonView itemView = PhotonNetwork.GetPhotonView(viewId);
         Item item = itemView.GetComponent<Item>();
-        item.OnPickUpItem(activeSlot.GetPhotonView().ViewID);
+
+        item.OnPickUpItem(PhotonNetwork.LocalPlayer.ActorNumber);
 
         if (viewIdOfActiveItem == viewId)
         {
