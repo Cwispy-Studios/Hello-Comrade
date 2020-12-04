@@ -52,7 +52,7 @@ namespace Photon.Chat
         private void ConfigUnitySockets()
         {
             Type websocketType = null;
-            #if UNITY_XBOXONE && !UNITY_EDITOR
+            #if (UNITY_XBOXONE || UNITY_GAMECORE) && !UNITY_EDITOR
             websocketType = Type.GetType("ExitGames.Client.Photon.SocketNativeSource, PhotonWebSocket", false);
             if (websocketType == null)
             {

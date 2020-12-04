@@ -238,12 +238,16 @@ public class ServerSettingsInspector : Editor
             this.rpcCrc = this.RpcListHashCode().ToString("X");
         }
 
-        #region emotitron Settings
+        #region Simple Settings
 
         /// Conditional Simple Sync Settings DrawGUI - Uses reflection to avoid having to hard connect the libraries
         var SettingsScriptableObjectBaseType = GetType("Photon.Utilities.SettingsScriptableObjectBase");
         if (SettingsScriptableObjectBaseType != null)
         {
+            EditorGUILayout.GetControlRect(false, 3);
+
+            EditorGUILayout.LabelField("Simple Extension Settings", (GUIStyle)"BoldLabel");
+
             var drawAllMethod = SettingsScriptableObjectBaseType.GetMethod("DrawAllSettings");
 
             if (drawAllMethod != null && this != null)

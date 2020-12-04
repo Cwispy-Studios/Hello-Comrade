@@ -286,6 +286,7 @@ namespace Photon.Realtime
 
         public bool BroadcastPropertiesChangeToAll { get; private set; }
         public bool SuppressRoomEvents { get; private set; }
+        public bool SuppressPlayerInfo { get; private set; }
 
         /// <summary>Creates a Room (representation) with given name and properties and the "listing options" as provided by parameters.</summary>
         /// <param name="roomName">Name of the room (can be null until it's actually created on server).</param>
@@ -314,6 +315,7 @@ namespace Photon.Realtime
         {
             this.BroadcastPropertiesChangeToAll = (roomFlags & (int)RoomOptionBit.BroadcastPropsChangeToAll) != 0;
             this.SuppressRoomEvents = (roomFlags & (int)RoomOptionBit.SuppressRoomEvents) != 0;
+            this.SuppressPlayerInfo = (roomFlags & (int)RoomOptionBit.SuppressPlayerInfo) != 0;
         }
 
         protected internal override void InternalCacheProperties(Hashtable propertiesToCache)

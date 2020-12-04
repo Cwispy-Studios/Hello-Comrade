@@ -997,11 +997,28 @@ namespace Photon.Realtime
 
             this.IsUsingNameServer = true;
 
+            if (this.State == ClientState.Authenticating)
+            {
+                if (this.LoadBalancingPeer.DebugOut >= DebugLevel.INFO)
+                {
+                    this.DebugReturn(DebugLevel.INFO, "ConnectToRegionMaster() will skip calling authenticate, as the current state is 'Authenticating'. Just wait for the result.");
+                }
+                return true;
+            }
+
             if (this.State == ClientState.ConnectedToNameServer)
             {
                 this.CloudRegion = region;
-                return this.CallAuthenticate();
+
+                bool authenticating = this.CallAuthenticate();
+                if (authenticating)
+                {
+                    this.State = ClientState.Authenticating;
+                }
+
+                return authenticating;
             }
+
 
             this.LoadBalancingPeer.Disconnect();
 
@@ -1040,6 +1057,7 @@ namespace Photon.Realtime
         [Conditional("UNITY_WEBGL")]
         private void CheckConnectSetupWebGl()
         {
+            #if UNITY_WEBGL
             if (this.LoadBalancingPeer.TransportProtocol != ConnectionProtocol.WebSocket && this.LoadBalancingPeer.TransportProtocol != ConnectionProtocol.WebSocketSecure)
             {
                 this.DebugReturn(DebugLevel.WARNING, "WebGL requires WebSockets. Switching TransportProtocol to WebSocketSecure.");
@@ -1047,11 +1065,13 @@ namespace Photon.Realtime
             }
 
             this.EnableProtocolFallback = false; // no fallback on WebGL
+            #endif
         }
 
-        [Conditional("UNITY_XBOXONE")]
+        [Conditional("UNITY_XBOXONE"), Conditional("UNITY_GAMECORE")]
         private void CheckConnectSetupXboxOne()
         {
+            #if UNITY_XBOXONE || UNITY_GAMECORE
             this.AuthMode = AuthModeOption.Auth;
             if (this.AuthValues == null)
             {
@@ -1075,6 +1095,7 @@ namespace Photon.Realtime
             }
 
             this.EnableProtocolFallback = false; // no fallback on Xbox One
+            #endif
         }
 
         /// <summary>
@@ -1820,9 +1841,11 @@ namespace Photon.Realtime
         }
 
 
-        /// <summary>Gets a list of games matching a SQL-like where clause.</summary>
+        /// <summary>Gets a list of rooms matching the (non empty) SQL filter for the given SQL-typed lobby.</summary>
         /// <remarks>
-        /// Operation is only available for lobbies of type SqlLobby.
+        /// Operation is only available for lobbies of type SqlLobby and the filter can not be empty.
+        /// It will check those conditions and fail locally, returning false.
+        /// 
         /// This is an async request which triggers a OnOperationResponse() call.
         /// </remarks>
         /// <see cref="https://doc.photonengine.com/en-us/realtime/current/reference/matchmaking-and-lobby#sql_lobby_type"/>
@@ -1835,6 +1858,17 @@ namespace Photon.Realtime
             {
                 return false;
             }
+            if (string.IsNullOrEmpty(sqlLobbyFilter))
+            {
+                this.DebugReturn(DebugLevel.ERROR, "Operation GetGameList requires a filter.");
+                return false;
+            }
+            if (typedLobby.Type != LobbyType.SqlLobby)
+            {
+                this.DebugReturn(DebugLevel.ERROR, "Operation GetGameList can only be used for lobbies of type SqlLobby.");
+                return false;
+            }
+            
             return this.LoadBalancingPeer.OpGetGameList(typedLobby, sqlLobbyFilter);
         }
 

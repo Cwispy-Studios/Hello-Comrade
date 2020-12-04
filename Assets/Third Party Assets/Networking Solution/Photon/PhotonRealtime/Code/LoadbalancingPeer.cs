@@ -82,7 +82,7 @@ namespace Photon.Realtime
         private void ConfigUnitySockets()
         {
             Type websocketType = null;
-            #if UNITY_XBOXONE && !UNITY_EDITOR
+            #if (UNITY_XBOXONE || UNITY_GAMECORE) && !UNITY_EDITOR
             websocketType = Type.GetType("ExitGames.Client.Photon.SocketNativeSource, PhotonRealtime", false);
             if (websocketType == null)
             {
@@ -240,6 +240,11 @@ namespace Photon.Realtime
                 flags = flags | (int)RoomOptionBit.SuppressRoomEvents;
                 op[ParameterCode.SuppressRoomEvents] = true;
             }
+            if (roomOptions.SuppressPlayerInfo)
+            {
+                flags = flags | (int)RoomOptionBit.SuppressPlayerInfo;
+            }
+
             if (roomOptions.Plugins != null)
             {
                 op[ParameterCode.Plugins] = roomOptions.Plugins;
@@ -1006,6 +1011,7 @@ namespace Photon.Realtime
         PublishUserId = 0x08,  // signals that we should publish userId
         DeleteNullProps = 0x10,  // signals that we should remove property if its value was set to null. see RoomOption to Delete Null Properties
         BroadcastPropsChangeToAll = 0x20,  // signals that we should send PropertyChanged event to all room players including initiator
+        SuppressPlayerInfo = 0x40,  // disables events join and leave from the server as well as property broadcasts in a room (to minimize traffic)
     }
 
     /// <summary>
@@ -1876,6 +1882,9 @@ namespace Photon.Realtime
         /// </remarks>
         public bool SuppressRoomEvents { get; set; }
 
+        /// <summary>Disables events join and leave from the server as well as property broadcasts in a room (to minimize traffic)</summary>
+        public bool SuppressPlayerInfo { get; set; }
+
         /// <summary>
         /// Defines if the UserIds of players get "published" in the room. Useful for FindFriends, if players want to play another game together.
         /// </summary>
@@ -2189,10 +2198,15 @@ namespace Photon.Realtime
         /// <summary>
         /// Transform this object into string.
         /// </summary>
-        /// <returns>string representation of this object.</returns>
+        /// <returns>String info about this object's values.</returns>
         public override string ToString()
         {
-            return string.Format("AuthenticationValues Type: {3} UserId: {0}, GetParameters: {1} Token available: {2}", this.UserId, this.AuthGetParameters, !string.IsNullOrEmpty(this.Token), this.AuthType);
+            return string.Format("AuthenticationValues = AuthType: {0} UserId: {1}{2}{3}{4}",
+                                 this.AuthType,
+                                 this.UserId,
+                                 string.IsNullOrEmpty(this.AuthGetParameters) ? " GetParameters: yes" : "",
+                                 this.AuthPostData == null ? "" : " PostData: yes",
+                                 string.IsNullOrEmpty(this.Token) ? "" : " Token: yes");
         }
 
         /// <summary>
