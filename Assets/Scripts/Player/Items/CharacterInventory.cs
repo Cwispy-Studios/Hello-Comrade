@@ -17,7 +17,6 @@ namespace CwispyStudios.HelloComrade.Player.Items
     // Inventory
     private Item[] inventoryList;
     private Item activeItem = null;
-    private int itemsInInventory = 0;
     private int currentIndex = 0;
     private bool lockInventory = false; // true if current item picked up is a non-pocketable item
     
@@ -29,61 +28,21 @@ namespace CwispyStudios.HelloComrade.Player.Items
       //TotalWeight = characterRigidbody.mass;
     }
 
-    /// <summary>Scroll through items in inventory</summary>
-    private void ScrollInventorySlots( bool positiveIncrement )
+    /// <summary>
+    /// Finds and returns the first free slot index. Returns -1 if inventory is full.
+    /// </summary>
+    /// <returns></returns>
+    private int ReturnFreeSlot()
     {
-      // Disable scrolling if player is holding carried item
-      if (lockInventory) return;
-
-      // Switch currentIndex and use SwitchActiveGameObject to physically change object 
-      currentIndex += positiveIncrement ? 1 : -1;
-      currentIndex %= MaxInventorySize;
-
-      if (currentIndex < 0)
+      for (int i = 0; i < inventoryList.Length; i++)
       {
-        currentIndex += MaxInventorySize;
+        if (inventoryList[i] == null)
+        {
+          return i;
+        }
       }
 
-      SwitchActiveItem();
-    }
-
-    /// <summary>Add Item to inventory slot for pocketable items</summary>
-    public void PocketItem( Item newItem )
-    {
-      if (AddItemToInventory(newItem))
-      {
-        // Transfer ownership to local player who picked it up
-        newItem.TransferPhotonOwnership();
-        newItem.photonView.RPC("OnPickUpItem", RpcTarget.All, activeSlot.GetPhotonView().ViewID);
-      }
-    }
-
-    /// <summary>Add Item to inventory slot for non-pocketable items</summary>
-    public void CarryItem( Item newItem )
-    {
-      // Can only carry item if hand is free
-      //if ()
-      //AddItemToInventory(newItem);
-
-      //lockInventory = true;
-    }
-
-    /// <summary>Drop Item from inventory slot into the world</summary>
-    public void DropItem(int id)
-    {
-      // Get item and execute use code
-      if (inventoryList[id] == null) return;
-      inventoryList[id].OnDropItem();
-      RemoveItem(id);
-    }
-
-    /// <summary>Remove Item from inventory slot and delete item</summary>
-    public void ConsumeItem(int id)
-    {
-      // Get item and execute use code
-      if (inventoryList[id] == null) return;
-      inventoryList[id].OnUseItem();
-      RemoveItem(id);
+      return -1;
     }
 
     private bool AddItemToInventory( Item newItem )
@@ -111,28 +70,26 @@ namespace CwispyStudios.HelloComrade.Player.Items
       }
 
       // TODO Add call later to UI for updating inventory
-      
+
       return true;
     }
 
-    private void RemoveItem(int removeId)
+    private void RemoveCurrentItem()
     {
       lockInventory = false;
-      
-      itemsInInventory--;
 
-      AdjustCharacterMass(-inventoryList[removeId].ItemMass);
+      AdjustCharacterMass(-inventoryList[currentIndex].ItemMass);
 
-      inventoryList[removeId] = null;
-      
+      inventoryList[currentIndex] = null;
+
       // TODO Add call later to UI for updating inventory
     }
 
     private void AddItemMassToCharacterMass( float mass )
     {
       AdjustCharacterMass(mass);
-    }    
-    
+    }
+
     private void SubtractItemMassToCharacterMass( float mass )
     {
       AdjustCharacterMass(-mass);
@@ -142,23 +99,6 @@ namespace CwispyStudios.HelloComrade.Player.Items
     {
       //TotalWeight += value;
       //characterRigidbody.mass = TotalWeight;
-    }
-
-    /// <summary>
-    /// Finds and returns the first free slot index. Returns -1 if inventory is full.
-    /// </summary>
-    /// <returns></returns>
-    private int ReturnFreeSlot()
-    {
-      for (int i = 0; i < inventoryList.Length; i++)
-      {
-        if (inventoryList[i] == null)
-        {
-          return i;
-        }
-      }
-
-      return -1;
     }
 
     /// <summary>Deactivate old GameObject and Activate new GameObject</summary>
@@ -177,6 +117,54 @@ namespace CwispyStudios.HelloComrade.Player.Items
       }
     }
 
+    /// <summary>Scroll through items in inventory</summary>
+    private void ScrollInventorySlots( bool positiveIncrement )
+    {
+      // Disable scrolling if player is holding carried item
+      if (lockInventory) return;
+
+      // Switch currentIndex and use SwitchActiveGameObject to physically change object 
+      currentIndex += positiveIncrement ? 1 : -1;
+      currentIndex %= MaxInventorySize;
+
+      if (currentIndex < 0)
+      {
+        currentIndex += MaxInventorySize;
+      }
+
+      SwitchActiveItem();
+    }
+
+    /// <summary>Remove Item from inventory slot and delete item</summary>
+    //private void ConsumeItem( int id )
+    //{
+    //  // Get item and execute use code
+    //  if (inventoryList[id] == null) return;
+    //  inventoryList[id].OnUseItem();
+    //  RemoveCurrentItem(id);
+    //}
+
+    /// <summary>Add Item to inventory slot for pocketable items</summary>
+    public void PocketItem( Item newItem )
+    {
+      if (AddItemToInventory(newItem))
+      {
+        // Transfer ownership to local player who picked it up
+        newItem.TransferPhotonOwnership();
+        newItem.photonView.RPC("OnPickUpItem", RpcTarget.All, activeSlot.GetPhotonView().ViewID);
+      }
+    }
+
+    /// <summary>Add Item to inventory slot for non-pocketable items</summary>
+    public void CarryItem( Item newItem )
+    {
+      // Can only carry item if hand is free
+      //if ()
+      //AddItemToInventory(newItem);
+
+      //lockInventory = true;
+    }
+
     /// <summary>
     /// Input System callback when RMB is clicked, to use held item
     /// </summary>
@@ -185,6 +173,20 @@ namespace CwispyStudios.HelloComrade.Player.Items
       if (activeItem != null)
       {
         activeItem.OnUseItem();
+      }
+    }
+
+    /// <summary>
+    /// Input System callback when G is pressed, to drop equipped item
+    /// </summary>
+    private void OnDropItem()
+    {
+      if (activeItem != null)
+      {
+        activeItem.photonView.RPC("OnDropItem", RpcTarget.All);
+        activeItem = null;
+
+        RemoveCurrentItem();
       }
     }
 

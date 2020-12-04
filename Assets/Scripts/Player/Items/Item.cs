@@ -22,7 +22,7 @@ namespace CwispyStudios.HelloComrade.Player.Items
 
     private Rigidbody physicsController = null;
 
-    private void Awake()
+    public virtual void Awake()
     {
       physicsController = GetComponent<Rigidbody>();
       itemMass = physicsController.mass;

@@ -15,8 +15,10 @@ namespace CwispyStudios.HelloComrade.Player.Items.Util
     /// </summary>
     private Light lightSource;
 
-    private void Awake()
+    public override void Awake()
     {
+      base.Awake();
+
       lightSource = GetComponentInChildren<Light>();
     }
 
@@ -56,6 +58,7 @@ namespace CwispyStudios.HelloComrade.Player.Items.Util
     public override void OnUseItem()
     {
       isOn = !isOn;
+      lastOnState = isOn;
       SetLights();
       // Play audio
     }
@@ -65,12 +68,23 @@ namespace CwispyStudios.HelloComrade.Player.Items.Util
     {
       base.OnPickUpItem(viewID);
 
+      // Turn off original light source
+      lightSource.enabled = false;
       GetLightSourceInPlayer();
+
+      SetLights();
     }
 
+    [PunRPC]
     public override void OnDropItem()
     {
+      lightSource.enabled = false;
+
+      base.OnDropItem();
+
       lightSource = GetComponentInChildren<Light>();
+
+      SetLights();
     }
 
     public void OnPhotonSerializeView( PhotonStream stream, PhotonMessageInfo info )

@@ -33,15 +33,14 @@ MonoBehaviour:
   RunInBackground: 1
   StartInOfflineMode: 0
   RpcList:
-  - RpcPlayFootsteps
-  - RpcPlayJump
-  - SetLights
-  - ToggleLight
   - ClickRpc
   - DestroyRpc
+  - OnDropItem
   - OnEquipItem
   - OnPickUpItem
   - OnUnequipItem
+  - RpcPlayFootsteps
+  - RpcPlayJump
   - SyncInventoryItemsForNewPlayer
   DisableAutoOpenWizard: 1
   ShowSettings: 1
