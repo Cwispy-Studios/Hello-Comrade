@@ -15,10 +15,12 @@ namespace CwispyStudios.HelloComrade.Interactions
 
     public virtual void OnInteractHold(Vector2 mouseDelta)
     {
-      
     }
 
-    public void TransferPhotonOwnership()
+    public virtual void OnInteractRelease()
+    {
+    }
+      public void TransferPhotonOwnership()
     {
       if (!photonView.IsMine)
       {
