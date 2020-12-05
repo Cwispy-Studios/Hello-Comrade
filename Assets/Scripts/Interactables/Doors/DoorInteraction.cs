@@ -25,7 +25,7 @@ namespace CwispyStudios.HelloComrade.Interactions.Doors
         public override void OnInteractHold(Vector2 mouseDelta)
         {
                 Vector2 appliedForce = mouseDelta * forceMultiplier;
-                door.AddForceAtPosition(appliedForce, pointOfInteraction);
+                door.AddForceAtPosition(appliedForce, pointOfInteraction, ForceMode.VelocityChange);
         }
 
         public override void OnInteractRelease()

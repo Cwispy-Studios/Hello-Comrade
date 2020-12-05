@@ -37,6 +37,10 @@ namespace CwispyStudios.HelloComrade.Player
       {
         interactingObject.OnInteractHold(mouseDelta);
       }
+      else if (interactingObject != null)
+      {
+        interactingObject.OnInteractRelease();
+      }
     }
 
     private void OnLook(InputValue value)
