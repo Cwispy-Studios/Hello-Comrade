@@ -60,12 +60,28 @@ namespace CwispyStudios.HelloComrade.Player.Items
       // Character gets heavier from weight of item
       AddItemMassToCharacterMass(newItem.ItemMass);
 
+      photonView.RPC("SyncInventorySlot", RpcTarget.All, atIndex, newItem.photonView.ViewID);
+
       // Assign the item to the found index of the inventory list
-      inventoryList[atIndex] = newItem;
+      //inventoryList[atIndex] = newItem;
 
       // TODO Add call later to UI for updating inventory
 
       return true;
+    }
+
+    [PunRPC]
+    private void SyncInventorySlot( int inventoryIndex, int viewID )
+    {
+      if (viewID < 0)
+      {
+        inventoryList[inventoryIndex] = null;
+      }
+
+      else
+      {
+        inventoryList[inventoryIndex] = PhotonNetwork.GetPhotonView(viewID).GetComponent<Item>();
+      }
     }
 
     private void RemoveCurrentItem()
@@ -74,7 +90,7 @@ namespace CwispyStudios.HelloComrade.Player.Items
 
       AdjustCharacterMass(-inventoryList[currentIndex].ItemMass);
 
-      inventoryList[currentIndex] = null;
+      photonView.RPC("SyncInventorySlot", RpcTarget.All, currentIndex, -1);
 
       // TODO Add call later to UI for updating inventory
     }
@@ -213,6 +229,7 @@ namespace CwispyStudios.HelloComrade.Player.Items
       // Sync up the items in the inventory for this new player
       // Loop through inventory and get photon ids of every item 
       List<int> viewIds = new List<int>();
+      List<int> indexOfItems = new List<int>();
 
       int viewIdOfActiveItem = -1;
 
@@ -222,6 +239,7 @@ namespace CwispyStudios.HelloComrade.Player.Items
         {
           int viewId = inventoryList[i].photonView.ViewID;
           viewIds.Add(viewId);
+          indexOfItems.Add(i);
 
           // Get the view id of the active item, this will be active and all the others are inactive
           if (currentIndex == i)
@@ -233,23 +251,25 @@ namespace CwispyStudios.HelloComrade.Player.Items
 
       int playerId = PhotonNetwork.LocalPlayer.ActorNumber;
 
-      photonView.RPC("SyncInventoryItemsForNewPlayer", RpcTarget.AllViaServer, newPlayer, playerId, viewIds.ToArray(), viewIdOfActiveItem);
+      photonView.RPC("SyncInventoryItemsForNewPlayer", RpcTarget.AllViaServer, newPlayer, playerId, indexOfItems.ToArray(), viewIds.ToArray(), viewIdOfActiveItem);
     }
 
     [PunRPC]
-    private void SyncInventoryItemsForNewPlayer( Photon.Realtime.Player newPlayer, int itemBelongsTo, int[] viewIds, int viewIdOfActiveItem )
+    private void SyncInventoryItemsForNewPlayer( Photon.Realtime.Player newPlayer, int itemBelongsTo, int[] indexOfItems, int[] viewIds, int viewIdOfActiveItem )
     {
       // Only sync for the new player that joined
       if (PhotonNetwork.LocalPlayer != newPlayer) return;
 
-      for (int i = 0; i < viewIds.Length; ++i)
+      for (int i = 0; i < indexOfItems.Length; ++i)
       {
+        int index = indexOfItems[i];
         int viewId = viewIds[i];
 
         PhotonView itemView = PhotonNetwork.GetPhotonView(viewId);
         Item item = itemView.GetComponent<Item>();
 
         item.OnPickUpItem(itemBelongsTo);
+        inventoryList[index] = item;
 
         if (viewIdOfActiveItem == viewId)
         {
@@ -262,5 +282,19 @@ namespace CwispyStudios.HelloComrade.Player.Items
         }
       }
     }
-  }
+
+    public override void OnPlayerLeftRoom( Photon.Realtime.Player otherPlayer )
+    {
+      // Find the inventory of the player who left
+      if (photonView.Owner != otherPlayer) return;
+
+      for (int i = 0; i < inventoryList.Length; ++i)
+      {
+        if (inventoryList[i] != null)
+        {
+          inventoryList[i].OnDropItem();
+        }
+      }
+    }
+  } // class
 }

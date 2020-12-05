@@ -6776,7 +6776,7 @@ MonoBehaviour:
     playerOcclusionWidening: 1
     occlusionLayer:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 1
   linkedLights:
   - {fileID: 2009264475}
 --- !u!205 &227635225
@@ -20220,7 +20220,7 @@ MonoBehaviour:
     playerOcclusionWidening: 1
     occlusionLayer:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 1
   linkedLights:
   - {fileID: 117183625}
 --- !u!205 &419847073
@@ -21917,7 +21917,7 @@ MonoBehaviour:
     playerOcclusionWidening: 1
     occlusionLayer:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 1
   linkedLights:
   - {fileID: 975546532}
 --- !u!205 &517016974
@@ -27123,7 +27123,7 @@ MonoBehaviour:
     playerOcclusionWidening: 1
     occlusionLayer:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 1
   linkedLights:
   - {fileID: 2063974082}
 --- !u!205 &740289778
@@ -30213,7 +30213,7 @@ MonoBehaviour:
     playerOcclusionWidening: 1
     occlusionLayer:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 1
   linkedLights:
   - {fileID: 2069426922}
   - {fileID: 1463078330}
@@ -30413,7 +30413,7 @@ MonoBehaviour:
     playerOcclusionWidening: 1
     occlusionLayer:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 1
   linkedLights:
   - {fileID: 769401879}
 --- !u!205 &876226468
@@ -40749,7 +40749,7 @@ MonoBehaviour:
     playerOcclusionWidening: 1
     occlusionLayer:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 1
   linkedLights:
   - {fileID: 1294431546}
 --- !u!205 &933043797
@@ -46745,7 +46745,7 @@ MonoBehaviour:
     playerOcclusionWidening: 1
     occlusionLayer:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 1
   linkedLights:
   - {fileID: 996119520}
 --- !u!205 &1069755444
@@ -48483,7 +48483,7 @@ MonoBehaviour:
     playerOcclusionWidening: 1
     occlusionLayer:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 1
   linkedLights:
   - {fileID: 110369478}
 --- !u!205 &1117938732
@@ -55183,7 +55183,7 @@ MonoBehaviour:
     playerOcclusionWidening: 1
     occlusionLayer:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 1
   linkedLights:
   - {fileID: 1809538604}
 --- !u!205 &1312239161
@@ -80551,7 +80551,7 @@ MonoBehaviour:
     playerOcclusionWidening: 1
     occlusionLayer:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 1
   linkedLights:
   - {fileID: 1392463430}
 --- !u!205 &1916385627
@@ -85460,7 +85460,7 @@ MonoBehaviour:
     playerOcclusionWidening: 1
     occlusionLayer:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 1
   linkedLights:
   - {fileID: 1997258389}
 --- !u!205 &2083305370
@@ -85665,7 +85665,7 @@ MonoBehaviour:
     playerOcclusionWidening: 1
     occlusionLayer:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 1
   linkedLights:
   - {fileID: 149435417}
 --- !u!205 &2104729752
@@ -86877,7 +86877,7 @@ MonoBehaviour:
     playerOcclusionWidening: 1
     occlusionLayer:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 1
   linkedLights:
   - {fileID: 688951941}
 --- !u!114 &4516137061814735321

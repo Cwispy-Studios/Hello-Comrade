@@ -12,7 +12,7 @@ namespace CwispyStudios.HelloComrade.Player.Items
   }
 
   [RequireComponent(typeof(Rigidbody))]
-  public class Item : MonoBehaviourPun
+  public class Item : MonoBehaviourPunCallbacks
   {
     private ItemType itemType;
     public ItemType Type { get { return itemType; } }
@@ -20,7 +20,7 @@ namespace CwispyStudios.HelloComrade.Player.Items
     private float itemMass;
     public float ItemMass { get; private set; }
 
-    private Rigidbody physicsController = null;
+    private MeshRenderer meshRenderer;
 
     public virtual void Awake()
     {
@@ -39,8 +39,9 @@ namespace CwispyStudios.HelloComrade.Player.Items
         itemType = ItemType.Dragged;
       }
 
-      physicsController = GetComponent<Rigidbody>();
-      itemMass = physicsController.mass;
+      itemMass = GetComponent<Rigidbody>().mass;
+
+      meshRenderer = GetComponent<MeshRenderer>();
     }
 
     /// <summary>
@@ -49,7 +50,7 @@ namespace CwispyStudios.HelloComrade.Player.Items
     [PunRPC]
     public virtual void OnEquipItem()
     {
-      gameObject.SetActive(true);
+      meshRenderer.enabled = true;
     }
 
     /// <summary>Primary code for unequipping item (GameObject handling etc)</summary>
@@ -57,7 +58,7 @@ namespace CwispyStudios.HelloComrade.Player.Items
     [PunRPC]
     public virtual void OnUnequipItem()
     {
-      gameObject.SetActive(false);
+      meshRenderer.enabled = false;
     }
 
     /// <summary>

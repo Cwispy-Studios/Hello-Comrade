@@ -79,6 +79,7 @@ namespace CwispyStudios.HelloComrade.Player.Items.Util
     public override void OnDropItem()
     {
       lightSource.enabled = false;
+      isOn = lastOnState;
 
       base.OnDropItem();
 

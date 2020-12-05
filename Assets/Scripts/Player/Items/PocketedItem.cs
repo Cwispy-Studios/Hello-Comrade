@@ -43,6 +43,8 @@ namespace CwispyStudios.HelloComrade.Player.Items
     [PunRPC]
     public override void OnDropItem()
     {
+      base.OnDropItem();
+
       // Return to scene
       transform.parent = null;
 
@@ -53,6 +55,7 @@ namespace CwispyStudios.HelloComrade.Player.Items
       itemCollider.isTrigger = false;
 
       gameObject.layer = 0;
+      gameObject.SetActive(true);
     }
   }
 }
