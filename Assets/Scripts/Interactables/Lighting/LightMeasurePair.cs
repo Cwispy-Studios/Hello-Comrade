@@ -5,11 +5,10 @@ using UnityEngine;
 
 namespace CwispyStudios.HelloComrade.Interactions.Lighting
 {
-
-    [Serializable]
-    public class LightMeasurePair
-    {
-        [SerializeField] public RenderTexture renderTexture = null;
-        [SerializeField] public Camera renderCamera = null;
-    }
+  [Serializable]
+  public class LightMeasurePair
+  {
+    [SerializeField] public RenderTexture renderTexture = null;
+    [SerializeField] public Camera renderCamera = null;
+  }
 }
