@@ -56,21 +56,8 @@ namespace CwispyStudios.HelloComrade.Interactions.Lighting
 
             avg /= lightMeasurePairs.Length;
 
-            avg *= 20;
+            avg = avg < .001 ? 0 : 1;
 
-//            if (avg < lightRange.y)
-//            {
-//                if (avg < lightRange.x)
-//                {
-//                    avg = 0;
-//                }
-//                else
-//                {
-//                    avg -= lightRange.x;
-//                    avg /= lightRangeRange;
-//                }
-//            }
-            
             //print(avg);
             SetShaderTransparency();
         }
