@@ -20,11 +20,14 @@ namespace CwispyStudios.HelloComrade.Interactions.Lighting
         [SerializeField] private Vector2 lightRange = new Vector2(0.05f, .3f);
         private float lightRangeRange; // Sorry bout that
 
+        private int alphaId;
+
         private void Awake()
         {
             bufferTexture = Texture2D.grayTexture;
             endOfFrame = new WaitForEndOfFrame();
             lightRangeRange = lightRange.y - lightRange.x;
+            alphaId = Shader.PropertyToID("Vector1_AD4E3E33");
         }
 
         private void Update()
@@ -53,25 +56,28 @@ namespace CwispyStudios.HelloComrade.Interactions.Lighting
 
             avg /= lightMeasurePairs.Length;
 
-            if (avg < lightRange.y)
-            {
-                if (avg < lightRange.x)
-                {
-                    avg = 0;
-                }
-                else
-                {
-                    avg -= lightRange.x;
-                    avg /= lightRangeRange;
-                }
-            }
+            avg *= 20;
 
+//            if (avg < lightRange.y)
+//            {
+//                if (avg < lightRange.x)
+//                {
+//                    avg = 0;
+//                }
+//                else
+//                {
+//                    avg -= lightRange.x;
+//                    avg /= lightRangeRange;
+//                }
+//            }
+            
+            //print(avg);
             SetShaderTransparency();
         }
         
         private void SetShaderTransparency()
         {
-            playerMaterial.material.SetFloat(4, avg);
+            playerMaterial.material.SetFloat(alphaId, avg);
         }
         
         public void OnPhotonSerializeView( PhotonStream stream, PhotonMessageInfo info )
