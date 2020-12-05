@@ -613,8 +613,8 @@ Rigidbody:
   m_GameObject: {fileID: 660807923}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_Drag: 1
+  m_AngularDrag: 0.1
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -632,8 +632,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3200e1eb2efb7cf4b95adf05976005db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Door: {fileID: 660807925}
-  forceMultiplier: 1
+  door: {fileID: 660807925}
+  forceMultiplier: 0.2
 --- !u!1 &833306785
 GameObject:
   m_ObjectHideFlags: 0
@@ -778,7 +778,7 @@ HingeJoint:
   m_BreakTorque: Infinity
   m_EnableCollision: 0
   m_EnablePreprocessing: 1
-  m_MassScale: 1
+  m_MassScale: 0.00001
   m_ConnectedMassScale: 1
 --- !u!1 &1322270727
 GameObject:
@@ -1341,6 +1341,11 @@ PrefabInstance:
         type: 3}
       propertyPath: viewIdField
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3651121698626927157, guid: 762845652cfd68348a55a1d6fdb25ce7,
+        type: 3}
+      propertyPath: viewIdField
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5938551902187567761, guid: 762845652cfd68348a55a1d6fdb25ce7,
         type: 3}

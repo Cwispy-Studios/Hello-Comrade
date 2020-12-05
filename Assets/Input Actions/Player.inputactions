@@ -55,7 +55,7 @@
                 },
                 {
                     "name": "Interact",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "99ee1d36-330e-475a-a868-bcee16d878c6",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -74,14 +74,6 @@
                     "type": "Value",
                     "id": "206f846c-8b69-4748-9394-07ccb7620d88",
                     "expectedControlType": "Axis",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "InteractHold",
-                    "type": "Value",
-                    "id": "51309a21-c890-4598-b5d0-9ec71797b509",
-                    "expectedControlType": "",
                     "processors": "",
                     "interactions": ""
                 },
@@ -298,17 +290,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Scroll Inventory",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "a10dd835-5ffe-4fe0-a61b-13fc171ac8c4",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "InteractHold",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

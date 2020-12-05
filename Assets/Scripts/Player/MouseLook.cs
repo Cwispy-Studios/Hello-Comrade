@@ -19,6 +19,8 @@ namespace CwispyStudios.HelloComrade.Player
 
     private Vector3 centerScreenVector;
     private Vector3 mouseInput = Vector3.zero;
+    
+    public Vector3 interactionOffset;
 
     private void Awake()
     {

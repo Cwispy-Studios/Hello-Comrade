@@ -1579,6 +1579,7 @@ MonoBehaviour:
   lookSpeed: 0.2
   maxVerticalLookDegrees: 70
   maxHorizontalLookDegrees: 80
+  interactionOffset: {x: 0, y: 0, z: 0}
 --- !u!114 &6785412803810564121
 MonoBehaviour:
   m_ObjectHideFlags: 0

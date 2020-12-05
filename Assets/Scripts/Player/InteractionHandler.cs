@@ -1,6 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
 using Photon.Pun;
+using UnityEngine.Rendering;
 
 namespace CwispyStudios.HelloComrade.Player
 {
@@ -18,25 +21,43 @@ namespace CwispyStudios.HelloComrade.Player
     private CharacterInventory inventory;
     private MouseLook mouseLook;
 
+    private Interactable interactingObject;
+    private Vector2 mouseDelta;
+    private bool buttonHeldDown;
+
     private void Start()
     {
       inventory = GetComponent<CharacterInventory>();
       mouseLook = GetComponent<MouseLook>();
     }
 
-    private void OnInteract()
+    private void Update()
     {
-      if (mouseLook.GetLookingAtObject(maxInteractDistance, interactableMask, out RaycastHit hit))
+      if (buttonHeldDown && interactingObject != null)
       {
-        hit.collider.GetComponent<Interactable>().OnInteract();
+        interactingObject.OnInteractHold(mouseDelta);
       }
     }
-    
-    private void OnInteractHold()
+
+    private void OnLook(InputValue value)
     {
-      if (mouseLook.GetLookingAtObject(maxInteractDistance, interactableMask, out RaycastHit hit))
+      mouseDelta = value.Get<Vector2>();
+    }
+
+    private void OnInteract(InputValue value)
+    {
+      buttonHeldDown = value.isPressed;
+      if (buttonHeldDown)
       {
-        hit.collider.GetComponent<Interactable>().OnInteract(hit);
+        if (mouseLook.GetLookingAtObject(maxInteractDistance, interactableMask, out RaycastHit hit))
+        {
+          interactingObject = hit.collider.GetComponent<Interactable>();
+          interactingObject.OnInteract();
+        }
+      }
+      else
+      {
+        interactingObject = null;
       }
     }
 
