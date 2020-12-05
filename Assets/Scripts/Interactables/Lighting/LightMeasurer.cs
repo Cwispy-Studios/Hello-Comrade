@@ -35,10 +35,15 @@ namespace CwispyStudios.HelloComrade.Interactions.Lighting
       playerMask = LayerMask.GetMask("Player");
       playerMaterialPairs = new List<PlayerMaterialPair>();
       
-      photonView.RPC("AddNewPlayer", RpcTarget.Others, new PlayerMaterialPair(thisPlayerTransform, thisPlayerMaterial.material));
+      foreach (var measurer in FindObjectsOfType<LightMeasurer>())
+      {
+        if (measurer != this && measurer.photonView.IsMine)
+          measurer.AddNewPlayer(new PlayerMaterialPair(thisPlayerTransform, thisPlayerMaterial.material));
+      }
 
-      if (!photonView.IsMine)
-        Destroy(this);
+      if (photonView.IsMine) return;
+      
+      Destroy(this);
     }
 
     private void Update()
@@ -87,8 +92,7 @@ namespace CwispyStudios.HelloComrade.Interactions.Lighting
     {
       playerMaterial.material.SetFloat(alphaId, avg);
     }
-
-    [PunRPC]
+    
     private void AddNewPlayer(PlayerMaterialPair newPlayer)
     {
       playerMaterialPairs.Add(newPlayer);
