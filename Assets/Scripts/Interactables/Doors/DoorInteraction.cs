@@ -24,11 +24,8 @@ namespace CwispyStudios.HelloComrade.Interactions.Doors
 
         public override void OnInteractHold(Vector2 mouseDelta)
         {
-            if (!isInUse)
-            {
                 Vector2 appliedForce = mouseDelta * forceMultiplier;
                 door.AddForceAtPosition(appliedForce, pointOfInteraction);
-            }
         }
 
         public override void OnInteractRelease()
