@@ -9,9 +9,6 @@ namespace CwispyStudios.HelloComrade.Player.Items
 {
   public class CharacterInventory : MonoBehaviourPunCallbacks
   {
-    [Tooltip("The active item slot where active items will become a parent of. This is in the right wrist of the skeleton.")]
-    [SerializeField] private GameObject activeSlot = null;
-
     private const int MaxInventorySize = 4;
 
     // Inventory
@@ -234,11 +231,13 @@ namespace CwispyStudios.HelloComrade.Player.Items
         }
       }
 
-      photonView.RPC("SyncInventoryItemsForNewPlayer", RpcTarget.AllViaServer, newPlayer, viewIds.ToArray(), viewIdOfActiveItem);
+      int playerId = PhotonNetwork.LocalPlayer.ActorNumber;
+
+      photonView.RPC("SyncInventoryItemsForNewPlayer", RpcTarget.AllViaServer, newPlayer, playerId, viewIds.ToArray(), viewIdOfActiveItem);
     }
 
     [PunRPC]
-    private void SyncInventoryItemsForNewPlayer( Photon.Realtime.Player newPlayer, int[] viewIds, int viewIdOfActiveItem )
+    private void SyncInventoryItemsForNewPlayer( Photon.Realtime.Player newPlayer, int itemBelongsTo, int[] viewIds, int viewIdOfActiveItem )
     {
       // Only sync for the new player that joined
       if (PhotonNetwork.LocalPlayer != newPlayer) return;
@@ -250,7 +249,7 @@ namespace CwispyStudios.HelloComrade.Player.Items
         PhotonView itemView = PhotonNetwork.GetPhotonView(viewId);
         Item item = itemView.GetComponent<Item>();
 
-        item.OnPickUpItem(PhotonNetwork.LocalPlayer.ActorNumber);
+        item.OnPickUpItem(itemBelongsTo);
 
         if (viewIdOfActiveItem == viewId)
         {

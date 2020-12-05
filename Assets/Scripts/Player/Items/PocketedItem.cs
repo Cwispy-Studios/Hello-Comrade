@@ -4,6 +4,8 @@ using Photon.Pun;
 
 namespace CwispyStudios.HelloComrade.Player.Items
 {
+  using Networking;
+
   public class PocketedItem : Item
   {
     private Rigidbody physicsController = null;
@@ -21,7 +23,8 @@ namespace CwispyStudios.HelloComrade.Player.Items
     [PunRPC]
     public override void OnPickUpItem( int playerPhotonActorNumber )
     {
-      GameObject playerObject = (GameObject)PhotonNetwork.CurrentRoom.GetPlayer(playerPhotonActorNumber).TagObject;
+      int playerObjectViewID = (int)PhotonNetwork.CurrentRoom.GetPlayer(playerPhotonActorNumber).CustomProperties[PlayerCustomProperties.PlayerObjectViewID];
+      GameObject playerObject = PhotonNetwork.GetPhotonView(playerObjectViewID).gameObject;
 
       transform.parent = playerObject.GetComponentInChildren<ActiveItemSlot>().transform;
       transform.localPosition = Vector3.zero;

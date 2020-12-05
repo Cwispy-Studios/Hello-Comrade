@@ -382,6 +382,26 @@ MonoBehaviour:
     data1: 0
     data2: 0
   Exists: 0
+--- !u!114 &-8852111025858814408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Light Switch Toggle/State
+  m_EditorClassIdentifier: 
+  Name: State
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Exists: 1
 --- !u!114 &-8762014867474527101
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -622,6 +642,26 @@ MonoBehaviour:
     data1: 0
     data2: 0
   Exists: 0
+--- !u!114 &-8162318023484559796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Footsteps Sneak/Occlusion
+  m_EditorClassIdentifier: 
+  Name: Occlusion
+  Min: 0
+  Max: 100
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Exists: 1
 --- !u!114 &-8147604093200137680
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1102,8 +1142,8 @@ MonoBehaviour:
   Is3D: 1
   IsOneShot: 1
   Parameters:
-  - {fileID: 798604138885957292}
-  - {fileID: 4009756313288758017}
+  - {fileID: 4345890921536935299}
+  - {fileID: -588899208289785992}
   MinDistance: 1
   MaxDistance: 30
   Length: 0
@@ -2229,6 +2269,26 @@ MonoBehaviour:
     data1: 0
     data2: 0
   Exists: 1
+--- !u!114 &-6093857503613100761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Light Switch Toggle/Occlusion
+  m_EditorClassIdentifier: 
+  Name: Occlusion
+  Min: 0
+  Max: 100
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Exists: 1
 --- !u!114 &-5966406826391424022
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2893,8 +2953,8 @@ MonoBehaviour:
   Is3D: 1
   IsOneShot: 1
   Parameters:
-  - {fileID: 7229538987131348967}
-  - {fileID: -1191098538841737847}
+  - {fileID: -6093857503613100761}
+  - {fileID: -8852111025858814408}
   MinDistance: 1
   MaxDistance: 80
   Length: 0
@@ -3078,6 +3138,26 @@ MonoBehaviour:
     data1: 2442043491
     data2: 1627966276
   Exists: 1
+--- !u!114 &-5010795213118602658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Land/Occlusion
+  m_EditorClassIdentifier: 
+  Name: Occlusion
+  Min: 0
+  Max: 100
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Exists: 1
 --- !u!114 &-5006057867463764294
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3178,6 +3258,26 @@ MonoBehaviour:
     data1: 0
     data2: 0
   Exists: 1
+--- !u!114 &-4902071543851786603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Footsteps Sneak/Ground Type
+  m_EditorClassIdentifier: 
+  Name: Ground Type
+  Min: 0
+  Max: 3
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Exists: 1
 --- !u!114 &-4822952088576749064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3257,7 +3357,7 @@ MonoBehaviour:
   ID:
     data1: 0
     data2: 0
-  Exists: 1
+  Exists: 0
 --- !u!114 &-4775459152735310906
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3556,6 +3656,26 @@ MonoBehaviour:
   Name: Ground Type
   Min: 0
   Max: 3
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Exists: 1
+--- !u!114 &-4393129373332917083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Footsteps Run/Occlusion
+  m_EditorClassIdentifier: 
+  Name: Occlusion
+  Min: 0
+  Max: 100
   Default: 0
   ID:
     data1: 0
@@ -4363,7 +4483,7 @@ MonoBehaviour:
   ID:
     data1: 0
     data2: 0
-  Exists: 1
+  Exists: 0
 --- !u!114 &-3056679261569506637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5304,6 +5424,26 @@ MonoBehaviour:
     data1: 0
     data2: 0
   Exists: 1
+--- !u!114 &-1912329038460383745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Erik/Occlusion
+  m_EditorClassIdentifier: 
+  Name: Occlusion
+  Min: 0
+  Max: 100
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Exists: 1
 --- !u!114 &-1895001204916313495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5786,7 +5926,7 @@ MonoBehaviour:
   ID:
     data1: 0
     data2: 0
-  Exists: 1
+  Exists: 0
 --- !u!114 &-1187921973232247766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5927,8 +6067,8 @@ MonoBehaviour:
   Is3D: 1
   IsOneShot: 1
   Parameters:
-  - {fileID: -4792784152518396374}
-  - {fileID: 1476857758832959986}
+  - {fileID: 6363991520611602685}
+  - {fileID: -5010795213118602658}
   MinDistance: 6
   MaxDistance: 70
   Length: 0
@@ -6271,7 +6411,7 @@ MonoBehaviour:
   ID:
     data1: 0
     data2: 0
-  Exists: 1
+  Exists: 0
 --- !u!114 &-805892024950616076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6412,6 +6552,26 @@ MonoBehaviour:
     data1: 0
     data2: 0
   Exists: 0
+--- !u!114 &-588899208289785992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Jump/Occlusion
+  m_EditorClassIdentifier: 
+  Name: Occlusion
+  Min: 0
+  Max: 100
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Exists: 1
 --- !u!114 &-578808055836622756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6965,7 +7125,7 @@ MonoBehaviour:
   - {fileID: 7485553630638246677}
   StringsBanks:
   - {fileID: 3306461375129155200}
-  stringsBankWriteTime: 637425971557318814
+  stringsBankWriteTime: 637424628138572854
   cacheVersion: 5
 --- !u!114 &9556233268488017
 MonoBehaviour:
@@ -7492,7 +7652,7 @@ MonoBehaviour:
   Is3D: 1
   IsOneShot: 0
   Parameters:
-  - {fileID: 7744411773399882923}
+  - {fileID: 2898663026439090177}
   MinDistance: 3
   MaxDistance: 10
   Length: 161906
@@ -7695,7 +7855,7 @@ MonoBehaviour:
   ID:
     data1: 0
     data2: 0
-  Exists: 1
+  Exists: 0
 --- !u!114 &812700841540484555
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7775,7 +7935,7 @@ MonoBehaviour:
   ID:
     data1: 0
     data2: 0
-  Exists: 1
+  Exists: 0
 --- !u!114 &873243201895485363
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7895,7 +8055,7 @@ MonoBehaviour:
   ID:
     data1: 0
     data2: 0
-  Exists: 1
+  Exists: 0
 --- !u!114 &1014001275784271208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8295,7 +8455,7 @@ MonoBehaviour:
   ID:
     data1: 0
     data2: 0
-  Exists: 1
+  Exists: 0
 --- !u!114 &1385720114015292705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8375,7 +8535,7 @@ MonoBehaviour:
   ID:
     data1: 0
     data2: 0
-  Exists: 1
+  Exists: 0
 --- !u!114 &1480990870567649757
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8496,7 +8656,7 @@ MonoBehaviour:
   Is3D: 1
   IsOneShot: 0
   Parameters:
-  - {fileID: -871263208474983278}
+  - {fileID: -1912329038460383745}
   MinDistance: 3
   MaxDistance: 10
   Length: 15360
@@ -9520,6 +9680,26 @@ MonoBehaviour:
     data1: 0
     data2: 0
   Exists: 0
+--- !u!114 &2898663026439090177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Putin/Occlusion
+  m_EditorClassIdentifier: 
+  Name: Occlusion
+  Min: 0
+  Max: 100
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Exists: 1
 --- !u!114 &2906667072515142224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9739,7 +9919,7 @@ MonoBehaviour:
   ID:
     data1: 0
     data2: 0
-  Exists: 1
+  Exists: 0
 --- !u!114 &3171125278054678204
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9814,7 +9994,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: Assets/FMOD Assets/Desktop/Master.strings.bank
   Name: Master.strings
-  lastModified: 637425971557318814
+  lastModified: 637424628138572854
   LoadResult: 0
   FileSizes:
   - Name: 
@@ -10123,8 +10303,8 @@ MonoBehaviour:
   Is3D: 1
   IsOneShot: 1
   Parameters:
-  - {fileID: -3089487558320305755}
-  - {fileID: 1325907035461908335}
+  - {fileID: 7467903244482229894}
+  - {fileID: 6815657022443429099}
   MinDistance: 2.5
   MaxDistance: 40
   Length: 0
@@ -10447,7 +10627,7 @@ MonoBehaviour:
   ID:
     data1: 0
     data2: 0
-  Exists: 1
+  Exists: 0
 --- !u!114 &4051918386096714078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10608,8 +10788,8 @@ MonoBehaviour:
   Is3D: 1
   IsOneShot: 1
   Parameters:
-  - {fileID: 863646756748450184}
-  - {fileID: 6179024269926974048}
+  - {fileID: -4393129373332917083}
+  - {fileID: 7985684254621058729}
   MinDistance: 6
   MaxDistance: 60
   Length: 0
@@ -10668,6 +10848,26 @@ MonoBehaviour:
   Name: Occlusion
   Min: 0
   Max: 100
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Exists: 1
+--- !u!114 &4345890921536935299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Jump/Ground Type
+  m_EditorClassIdentifier: 
+  Name: Ground Type
+  Min: 0
+  Max: 3
   Default: 0
   ID:
     data1: 0
@@ -11892,7 +12092,7 @@ MonoBehaviour:
   ID:
     data1: 0
     data2: 0
-  Exists: 1
+  Exists: 0
 --- !u!114 &6206262612484155306
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12044,6 +12244,26 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
   m_Name: parameter:/Footsteps Run/Ground Type
+  m_EditorClassIdentifier: 
+  Name: Ground Type
+  Min: 0
+  Max: 3
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Exists: 1
+--- !u!114 &6363991520611602685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Land/Ground Type
   m_EditorClassIdentifier: 
   Name: Ground Type
   Min: 0
@@ -12224,6 +12444,26 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
   m_Name: parameter:/Footsteps/Ground Type
+  m_EditorClassIdentifier: 
+  Name: Ground Type
+  Min: 0
+  Max: 3
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Exists: 1
+--- !u!114 &6815657022443429099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Footsteps Walk/Ground Type
   m_EditorClassIdentifier: 
   Name: Ground Type
   Min: 0
@@ -12513,8 +12753,8 @@ MonoBehaviour:
   Is3D: 1
   IsOneShot: 1
   Parameters:
-  - {fileID: 3122957091002683973}
-  - {fileID: 1005875939710458585}
+  - {fileID: -4902071543851786603}
+  - {fileID: -8162318023484559796}
   MinDistance: 1
   MaxDistance: 30
   Length: 0
@@ -12537,7 +12777,7 @@ MonoBehaviour:
   ID:
     data1: 0
     data2: 0
-  Exists: 1
+  Exists: 0
 --- !u!114 &7231547598215677956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12698,6 +12938,26 @@ MonoBehaviour:
     data1: 0
     data2: 0
   Exists: 0
+--- !u!114 &7467903244482229894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Footsteps Walk/Occlusion
+  m_EditorClassIdentifier: 
+  Name: Occlusion
+  Min: 0
+  Max: 100
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Exists: 1
 --- !u!114 &7477696822483559150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12732,7 +12992,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: Assets/FMOD Assets/Desktop/Master.bank
   Name: Master
-  lastModified: 637425971876190383
+  lastModified: 637424628138482886
   LoadResult: 0
   FileSizes: []
   Exists: 1
@@ -12915,7 +13175,7 @@ MonoBehaviour:
   ID:
     data1: 0
     data2: 0
-  Exists: 1
+  Exists: 0
 --- !u!114 &7765281882150520410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13036,6 +13296,26 @@ MonoBehaviour:
     data1: 0
     data2: 0
   Exists: 0
+--- !u!114 &7985684254621058729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Footsteps Run/Ground Type
+  m_EditorClassIdentifier: 
+  Name: Ground Type
+  Min: 0
+  Max: 3
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Exists: 1
 --- !u!114 &7990280992783354622
 MonoBehaviour:
   m_ObjectHideFlags: 0

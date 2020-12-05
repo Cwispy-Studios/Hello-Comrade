@@ -1800,7 +1800,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 365839a04f6628a4ea8c67ec8971104b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeSlot: {fileID: 7733331958987076070}
 --- !u!1 &6785412803810564328
 GameObject:
   m_ObjectHideFlags: 0
@@ -2468,7 +2467,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3015820843770962737}
   - component: {fileID: 5940695391080084355}
-  - component: {fileID: 187030167955736226}
   m_Layer: 8
   m_Name: Active Item Slot
   m_TagString: Untagged
@@ -2502,25 +2500,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b277369daf040a4ab2e64b1c2a8a548, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &187030167955736226
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7733331958987076070}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  observableSearch: 2
-  Synchronization: 0
-  OwnershipTransfer: 0
-  ObservedComponents: []
-  viewIdField: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
