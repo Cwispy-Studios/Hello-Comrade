@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4000013272176810}
   - component: {fileID: 33000012250347890}
   - component: {fileID: 23000011704716482}
-  - component: {fileID: 64000010704572400}
+  - component: {fileID: 2714282056724853669}
   m_Layer: 8
   m_Name: doorL
   m_TagString: Untagged
@@ -80,8 +80,8 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &64000010704572400
-MeshCollider:
+--- !u!65 &2714282056724853669
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -90,10 +90,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300004, guid: cdc73258ef2d5ee449fe6d18ccf0122f, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 0.028177105, y: 0.2987459, z: 0.5238858}
+  m_Center: {x: 0, y: 0, z: -0.2564613}
 --- !u!1 &1000010386094108
 GameObject:
   m_ObjectHideFlags: 0
@@ -294,7 +293,7 @@ GameObject:
   - component: {fileID: 4000013828812206}
   - component: {fileID: 33000013829359190}
   - component: {fileID: 23000011685650716}
-  - component: {fileID: 64000011518853142}
+  - component: {fileID: 2672091711104640104}
   m_Layer: 8
   m_Name: doorR
   m_TagString: Untagged
@@ -363,8 +362,8 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &64000011518853142
-MeshCollider:
+--- !u!65 &2672091711104640104
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -373,10 +372,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300002, guid: cdc73258ef2d5ee449fe6d18ccf0122f, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 0.028177142, y: 0.2987459, z: 0.5669046}
+  m_Center: {x: 0, y: 0, z: 0.2812076}
 --- !u!1 &1000013269158302
 GameObject:
   m_ObjectHideFlags: 0
@@ -386,7 +384,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4000010214412056}
-  - component: {fileID: 65000012874770740}
   - component: {fileID: 95000013604395658}
   - component: {fileID: 64000013895505880}
   m_Layer: 8
@@ -414,19 +411,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
---- !u!65 &65000012874770740
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000013269158302}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.94, y: 1, z: 1.62}
-  m_Center: {x: 0, y: 0.54, z: 0}
 --- !u!95 &95000013604395658
 Animator:
   serializedVersion: 3

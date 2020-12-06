@@ -51,6 +51,7 @@ namespace CwispyStudios.HelloComrade.Player.Items
       // Reset rigidbody kinematic to allow physics interactions
       physicsController.isKinematic = false;
       physicsController.collisionDetectionMode = CollisionDetectionMode.Continuous;
+      physicsController.AddForce(transform.forward, ForceMode.VelocityChange);
       // Reset collider trigger
       itemCollider.isTrigger = false;
 

@@ -1734,8 +1734,8 @@ MonoBehaviour:
   playerCamera: {fileID: 891808067236795902}
   neck: {fileID: 6785412803810564280}
   lookSpeed: 0.2
-  maxVerticalLookDegrees: 70
-  maxHorizontalLookDegrees: 80
+  maxVerticalLookDegrees: 80
+  maxHorizontalLookDegrees: 70
   interactionOffset: {x: 0, y: 0, z: 0}
 --- !u!114 &6785412803810564121
 MonoBehaviour:
@@ -1820,7 +1820,6 @@ MonoBehaviour:
   - {fileID: 891808066117234343}
   - {fileID: 5315644718384608745}
   - {fileID: -2028178694794278143}
-  - {fileID: 5243429362210052200}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
