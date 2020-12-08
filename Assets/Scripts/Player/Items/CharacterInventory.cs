@@ -171,6 +171,20 @@ namespace CwispyStudios.HelloComrade.Player.Items
       }
     }
 
+    private void PocketItemAtIndex( int itemViewID, int index )
+    {
+      Item newItem = PhotonNetwork.GetPhotonView(itemViewID).GetComponent<Item>();
+
+      // Cannot pocket items if holding a carried item
+      if (!lockInventory && AddItemToInventory(newItem, index))
+      {
+        itemHandler.ConnectPocketedItemToSlot(newItem);
+        newItem.OnPickUpItem();
+        newItem.OnUnequipItem();
+        SwitchActiveItem();
+      }
+    }
+
     [PunRPC]
     /// <summary>Add Item to inventory slot for non-pocketable items</summary>
     private void CarryItem( int itemViewID )
@@ -261,8 +275,6 @@ namespace CwispyStudios.HelloComrade.Player.Items
       List<int> viewIds = new List<int>();
       List<int> indexOfItems = new List<int>();
 
-      int viewIdOfActiveItem = -1;
-
       for (int i = 0; i < inventoryList.Length; ++i)
       {
         if (inventoryList[i] != null)
@@ -270,20 +282,14 @@ namespace CwispyStudios.HelloComrade.Player.Items
           int viewId = inventoryList[i].photonView.ViewID;
           viewIds.Add(viewId);
           indexOfItems.Add(i);
-
-          // Get the view id of the active item, this will be active and all the others are inactive
-          if (currentIndex == i)
-          {
-            viewIdOfActiveItem = viewId;
-          }
         }
       }
 
-      photonView.RPC("SyncInventoryForNewPlayer", newPlayer, indexOfItems.ToArray(), viewIds.ToArray(), viewIdOfActiveItem, currentIndex);
+      photonView.RPC("SyncInventoryForNewPlayer", newPlayer, indexOfItems.ToArray(), viewIds.ToArray(), currentIndex);
     }
 
     [PunRPC]
-    private void SyncInventoryForNewPlayer( int[] indexOfItems, int[] viewIds, int viewIdOfActiveItem, int activeIndex )
+    private void SyncInventoryForNewPlayer( int[] indexOfItems, int[] viewIds, int activeIndex )
     {
       currentIndex = activeIndex;
 
@@ -298,7 +304,9 @@ namespace CwispyStudios.HelloComrade.Player.Items
         switch (item.Type)
         {
           case ItemType.Pocketed:
-            PocketItem(viewId);
+            // TODO: How to sync index of pocketed items?
+            // Hacky solution
+            PocketItemAtIndex(viewId, index);
             break;
 
           case ItemType.Carried:
