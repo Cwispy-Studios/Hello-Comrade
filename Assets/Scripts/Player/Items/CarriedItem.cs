@@ -17,29 +17,18 @@ namespace CwispyStudios.HelloComrade.Player.Items
       physicsController = GetComponent<Rigidbody>();
     }
 
-    [PunRPC]
-    public override void OnPickUpItem( int playerPhotonActorNumber )
+    public override void OnPickUpItem()
     {
-      int playerObjectViewID = (int)PhotonNetwork.CurrentRoom.GetPlayer(playerPhotonActorNumber).CustomProperties[PlayerCustomProperties.PlayerObjectViewID];
-      GameObject playerObject = PhotonNetwork.GetPhotonView(playerObjectViewID).gameObject;
-
-      transform.parent = playerObject.GetComponentInChildren<CarriedSlot>().transform;
-      transform.localPosition = Vector3.zero;
-      transform.localRotation = Quaternion.identity;
-
       // Set rigidbody to kinematic so physics does not affect it
       physicsController.isKinematic = true;
 
       gameObject.layer = 23;
     }
 
-    [PunRPC]
     public override void OnDropItem()
     {
-      // Return to scene
-      transform.parent = null;
+      base.OnDropItem();
 
-      // Reset rigidbody kinematic to allow physics interactions
       physicsController.isKinematic = false;
       physicsController.AddForce(transform.forward, ForceMode.VelocityChange);
 

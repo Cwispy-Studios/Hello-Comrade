@@ -22,6 +22,11 @@ namespace CwispyStudios.HelloComrade.Player.Items
 
     private MeshRenderer meshRenderer;
 
+    private Rigidbody physicsController = null;
+    public Rigidbody PhysicsController { get { return physicsController; } }
+
+    private Transform sceneParent;
+
     public virtual void Awake()
     {
       if (GetComponent<PocketedItem>())
@@ -39,9 +44,12 @@ namespace CwispyStudios.HelloComrade.Player.Items
         itemType = ItemType.Dragged;
       }
 
-      itemMass = GetComponent<Rigidbody>().mass;
+      physicsController = GetComponent<Rigidbody>();
+      itemMass = physicsController.mass;
 
       meshRenderer = GetComponent<MeshRenderer>();
+
+      sceneParent = transform.parent;
     }
 
     /// <summary>
@@ -64,7 +72,11 @@ namespace CwispyStudios.HelloComrade.Player.Items
     /// <summary>
     /// When the item gets picked up by a player
     /// </summary>
-    public virtual void OnPickUpItem( int playerPhotonActorNumber )
+    public virtual void OnPickUpItem()
+    {
+    }
+
+    public virtual void OnPickUpItem( Vector3 grabPoint, PhotonMessageInfo info )
     {
     }
 
@@ -73,7 +85,8 @@ namespace CwispyStudios.HelloComrade.Player.Items
     /// </summary>
     public virtual void OnDropItem()
     {
-    }
+      ResetTransformParent();
+    }    
 
     /// <summary>
     /// When the item gets used or interacted by a player
@@ -93,6 +106,11 @@ namespace CwispyStudios.HelloComrade.Player.Items
       {
         photonView.TransferOwnership(PhotonNetwork.LocalPlayer);
       }
+    }
+
+    public void ResetTransformParent()
+    {
+      transform.parent = sceneParent;
     }
 
     private void OnCollisionEnter( Collision collision )

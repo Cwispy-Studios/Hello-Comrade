@@ -28,20 +28,26 @@ MonoBehaviour:
     EnableLobbyStatistics: 0
     NetworkLogging: 2
   DevRegion: asia
-  PunLogging: 1
+  PunLogging: 0
   EnableSupportLogger: 0
   RunInBackground: 1
   StartInOfflineMode: 0
   RpcList:
+  - CarryItem
   - ClickRpc
   - DestroyRpc
+  - DropAllItemsInInventory
+  - DropCurrentItem
   - OnDropItem
   - OnEquipItem
   - OnPickUpItem
   - OnUnequipItem
+  - PocketItem
   - RpcPlayFootsteps
   - RpcPlayJump
+  - ScrollInventorySlots
   - SyncInventoryItemsForNewPlayer
+  - SyncInventorySlot
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

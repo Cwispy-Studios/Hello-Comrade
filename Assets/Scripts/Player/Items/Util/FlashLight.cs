@@ -63,10 +63,9 @@ namespace CwispyStudios.HelloComrade.Player.Items.Util
       // Play audio
     }
 
-    [PunRPC]
-    public override void OnPickUpItem( int viewID )
+    public override void OnPickUpItem()
     {
-      base.OnPickUpItem(viewID);
+      base.OnPickUpItem();
 
       // Turn off original light source
       lightSource.enabled = false;

@@ -3,6 +3,6 @@
 /// <summary>
 /// 
 /// </summary>
-public class ActiveItemSlot : MonoBehaviour
+public class PocketedSlot : MonoBehaviour
 {
 }

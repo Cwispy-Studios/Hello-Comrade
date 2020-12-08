@@ -235,6 +235,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2134852044491962366}
   - component: {fileID: 6328567025670410139}
+  - component: {fileID: 4095060363590697318}
   m_Layer: 8
   m_Name: Carried Slot
   m_TagString: Untagged
@@ -268,6 +269,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0ae1ba51fd9b8445bcc5ca4c8127484, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!54 &4095060363590697318
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4887012045148320790}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: Infinity
+  m_AngularDrag: Infinity
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1 &5243429362210052202
 GameObject:
   m_ObjectHideFlags: 0
@@ -284,7 +301,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5243429362210052203
 Transform:
   m_ObjectHideFlags: 0
@@ -1574,6 +1591,7 @@ GameObject:
   - component: {fileID: -5972693673188995914}
   - component: {fileID: -2068836687954838766}
   - component: {fileID: 7189511733669262585}
+  - component: {fileID: 7378827191372209009}
   m_Layer: 8
   m_Name: OUR Robot Kyle
   m_TagString: Untagged
@@ -1959,6 +1977,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 365839a04f6628a4ea8c67ec8971104b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7378827191372209009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6785412803810564326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1f66d2122c2e0c44b73f87ffd5cd448, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pocketedSlot: {fileID: 4841985932560538841}
+  carriedSlot: {fileID: 6328567025670410139}
 --- !u!1 &6785412803810564328
 GameObject:
   m_ObjectHideFlags: 0
@@ -2625,9 +2657,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3015820843770962737}
-  - component: {fileID: 5940695391080084355}
+  - component: {fileID: 4841985932560538841}
   m_Layer: 8
-  m_Name: Active Item Slot
+  m_Name: Pocketed Slot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2647,7 +2679,7 @@ Transform:
   m_Father: {fileID: 6785412803810526454}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5940695391080084355
+--- !u!114 &4841985932560538841
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2656,6 +2688,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 7733331958987076070}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b277369daf040a4ab2e64b1c2a8a548, type: 3}
+  m_Script: {fileID: 11500000, guid: 68662d5e33ff1d44aac87992740acff8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

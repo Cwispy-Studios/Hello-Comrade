@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 23000013626302582}
   - component: {fileID: 5251191904246161901}
   - component: {fileID: 6723557505994567406}
+  - component: {fileID: 1729274118622990519}
   m_Layer: 0
   m_Name: PFB_Basket
   m_TagString: Untagged
@@ -118,6 +119,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80d0ddc0d9530884fba92174d6335c9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1729274118622990519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000012719644140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  observableSearch: 2
+  Synchronization: 3
+  OwnershipTransfer: 1
+  ObservedComponents: []
+  viewIdField: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &105005888995783778
 GameObject:
   m_ObjectHideFlags: 0

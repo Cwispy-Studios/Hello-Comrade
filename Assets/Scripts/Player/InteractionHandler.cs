@@ -71,7 +71,7 @@ namespace CwispyStudios.HelloComrade.Player
       if (mouseLook.GetLookingAtObject(maxInteractDistance, itemMask, out RaycastHit hit))
       {
         // Check if the object is an item
-        Item item = hit.collider.GetComponent<Item>();
+        Item item = hit.collider.GetComponentInParent<Item>();
 
         if (item)
         {
@@ -80,14 +80,15 @@ namespace CwispyStudios.HelloComrade.Player
           switch (itemType)
           {
             case ItemType.Pocketed:
-              inventory.PocketItem(item);
+              inventory.photonView.RPC("PocketItem", RpcTarget.All, item.photonView.ViewID);
               break;
 
             case ItemType.Carried:
-              inventory.CarryItem(item);
+              inventory.photonView.RPC("CarryItem", RpcTarget.All, item.photonView.ViewID);
               break;
 
             case ItemType.Dragged:
+              //inventory.DragItem(item, item.transform.InverseTransformPoint(hit.point));
               break;
           }
         }
