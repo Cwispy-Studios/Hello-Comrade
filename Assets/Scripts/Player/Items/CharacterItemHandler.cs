@@ -24,6 +24,15 @@ namespace CwispyStudios.HelloComrade.Player.Items
       return drive;
     }
 
+    private void FixedUpdate()
+    {
+      if (activeJoint/* && (activeJoint.currentForce != Vector3.zero || activeJoint.currentTorque != Vector3.zero)*/)
+      {
+        Debug.Log(activeJoint.connectedBody.velocity);
+        //Debug.Log(activeJoint.currentForce + " " + activeJoint.currentTorque);
+      }
+    }
+
     public void ConnectPocketedItemToSlot( Item item )
     {
       // Pocketed items should be in the player's transform
@@ -39,20 +48,28 @@ namespace CwispyStudios.HelloComrade.Player.Items
 
     public void CreateDragJoint( Item item, Vector3 localAnchorPosition )
     {
-      ConfigurableJoint configurableJoint = carriedSlot.gameObject.AddComponent<ConfigurableJoint>();
+      ConfigurableJoint configurableJoint = gameObject.AddComponent<ConfigurableJoint>();
       configurableJoint.autoConfigureConnectedAnchor = false;
       configurableJoint.connectedBody = item.PhysicsController;
-      configurableJoint.anchor = Vector3.zero;
+      configurableJoint.anchor = transform.InverseTransformPoint(item.transform.TransformPoint(localAnchorPosition));
       configurableJoint.connectedAnchor = localAnchorPosition;
+
       configurableJoint.xDrive = AddJointDrive(1000f, 10f);
       configurableJoint.yDrive = AddJointDrive(750f, 10f);
       configurableJoint.zDrive = AddJointDrive(1000f, 10f);
       configurableJoint.slerpDrive = AddJointDrive(1000f, 10f);
       configurableJoint.rotationDriveMode = RotationDriveMode.Slerp;
+
       configurableJoint.enableCollision = true;
-      configurableJoint.breakForce = 10f;
-      configurableJoint.breakTorque = 10f;
+      //configurableJoint.breakForce = 10f;
+      //configurableJoint.breakTorque = 10f;
       configurableJoint.connectedMassScale = 1.25f;
+      //configurableJoint.xMotion = ConfigurableJointMotion.Limited;
+      //configurableJoint.yMotion = ConfigurableJointMotion.Limited;
+      //configurableJoint.zMotion = ConfigurableJointMotion.Limited;
+      //configurableJoint.angularXMotion = ConfigurableJointMotion.Limited;
+      //configurableJoint.angularYMotion = ConfigurableJointMotion.Limited;
+      //configurableJoint.angularZMotion = ConfigurableJointMotion.Limited;
 
       activeJoint = configurableJoint;
     }

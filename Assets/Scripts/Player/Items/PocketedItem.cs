@@ -32,7 +32,10 @@ namespace CwispyStudios.HelloComrade.Player.Items
       // Set collider to trigger so it does not affect the player's rigidbody
       itemCollider.isTrigger = true;
 
-      gameObject.layer = 23;
+      foreach (Transform objectTransform in GetComponentsInChildren<Transform>())
+      {
+        objectTransform.gameObject.layer = 23;
+      }
     }
 
     [PunRPC]
@@ -50,7 +53,11 @@ namespace CwispyStudios.HelloComrade.Player.Items
       // Reset collider trigger
       itemCollider.isTrigger = false;
 
-      gameObject.layer = 0;
+      foreach (Transform objectTransform in GetComponentsInChildren<Transform>())
+      {
+        objectTransform.gameObject.layer = 0;
+      }
+
       gameObject.SetActive(true);
     }
   }

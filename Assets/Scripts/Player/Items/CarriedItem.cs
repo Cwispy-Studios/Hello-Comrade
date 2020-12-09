@@ -22,7 +22,10 @@ namespace CwispyStudios.HelloComrade.Player.Items
       // Set rigidbody to kinematic so physics does not affect it
       physicsController.isKinematic = true;
 
-      gameObject.layer = 23;
+      foreach (Transform objectTransform in GetComponentsInChildren<Transform>())
+      {
+        objectTransform.gameObject.layer = 23;
+      }
     }
 
     public override void OnDropItem()
@@ -32,7 +35,10 @@ namespace CwispyStudios.HelloComrade.Player.Items
       physicsController.isKinematic = false;
       physicsController.AddForce(transform.forward, ForceMode.VelocityChange);
 
-      gameObject.layer = 0;
+      foreach (Transform objectTransform in GetComponentsInChildren<Transform>())
+      {
+        objectTransform.gameObject.layer = 0;
+      }
     }
   }
 }

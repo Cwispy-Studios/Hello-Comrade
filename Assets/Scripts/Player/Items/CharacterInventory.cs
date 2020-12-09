@@ -209,14 +209,23 @@ namespace CwispyStudios.HelloComrade.Player.Items
       }
     }
 
-    private void DragItem( Item newItem, Vector3 hitPoint )
+    [PunRPC]
+    private void DragItem( int itemViewID, Vector3 hitPoint )
     {
+      Item newItem = PhotonNetwork.GetPhotonView(itemViewID).GetComponent<Item>();
+
       // Can only carry item if hand is free
       if (AddItemToInventory(newItem, currentIndex))
       {
         lockInventory = true;
 
-        newItem.photonView.RPC("OnPickUpItem", RpcTarget.All, hitPoint);
+        // Joints should only be created by the owner, rigidbody forces will be synced manually
+        if (photonView.IsMine)
+        {
+          itemHandler.CreateDragJoint(newItem, hitPoint);
+        }
+
+        newItem.OnPickUpItem();
 
         activeItem = inventoryList[currentIndex];
       }
@@ -314,6 +323,7 @@ namespace CwispyStudios.HelloComrade.Player.Items
             break;
 
           case ItemType.Dragged:
+            DragItem(viewId, Vector3.zero);
             break;
         }
       }

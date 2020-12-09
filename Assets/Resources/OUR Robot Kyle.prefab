@@ -1651,7 +1651,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 1
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!136 &6785412803810564325
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1753,7 +1753,7 @@ MonoBehaviour:
   neck: {fileID: 6785412803810564280}
   lookSpeed: 0.2
   maxVerticalLookDegrees: 80
-  maxHorizontalLookDegrees: 70
+  maxHorizontalLookDegrees: 60
   interactionOffset: {x: 0, y: 0, z: 0}
 --- !u!114 &6785412803810564121
 MonoBehaviour:
@@ -1959,6 +1959,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxInteractDistance: 1
+  maxDragReach: 0.75
   interactableMask:
     serializedVersion: 2
     m_Bits: 32768

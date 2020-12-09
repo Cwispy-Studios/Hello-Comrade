@@ -14,6 +14,7 @@ namespace CwispyStudios.HelloComrade.Player
   {
     [Header("Input Settings")]
     [SerializeField] private float maxInteractDistance = 1f; // Max distance at which the player can interact with an item
+    [SerializeField] private float maxDragReach = 0.75f;
     [SerializeField] private LayerMask interactableMask = (1 << 15);
     [SerializeField] private LayerMask itemMask = 1;
 
@@ -88,7 +89,8 @@ namespace CwispyStudios.HelloComrade.Player
               break;
 
             case ItemType.Dragged:
-              //inventory.DragItem(item, item.transform.InverseTransformPoint(hit.point));
+              if (hit.distance <= maxDragReach)
+                inventory.photonView.RPC("DragItem", RpcTarget.All, item.photonView.ViewID, item.transform.InverseTransformPoint(hit.point));
               break;
           }
         }

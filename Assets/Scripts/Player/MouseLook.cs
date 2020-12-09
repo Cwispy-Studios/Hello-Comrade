@@ -83,6 +83,7 @@ namespace CwispyStudios.HelloComrade.Player
         neckLocalRot.x = Mathf.Clamp(neckLocalRot.x, -maxHorizontalLookDegrees, maxHorizontalLookDegrees);
 
         // Rotate the body by the angle diff
+        //physicsController.MoveRotation()
         transform.Rotate(0f, -angleDiff, 0f, Space.World);
         //Quaternion deltaRotation = Quaternion.Euler(0f, -angleDiff, 0f);
         //physicsController.MoveRotation(physicsController.rotation * deltaRotation);

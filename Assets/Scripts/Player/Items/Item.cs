@@ -76,10 +76,6 @@ namespace CwispyStudios.HelloComrade.Player.Items
     {
     }
 
-    public virtual void OnPickUpItem( Vector3 grabPoint, PhotonMessageInfo info )
-    {
-    }
-
     /// <summary>
     /// When the item gets dropped by a player
     /// </summary>
@@ -102,7 +98,7 @@ namespace CwispyStudios.HelloComrade.Player.Items
 
     public void TransferPhotonOwnership()
     {
-      if (!photonView.IsMine || !photonView.AmOwner)
+      if (!photonView.IsMine)
       {
         photonView.TransferOwnership(PhotonNetwork.LocalPlayer);
       }
@@ -113,12 +109,11 @@ namespace CwispyStudios.HelloComrade.Player.Items
       transform.parent = sceneParent;
     }
 
-    private void OnCollisionEnter( Collision collision )
+    public void OnCollisionEnter( Collision collision )
     {
       Debug.Log("Collision!: " + Time.time.ToString("F10"), this);
 
       Debug.Log(collision.contactCount + " " + collision.impulse + " " + collision.relativeVelocity);
-
     }
   }
 }

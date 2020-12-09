@@ -78,6 +78,7 @@ namespace CwispyStudios.HelloComrade.Player
         Destroy(playerCamera);
         Destroy(playerCamera.GetComponent<FMODUnity.StudioListener>());
         Destroy(GetComponent<PlayerInput>());
+        Destroy(GetComponent<InteractionHandler>());
         footstepsWalkEvent.Initialise(transform, false);
         footstepsRunEvent.Initialise(transform, false);
         footstepsSneakEvent.Initialise(transform, false);
