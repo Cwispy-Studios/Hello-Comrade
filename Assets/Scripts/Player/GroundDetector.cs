@@ -64,7 +64,7 @@ namespace CwispyStudios.HelloComrade.Player
       rayOrigin.y += colliderExtent;
 
       float rayDistance = colliderExtent + 0.15f;
-      float spherecastRadius = 0.2f;
+      float spherecastRadius = 0.25f;
 
       Ray ray = new Ray(rayOrigin, Vector3.down);
       WasGrounded = IsGrounded;

@@ -59,7 +59,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 891808067236795900}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.5818005, z: 0.14996082}
+  m_LocalPosition: {x: 0, y: 1.673, z: 0.14996082}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4599517767393197929}
@@ -90,7 +90,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.25
   far clip plane: 1000
   field of view: 75
   orthographic: 0
@@ -1646,7 +1646,7 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 65
   m_Drag: 6
-  m_AngularDrag: 15
+  m_AngularDrag: 40
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 1
@@ -1662,7 +1662,7 @@ CapsuleCollider:
   m_Material: {fileID: 13400000, guid: 4993e665076c9b34182acdac43c81c26, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.25
+  m_Radius: 0.3
   m_Height: 1.8
   m_Direction: 1
   m_Center: {x: 0, y: 0.9, z: 0}
@@ -1749,12 +1749,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1921d3c983ff9b41a1d191711a37dbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerCamera: {fileID: 891808067236795902}
   neck: {fileID: 6785412803810564280}
-  lookSpeed: 0.2
+  horizontalLookSensitivity: 0.1
+  verticalLookSensitivity: 0.15
   maxVerticalLookDegrees: 80
-  maxHorizontalLookDegrees: 60
-  interactionOffset: {x: 0, y: 0, z: 0}
+  maxHorizontalLookDegrees: 90
 --- !u!114 &6785412803810564121
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1767,8 +1766,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d9d43096abee1642b0a264e0f4f4c14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerCamera: {fileID: 891808067236795902}
-  neck: {fileID: 6785412803810564280}
   crouchCameraPositionObject: {fileID: 785835898985808884}
   walkSpeed: 0.25
   runSpeedMultiplier: 1.9
@@ -1958,7 +1955,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee015f38dabf29242b82997ffe8c823f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxInteractDistance: 1
+  maxInteractDistance: 1.25
   maxDragReach: 0.75
   interactableMask:
     serializedVersion: 2

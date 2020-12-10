@@ -222,7 +222,7 @@ namespace CwispyStudios.HelloComrade.Player.Items
         // Joints should only be created by the owner, rigidbody forces will be synced manually
         if (photonView.IsMine)
         {
-          itemHandler.CreateDragJoint(newItem, hitPoint);
+          itemHandler.CreateDragJointWithItem(newItem, hitPoint);
         }
 
         newItem.OnPickUpItem();

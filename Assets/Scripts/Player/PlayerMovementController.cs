@@ -16,8 +16,6 @@ namespace CwispyStudios.HelloComrade.Player
   public class PlayerMovementController : MonoBehaviourPun
   {
     [Header("Player Objects")]
-    [SerializeField] private Camera playerCamera = null;
-    [SerializeField] private GameObject neck = null;
     [SerializeField] private GameObject crouchCameraPositionObject = null;
     [Header("Movement")]
     [SerializeField, Range(0.01f, 1f)] private float walkSpeed = 0.27f;
@@ -55,6 +53,7 @@ namespace CwispyStudios.HelloComrade.Player
     private Vector3 crouchingCameraLocalPosition;
     private float timeSpentFalling = 0f;
 
+    private Camera playerCamera = null;
     private CapsuleCollider playerCollider = null;
     private GroundDetector groundDetector = null;
     private Rigidbody physicsController = null;
@@ -94,52 +93,15 @@ namespace CwispyStudios.HelloComrade.Player
         jumpEvent.Initialise(transform, true);
         landEvent.Initialise(transform, true);
 
+        playerCamera = GetComponentInChildren<Camera>();
         standingCameraLocalPosition = playerCamera.transform.localPosition;
         crouchingCameraLocalPosition = crouchCameraPositionObject.transform.localPosition;
       }
 
-      if (playerCamera == null)
-      {
-        Debug.LogError("Error! Player's camera object is missing or not assigned!", this);
-      }
-
-      if (neck == null)
-      {
-        Debug.LogError("Error! Player's neck object is missing or not assigned!", this);
-      }
-
-      if (crouchCameraPositionObject == null)
-      {
-        Debug.LogError("Error! Player's crouch camera position object is missing or not assigned!", this);
-      }
-
       playerCollider = GetComponent<CapsuleCollider>();
-
-      if (playerCollider == null)
-      {
-        Debug.LogError("Error! Player's Collider component is missing!", this);
-      }
-
       groundDetector = GetComponent<GroundDetector>();
-
-      if (groundDetector == null)
-      {
-        Debug.LogError("Error! Player's Ground Detector component is missing!", this);
-      }
-
       physicsController = GetComponent<Rigidbody>();
-
-      if (physicsController == null)
-      {
-        Debug.LogError("Error! Player's Rigidbody component is missing!", this);
-      }
-
       animator = GetComponent<Animator>();
-
-      if (animator == null)
-      {
-        Debug.LogError("Error! Player's Animator component is missing!", this);
-      }
     }
 
     private void OnEnable()
@@ -252,16 +214,8 @@ namespace CwispyStudios.HelloComrade.Player
     }
 
     private void MovePlayer()
-    {
-      // Get rotation of camera on 2D axis and the right rotation for horizontal movement
-      float cameraAngleRad = playerCamera.transform.eulerAngles.y * Mathf.Deg2Rad;
-      float cameraRightAngleRad = (playerCamera.transform.eulerAngles.y + 90f) * Mathf.Deg2Rad;
-
-      // Get direction vectors 
-      Vector3 verticalDirectionVector = new Vector3(Mathf.Sin(cameraAngleRad), 0f, Mathf.Cos(cameraAngleRad));
-      Vector3 horizontalDirectionVector = new Vector3(Mathf.Sin(cameraRightAngleRad), 0f, Mathf.Cos(cameraRightAngleRad));
-
-      Vector3 vectorDirection = ((verticalDirectionVector * moveInput.z) + (horizontalDirectionVector * moveInput.x));
+    {    
+      Vector3 vectorDirection = ((transform.forward * moveInput.z) + (transform.right * moveInput.x));
 
       float finalSpeed = walkSpeed * moveSpeedMultiplier;
 
@@ -309,18 +263,6 @@ namespace CwispyStudios.HelloComrade.Player
       }
 
       physicsController.AddForce(vectorDirection * finalSpeed, ForceMode.VelocityChange);
-
-      // Make the player character rotate towards the direction it is moving in
-      Quaternion lookRotation = Quaternion.LookRotation(verticalDirectionVector);
-      physicsController.MoveRotation(lookRotation);
-
-      // Reset camera and neck rotation as well
-      Vector3 camRot = playerCamera.transform.localEulerAngles;
-      camRot.y = 0f;
-      playerCamera.transform.localEulerAngles = camRot;
-      Vector3 neckRot = neck.transform.localEulerAngles;
-      neckRot.x = 0f;
-      neck.transform.localEulerAngles = neckRot;
     }
 
     private bool SetCrouch( bool crouch )

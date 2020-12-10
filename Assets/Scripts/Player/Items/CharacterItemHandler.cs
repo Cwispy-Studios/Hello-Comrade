@@ -12,6 +12,16 @@ namespace CwispyStudios.HelloComrade.Player.Items
     [SerializeField] private CarriedSlot carriedSlot = null;
 
     private Joint activeJoint = null;
+    private Item activeItem = null;
+
+    private void FixedUpdate()
+    {
+      if (activeJoint/* && (activeJoint.currentForce != Vector3.zero || activeJoint.currentTorque != Vector3.zero)*/)
+      {
+        Debug.Log(activeJoint.connectedBody.velocity);
+        //Debug.Log(activeJoint.currentForce + " " + activeJoint.currentTorque);
+      }
+    }
 
     private JointDrive AddJointDrive( float force, float damping )
     {
@@ -22,15 +32,6 @@ namespace CwispyStudios.HelloComrade.Player.Items
       drive.maximumForce = Mathf.Infinity;
 
       return drive;
-    }
-
-    private void FixedUpdate()
-    {
-      if (activeJoint/* && (activeJoint.currentForce != Vector3.zero || activeJoint.currentTorque != Vector3.zero)*/)
-      {
-        Debug.Log(activeJoint.connectedBody.velocity);
-        //Debug.Log(activeJoint.currentForce + " " + activeJoint.currentTorque);
-      }
     }
 
     public void ConnectPocketedItemToSlot( Item item )
@@ -44,9 +45,11 @@ namespace CwispyStudios.HelloComrade.Player.Items
       item.transform.parent = carriedSlot.transform;
       item.transform.localPosition = Vector3.zero;
       item.transform.localRotation = Quaternion.identity;
+
+      activeItem = item;
     }
 
-    public void CreateDragJoint( Item item, Vector3 localAnchorPosition )
+    public void CreateDragJointWithItem( Item item, Vector3 localAnchorPosition )
     {
       ConfigurableJoint configurableJoint = gameObject.AddComponent<ConfigurableJoint>();
       configurableJoint.autoConfigureConnectedAnchor = false;
@@ -72,6 +75,8 @@ namespace CwispyStudios.HelloComrade.Player.Items
       //configurableJoint.angularZMotion = ConfigurableJointMotion.Limited;
 
       activeJoint = configurableJoint;
+
+      activeItem = item;
     }
 
     public void DestroyJoint()
@@ -79,7 +84,10 @@ namespace CwispyStudios.HelloComrade.Player.Items
       if (activeJoint)
       {
         Destroy(activeJoint);
+        activeJoint = null;
       }
+
+      activeItem = null;
     }
   }
 }
