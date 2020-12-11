@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
-using UnityEngine.InputSystem;
 using Photon.Pun;
-using TMPro;
 
 namespace CwispyStudios.HelloComrade.Interactions.Doors
 {
@@ -17,15 +15,15 @@ namespace CwispyStudios.HelloComrade.Interactions.Doors
             if (!isInUse)
             {
                 TransferPhotonOwnership();
-                pointOfInteraction = hit.collider.attachedRigidbody.position;
+                //pointOfInteraction = hit.collider.attachedRigidbody.position;
                 isInUse = true;
             }
         }
 
         public override void OnInteractHold(Vector2 mouseDelta)
         {
-                Vector2 appliedForce = mouseDelta * forceMultiplier;
-                door.AddForceAtPosition(appliedForce, pointOfInteraction, ForceMode.VelocityChange);
+            Vector3 appliedForce = mouseDelta * forceMultiplier;
+            door.AddForce(appliedForce, ForceMode.VelocityChange);
         }
 
         public override void OnInteractRelease()
