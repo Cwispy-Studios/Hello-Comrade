@@ -138,6 +138,7 @@ GameObject:
   - component: {fileID: 6656969307595515573}
   - component: {fileID: 4696465591633385245}
   - component: {fileID: 5401128736700484003}
+  - component: {fileID: -5857316345974165492}
   m_Layer: 0
   m_Name: PFB_BedsideTable
   m_TagString: Untagged
@@ -226,10 +227,27 @@ MonoBehaviour:
   observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 1
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: -5857316345974165492}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &-5857316345974165492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000011876567432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 0
 --- !u!1 &1000011937280936
 GameObject:
   m_ObjectHideFlags: 0

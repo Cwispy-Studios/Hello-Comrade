@@ -5,7 +5,7 @@ using Photon.Pun;
 
 namespace CwispyStudios.HelloComrade.Player.Items
 {
-  public class CharacterItemHandler : MonoBehaviourPun, IPunObservable
+  public class CharacterItemHandler : MonoBehaviourPun
   {
     [Tooltip("Attached to player's right wrist")]
     [SerializeField] private PocketedSlot pocketedSlot = null;
@@ -27,72 +27,30 @@ namespace CwispyStudios.HelloComrade.Player.Items
 
     private void FixedUpdate()
     {
-      if (activeJoint && mouseDelta != Vector2.zero)
+      if (!photonView.IsMine) return;
+
+      if (activeJoint)
       {
-        float maxMovement = 500f;
-        float horizontalMovement = Mathf.Clamp(mouseDelta.x, -maxMovement, maxMovement);
-        float massThresholdMultiplier = 2f;
-        float massThreshold = activeItem.ItemMass * massThresholdMultiplier;
-
-        if (Mathf.Abs(horizontalMovement) >= massThreshold)
+        if (mouseDelta != Vector2.zero)
         {
-          float rotationStrength = Mathf.Abs(horizontalMovement) - massThreshold;
-          float x = rotationStrength / maxMovement;
-          float maxRotation = 5f;
-          // https://easings.net/#easeOutQuad
-          float amountToRotate = (1 - (1 - x) * (1 - x)) * maxRotation;
-          if (horizontalMovement < 0f) amountToRotate *= -1f;
+          float maxMovement = 500f;
+          float horizontalMovement = Mathf.Clamp(mouseDelta.x, -maxMovement, maxMovement);
+          float massThresholdMultiplier = 2f;
+          float massThreshold = activeItem.ItemMass * massThresholdMultiplier;
 
-          Debug.Log(amountToRotate);
+          if (Mathf.Abs(horizontalMovement) >= massThreshold)
+          {
+            float rotationStrength = Mathf.Abs(horizontalMovement) - massThreshold;
+            float x = rotationStrength / maxMovement;
+            float maxRotation = 5f;
+            // https://easings.net/#easeOutQuad
+            float amountToRotate = (1 - (1 - x) * (1 - x)) * maxRotation;
+            if (horizontalMovement < 0f) amountToRotate *= -1f;
 
-          Quaternion deltaRotation = Quaternion.Euler(0f, amountToRotate, 0f);
-          physicsController.MoveRotation(physicsController.rotation * deltaRotation);
+            Quaternion deltaRotation = Quaternion.Euler(0f, amountToRotate, 0f);
+            physicsController.MoveRotation(physicsController.rotation * deltaRotation);
+          }
         }
-        //Debug.Log(mouseDelta.x);
-        //Vector3 connectedAnchorWorldPosition = activeJoint.connectedAnchor + activeItem.transform.position;
-
-        //Vector3 force = (transform.right + -transform.forward).normalized * mouseDelta.x;
-        //activeItem.PhysicsController.AddForceAtPosition(force, connectedAnchorWorldPosition);
-        //Debug.Log(Vector3.Dot(forward, anchor));
-
-        //Debug.Log(forward + " " + anchor + " " + Vector3.Angle(forward, anchor));
-
-
-
-        // Local forward of the player
-        //Vector3 forward = transform.forward;
-        //forward.y = 0f;
-        //// Local position of the dragged item
-        //Vector3 anchor = (activeJoint.connectedAnchor + activeJoint.connectedBody.position) - transform.position;
-        //anchor.y = 0f;
-
-        //float angle = Vector3.SignedAngle(forward, anchor, Vector3.up);
-
-        ////if (Vector3.Dot(forward, anchor) < 0) angle *= -1f;
-
-        //Debug.Log(angle);
-        //Debug.DrawRay(transform.position, forward, Color.blue);
-        //Debug.DrawRay(transform.position, anchor, Color.yellow);
-
-        //Quaternion deltaRotation = Quaternion.Euler(0f, angle, 0f);
-
-
-        //Debug.Log(activeJoint.currentForce);
-        //float multiplier = activeItem.PhysicsController.mass / physicsController.mass;
-        //float speedMultiplier = multiplier >= 1f ? 0.5f / multiplier : 1f - (multiplier * 0.5f);
-
-        //Vector3 playerGroundVelocity = physicsController.velocity;
-        //playerGroundVelocity.y = 0f;
-        //playerGroundVelocity *= speedMultiplier;
-
-        //Vector3 desiredPlayerVelocity = playerGroundVelocity;
-        //desiredPlayerVelocity.y = physicsController.velocity.y;
-        //physicsController.velocity = desiredPlayerVelocity;
-
-        //Vector3 worldAnchorPosition = activeJoint.connectedAnchor + activeItem.PhysicsController.position;
-        //activeItem.PhysicsController.velocity = playerGroundVelocity;
-
-        // Push back against the player
 
       }
     }
@@ -180,19 +138,6 @@ namespace CwispyStudios.HelloComrade.Player.Items
       }
 
       LockRotation = false;
-    }
-
-    public void OnPhotonSerializeView( PhotonStream stream, PhotonMessageInfo info )
-    {
-      if (stream.IsWriting)
-      {
-
-      }
-
-      else
-      {
-
-      }
     }
 
     public void OnLook( InputValue value )

@@ -219,12 +219,14 @@ namespace CwispyStudios.HelloComrade.Player.Items
       {
         lockInventory = true;
 
-        // Joints should only be created by the owner, rigidbody forces will be synced manually
-        if (photonView.IsMine)
-        {
-          itemHandler.CreateDragJointWithItem(newItem, hitPoint);
-        }
+        // Transfer ownership to player who picked it up
+        //if (photonView.IsMine)
+        //{
+        //  // Should not be neccessary but Unity's physics goes horribly out of sync without this...
+        //  newItem.TransferPhotonOwnership();
+        //}
 
+        itemHandler.CreateDragJointWithItem(newItem, hitPoint);
         newItem.OnPickUpItem();
 
         activeItem = inventoryList[currentIndex];

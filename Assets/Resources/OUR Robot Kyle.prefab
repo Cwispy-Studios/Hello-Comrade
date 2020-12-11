@@ -1750,7 +1750,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   neck: {fileID: 6785412803810564280}
-  horizontalLookSensitivity: 0.1
+  horizontalLookSensitivity: 0.15
   verticalLookSensitivity: 0.15
   maxVerticalLookDegrees: 80
   maxHorizontalLookDegrees: 90
@@ -1835,7 +1835,6 @@ MonoBehaviour:
   - {fileID: 891808066117234343}
   - {fileID: 5315644718384608745}
   - {fileID: -2028178694794278143}
-  - {fileID: 7378827191372209009}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -1868,7 +1867,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SynchronizeVelocity: 1
-  m_SynchronizeAngularVelocity: 0
+  m_SynchronizeAngularVelocity: 1
   m_TeleportEnabled: 0
   m_TeleportIfDistanceGreaterThan: 3
 --- !u!114 &-2028178694794278143
@@ -1957,7 +1956,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxInteractDistance: 1.25
-  maxDragReach: 0.75
+  maxDragReach: 1
   interactableMask:
     serializedVersion: 2
     m_Bits: 32768

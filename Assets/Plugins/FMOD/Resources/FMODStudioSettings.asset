@@ -303,7 +303,7 @@ MonoBehaviour:
   active: 1
   Properties:
     LiveUpdate:
-      Value: 1
+      Value: 0
       HasValue: 1
     Overlay:
       Value: 1
@@ -312,7 +312,7 @@ MonoBehaviour:
       Value: 0
       HasValue: 0
     SampleRate:
-      Value: 48000
+      Value: 0
       HasValue: 1
     BuildDirectory:
       Value: 
@@ -424,7 +424,7 @@ MonoBehaviour:
   ImportType: 0
   TargetAssetPath: FMODBanks
   TargetBankFolder: 
-  LoggingLevel: 2
+  LoggingLevel: 1
   SpeakerModeSettings: []
   SampleRateSettings: []
   LiveUpdateSettings: []

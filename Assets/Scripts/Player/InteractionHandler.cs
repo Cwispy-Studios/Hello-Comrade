@@ -53,7 +53,7 @@ namespace CwispyStudios.HelloComrade.Player
         if (mouseLook.GetLookingAtObject(maxInteractDistance, interactableMask, out RaycastHit hit))
         {
           interactingObject = hit.collider.GetComponent<Interactable>();
-          interactingObject.OnInteract(hit);
+          interactingObject.OnInteract();
         }
       }
       else

@@ -71,6 +71,8 @@ namespace CwispyStudios.HelloComrade.Player
 
     private void Awake()
     {
+      playerCamera = GetComponentInChildren<Camera>();
+
       if (!photonView.IsMine && PhotonNetwork.IsConnected)
       {
         Destroy(playerCamera.GetUniversalAdditionalCameraData());
@@ -93,7 +95,6 @@ namespace CwispyStudios.HelloComrade.Player
         jumpEvent.Initialise(transform, true);
         landEvent.Initialise(transform, true);
 
-        playerCamera = GetComponentInChildren<Camera>();
         standingCameraLocalPosition = playerCamera.transform.localPosition;
         crouchingCameraLocalPosition = crouchCameraPositionObject.transform.localPosition;
       }
