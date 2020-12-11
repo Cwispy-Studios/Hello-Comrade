@@ -1662,7 +1662,7 @@ CapsuleCollider:
   m_Material: {fileID: 13400000, guid: 4993e665076c9b34182acdac43c81c26, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.3
+  m_Radius: 0.25
   m_Height: 1.8
   m_Direction: 1
   m_Center: {x: 0, y: 0.9, z: 0}
@@ -1835,6 +1835,7 @@ MonoBehaviour:
   - {fileID: 891808066117234343}
   - {fileID: 5315644718384608745}
   - {fileID: -2028178694794278143}
+  - {fileID: 7378827191372209009}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -1989,6 +1990,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pocketedSlot: {fileID: 4841985932560538841}
   carriedSlot: {fileID: 6328567025670410139}
+  LockRotation: 0
 --- !u!1 &6785412803810564328
 GameObject:
   m_ObjectHideFlags: 0

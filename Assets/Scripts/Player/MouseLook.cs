@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 
 namespace CwispyStudios.HelloComrade.Player
 {
+  using Items;
+
   public class MouseLook : MonoBehaviour
   {
     [Tooltip("Player Objects")]
@@ -16,8 +18,9 @@ namespace CwispyStudios.HelloComrade.Player
     [SerializeField, Range(45f, 90f)] private float maxVerticalLookDegrees = 70f;
     [SerializeField, Range(45f, 90f)] private float maxHorizontalLookDegrees = 90f;
 
-    private Camera playerCamera = null;
-    private Rigidbody physicsController = null;
+    private Camera playerCamera;
+    private Rigidbody physicsController;
+    private CharacterItemHandler itemHandler;
 
     private bool inFreeLook = false;
     private Vector3 centerScreenVector;
@@ -28,6 +31,7 @@ namespace CwispyStudios.HelloComrade.Player
       playerCamera = GetComponentInChildren<Camera>();
       physicsController = GetComponent<Rigidbody>();
       physicsController.maxAngularVelocity = 50f;
+      itemHandler = GetComponent<CharacterItemHandler>();
 
       centerScreenVector = new Vector3(Screen.width / 2, Screen.height / 2, 0f);
     }
@@ -37,7 +41,7 @@ namespace CwispyStudios.HelloComrade.Player
       if (mouseInput != Vector3.zero)
       {
         if (inFreeLook) FreeLook();
-        else RotatePlayer();
+        else if (!itemHandler.LockRotation) RotatePlayer();
 
         LookVertically();
       }

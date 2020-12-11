@@ -18,7 +18,7 @@ namespace CwispyStudios.HelloComrade.Player.Items
     public ItemType Type { get { return itemType; } }
 
     private float itemMass;
-    public float ItemMass { get; private set; }
+    public float ItemMass { get { return itemMass; } }
 
     private MeshRenderer meshRenderer;
 

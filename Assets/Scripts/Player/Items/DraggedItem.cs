@@ -10,12 +10,5 @@ namespace CwispyStudios.HelloComrade.Player.Items
 
   public class DraggedItem : Item
   {
-    public override void OnPickUpItem()
-    {
-    }
-
-    public override void OnDropItem()
-    {
-    }
   }
 }
