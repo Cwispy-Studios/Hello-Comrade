@@ -33,6 +33,7 @@ namespace CwispyStudios.HelloComrade.Player.Items
       {
         if (mouseDelta != Vector2.zero)
         {
+          // TODO: Shift to MouseLook, come up with better curve
           float maxMovement = 500f;
           float horizontalMovement = Mathf.Clamp(mouseDelta.x, -maxMovement, maxMovement);
           float massThresholdMultiplier = 2f;
@@ -87,21 +88,13 @@ namespace CwispyStudios.HelloComrade.Player.Items
       configurableJoint.autoConfigureConnectedAnchor = false;
       configurableJoint.connectedBody = item.PhysicsController;
       configurableJoint.anchor = transform.InverseTransformPoint(item.transform.TransformPoint(localAnchorPosition));
-      //configurableJoint.anchor = transform.InverseTransformPoint(carriedSlot.transform.position);
       configurableJoint.connectedAnchor = localAnchorPosition;
-
-      //SoftJointLimit jointLimit = new SoftJointLimit();
-      //jointLimit.limit = 2f;
-
-      //configurableJoint.linearLimit = jointLimit;
 
       configurableJoint.xDrive = AddJointDrive(1000f, 10f);
       configurableJoint.yDrive = AddJointDrive(750f, 10f);
       configurableJoint.zDrive = AddJointDrive(1000f, 10f);
       configurableJoint.slerpDrive = AddJointDrive(1000f, 10f);
       configurableJoint.rotationDriveMode = RotationDriveMode.Slerp;
-
-      //configurableJoint.linearLimit = new SoftJointLimit();
 
       configurableJoint.enableCollision = true;
       //configurableJoint.breakForce = 10f;
@@ -119,8 +112,6 @@ namespace CwispyStudios.HelloComrade.Player.Items
       activeItem = item;
 
       LockRotation = true;
-
-      //activeItem.PhysicsController.centerOfMass = transform.position - activeItem.transform.position;
     }
 
     public void DestroyJoint()
@@ -129,12 +120,6 @@ namespace CwispyStudios.HelloComrade.Player.Items
       {
         Destroy(activeJoint);
         activeJoint = null;
-      }
-
-      if (activeItem)
-      {
-        //activeItem.PhysicsController.ResetCenterOfMass();
-        activeItem = null;
       }
 
       LockRotation = false;

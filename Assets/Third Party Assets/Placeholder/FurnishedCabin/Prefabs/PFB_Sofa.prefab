@@ -120,7 +120,8 @@ MonoBehaviour:
   observableSearch: 2
   Synchronization: 3
   OwnershipTransfer: 1
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 3567883902135661562}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -136,6 +137,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e0c6086a7ae4f640ac17d6875d262eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collisionSounds:
+    audioEvent: event:/Items/Large Collisions
+    soundOcclusionWidening: 1
+    playerOcclusionWidening: 1
+    occlusionLayer:
+      serializedVersion: 2
+      m_Bits: 1
 --- !u!114 &3567883902135661562
 MonoBehaviour:
   m_ObjectHideFlags: 0

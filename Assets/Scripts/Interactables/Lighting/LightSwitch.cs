@@ -19,7 +19,7 @@ namespace CwispyStudios.HelloComrade.Interactions.Lighting
 
     private bool isOn = false;
 
-    private void Awake()
+    private void Start()
     {
       switchToggleEvent.Initialise(transform);
     }

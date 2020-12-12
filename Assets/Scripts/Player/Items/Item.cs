@@ -1,9 +1,15 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+
+using UnityEngine;
 
 using Photon.Pun;
 
 namespace CwispyStudios.HelloComrade.Player.Items
 {
+  using GamePhysics;
+  using Audio;
+
   public enum ItemType
   {
     Pocketed = 0,
@@ -14,19 +20,28 @@ namespace CwispyStudios.HelloComrade.Player.Items
   [RequireComponent(typeof(Rigidbody))]
   public class Item : MonoBehaviourPunCallbacks
   {
+    [SerializeField] private AudioEmitter collisionSounds = null;
+
     private ItemType itemType;
     public ItemType Type { get { return itemType; } }
 
+    // Cache the mass of the item
     private float itemMass;
     public float ItemMass { get { return itemMass; } }
 
+    // Makes the item invisible
     private MeshRenderer meshRenderer;
 
+    // Cache rigidbody and make it accessible
     private Rigidbody physicsController = null;
     public Rigidbody PhysicsController { get { return physicsController; } }
 
     private Transform sceneParent;
 
+    private Dictionary<float, CollisionInformation> collisionInformations = new Dictionary<float, CollisionInformation>();
+
+    private float awakeTime = 0f;
+    
     public virtual void Awake()
     {
       if (GetComponent<PocketedItem>())
@@ -50,6 +65,13 @@ namespace CwispyStudios.HelloComrade.Player.Items
       meshRenderer = GetComponent<MeshRenderer>();
 
       sceneParent = transform.parent;
+
+      awakeTime = Time.time;
+    }
+
+    private void Start()
+    {
+      collisionSounds.Initialise(transform);
     }
 
     /// <summary>
@@ -109,11 +131,62 @@ namespace CwispyStudios.HelloComrade.Player.Items
       transform.parent = sceneParent;
     }
 
+    private void CollisionResponse( float timeOfCollision )
+    {
+      CollisionInformation collisionInformation = collisionInformations[timeOfCollision];
+
+      float normalisedForce = collisionInformation.TotalImpulseAcrossAxes / itemMass;
+
+      // Ignore collisions if the force is too small
+      if (normalisedForce < 0.01f)
+      {
+        Debug.Log("Total impulse too small: " + collisionInformation.TotalImpulseAcrossAxes.ToString("F10") + " -> " + normalisedForce.ToString("F10"));
+        return;
+      }
+
+      Vector3 normalisedImpulse = collisionInformation.Impulse / itemMass;
+
+      // Play audio
+      collisionSounds.SetParameter("Intensity", normalisedForce);
+      collisionSounds.PlaySound();
+      Debug.Log("Collision with " + collisionInformation.CollisionObject + " resolved at " + timeOfCollision + " with normalised force of " + normalisedImpulse + ", " + normalisedForce, this);
+      collisionInformations.Remove(timeOfCollision);
+    }
+
     public void OnCollisionEnter( Collision collision )
     {
-      Debug.Log("Collision!: " + Time.time.ToString("F10"), this);
+      float timeOfCollision = Time.time;
 
-      Debug.Log(collision.contactCount + " " + collision.impulse + " " + collision.relativeVelocity);
+      // Collisions should not happen at the start of the game
+      if (timeOfCollision <= awakeTime + 1f) return;
+
+      Vector3 impulse = collision.impulse;
+
+      // New collision
+      if (!collisionInformations.ContainsKey(timeOfCollision))
+      {
+        CollisionInformation collisionInformation = new CollisionInformation(collision.gameObject, impulse);
+        collisionInformations.Add(timeOfCollision, collisionInformation);
+
+        StartCoroutine(WaitForCollisionResponse(timeOfCollision));
+      }
+
+      // Existing collision, add up impulse
+      else
+      {
+        collisionInformations[timeOfCollision].AddImpulse(impulse);
+      }
+      //Debug.Log("Collision!: " + Time.time.ToString("F10"), this);
+
+      //Debug.Log(collision.contactCount + " " + collision.impulse + " " + collision.relativeVelocity);
+    }
+
+    private IEnumerator WaitForCollisionResponse( float timeOfCollision )
+    {
+      // Wait for next frame
+      yield return null;
+
+      CollisionResponse(timeOfCollision);
     }
   }
 }

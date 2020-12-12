@@ -174,3 +174,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80d0ddc0d9530884fba92174d6335c9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collisionSounds:
+    audioEvent: event:/Items/Large Collisions
+    soundOcclusionWidening: 1
+    playerOcclusionWidening: 1
+    occlusionLayer:
+      serializedVersion: 2
+      m_Bits: 1

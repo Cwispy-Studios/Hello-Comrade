@@ -219,13 +219,6 @@ namespace CwispyStudios.HelloComrade.Player.Items
       {
         lockInventory = true;
 
-        // Transfer ownership to player who picked it up
-        //if (photonView.IsMine)
-        //{
-        //  // Should not be neccessary but Unity's physics goes horribly out of sync without this...
-        //  newItem.TransferPhotonOwnership();
-        //}
-
         itemHandler.CreateDragJointWithItem(newItem, hitPoint);
         newItem.OnPickUpItem();
 
