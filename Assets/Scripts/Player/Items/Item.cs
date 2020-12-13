@@ -40,7 +40,7 @@ namespace CwispyStudios.HelloComrade.Player.Items
 
     private Dictionary<float, CollisionInformation> collisionInformations = new Dictionary<float, CollisionInformation>();
 
-    private float awakeTime = 0f;
+    public float AwakeTime { get; private set; }
     
     public virtual void Awake()
     {
@@ -66,10 +66,10 @@ namespace CwispyStudios.HelloComrade.Player.Items
 
       sceneParent = transform.parent;
 
-      awakeTime = Time.time;
+      AwakeTime = Time.time;
     }
 
-    private void Start()
+    public virtual void Start()
     {
       collisionSounds.Initialise(transform);
     }
@@ -135,21 +135,21 @@ namespace CwispyStudios.HelloComrade.Player.Items
     {
       CollisionInformation collisionInformation = collisionInformations[timeOfCollision];
 
-      float normalisedForce = collisionInformation.TotalImpulseAcrossAxes / itemMass;
+      float normalisedForce = collisionInformation.Impulse.magnitude / itemMass;
 
       // Ignore collisions if the force is too small
       if (normalisedForce < 0.01f)
       {
-        Debug.Log("Total impulse too small: " + collisionInformation.TotalImpulseAcrossAxes.ToString("F10") + " -> " + normalisedForce.ToString("F10"));
+        Debug.Log("Total impulse too small: " + normalisedForce.ToString("F7"));
         return;
       }
 
-      Vector3 normalisedImpulse = collisionInformation.Impulse / itemMass;
+      //Vector3 normalisedImpulse = collisionInformation.Impulse / itemMass;
 
       // Play audio
       collisionSounds.SetParameter("Intensity", normalisedForce);
       collisionSounds.PlaySound();
-      Debug.Log("Collision with " + collisionInformation.CollisionObject + " resolved at " + timeOfCollision + " with normalised force of " + normalisedImpulse + ", " + normalisedForce, this);
+      Debug.Log("Collision with " + collisionInformation.CollisionObject + " with normalised force of "/* + normalisedImpulse + ", "*/ + normalisedForce, this);
       collisionInformations.Remove(timeOfCollision);
     }
 
@@ -158,7 +158,7 @@ namespace CwispyStudios.HelloComrade.Player.Items
       float timeOfCollision = Time.time;
 
       // Collisions should not happen at the start of the game
-      if (timeOfCollision <= awakeTime + 1f) return;
+      if (timeOfCollision <= AwakeTime + 1f) return;
 
       Vector3 impulse = collision.impulse;
 

@@ -144,6 +144,13 @@ MonoBehaviour:
     occlusionLayer:
       serializedVersion: 2
       m_Bits: 1
+  dragEvent:
+    audioEvent: event:/Items/Heavy Drag
+    soundOcclusionWidening: 1
+    playerOcclusionWidening: 1
+    occlusionLayer:
+      serializedVersion: 2
+      m_Bits: 1
 --- !u!114 &3567883902135661562
 MonoBehaviour:
   m_ObjectHideFlags: 0

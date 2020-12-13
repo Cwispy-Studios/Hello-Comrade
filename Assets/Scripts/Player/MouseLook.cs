@@ -110,7 +110,7 @@ namespace CwispyStudios.HelloComrade.Player
 
       if (!inFreeLook)
       {
-        StartCoroutine("LerpCameraToDefaultRotation");
+        StartCoroutine(LerpCameraToDefaultRotation());
       }
     }
 

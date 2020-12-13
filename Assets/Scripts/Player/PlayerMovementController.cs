@@ -332,12 +332,12 @@ namespace CwispyStudios.HelloComrade.Player
 
       if (isCrouching)
       {
-        StartCoroutine("LerpCameraToPosition", crouchingCameraLocalPosition);
+        StartCoroutine(LerpCameraToPosition(crouchingCameraLocalPosition));
       }
 
       else
       {
-        StartCoroutine("LerpCameraToPosition", standingCameraLocalPosition);
+        StartCoroutine(LerpCameraToPosition(standingCameraLocalPosition));
       }
     }
 
