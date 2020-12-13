@@ -46,7 +46,7 @@ namespace CwispyStudios.HelloComrade.Networking
 
     public override void OnConnectedToMaster()
     {
-      Debug.Log("PUN Basics Tutorial/Launcher: OnConnectedToMaster() was called by PUN.");
+      //Debug.Log("PUN Basics Tutorial/Launcher: OnConnectedToMaster() was called by PUN.");
 
       if (m_isConnecting)
       {
@@ -57,15 +57,15 @@ namespace CwispyStudios.HelloComrade.Networking
 
     public override void OnDisconnected( DisconnectCause cause )
     {
-      Debug.LogWarningFormat("PUN Basics Tutorial/Launcher: OnDisconnected() was called by PUN with reason {0}", cause);
+      //Debug.LogWarningFormat("PUN Basics Tutorial/Launcher: OnDisconnected() was called by PUN with reason {0}", cause);
 
       m_isConnecting = false;
     }
 
     public override void OnJoinRandomFailed( short returnCode, string message )
     {
-      Debug.Log("PUN Basics Tutorial/Launcher:OnJoinRandomFailed() was called by PUN. " +
-        "No random room available, so we create one.\nCalling: PhotonNetwork.CreateRoom");
+      //Debug.Log("PUN Basics Tutorial/Launcher:OnJoinRandomFailed() was called by PUN. " +
+      //  "No random room available, so we create one.\nCalling: PhotonNetwork.CreateRoom");
 
       // Failed to join room, maybe none exists yet?
       PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = maxPlayersPerRoom });
@@ -73,7 +73,7 @@ namespace CwispyStudios.HelloComrade.Networking
 
     public override void OnJoinedRoom()
     {
-      Debug.Log("PUN Basics Tutorial/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room.");
+      //Debug.Log("PUN Basics Tutorial/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room.");
 
       PhotonNetwork.LoadLevel(1);
     }

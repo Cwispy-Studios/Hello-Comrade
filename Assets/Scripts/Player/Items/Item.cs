@@ -140,7 +140,7 @@ namespace CwispyStudios.HelloComrade.Player.Items
       // Ignore collisions if the force is too small
       if (normalisedForce < 0.01f)
       {
-        Debug.Log("Total impulse too small: " + normalisedForce.ToString("F7"));
+        //Debug.Log("Total impulse too small: " + normalisedForce.ToString("F7"));
         return;
       }
 
@@ -149,7 +149,7 @@ namespace CwispyStudios.HelloComrade.Player.Items
       // Play audio
       collisionSounds.SetParameter("Intensity", normalisedForce);
       collisionSounds.PlaySound();
-      Debug.Log("Collision with " + collisionInformation.CollisionObject + " with normalised force of "/* + normalisedImpulse + ", "*/ + normalisedForce, this);
+      //Debug.Log("Collision with " + collisionInformation.CollisionObject + " with normalised force of "/* + normalisedImpulse + ", "*/ + normalisedForce, this);
       collisionInformations.Remove(timeOfCollision);
     }
 

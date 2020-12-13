@@ -58,7 +58,7 @@ namespace CwispyStudios.HelloComrade.Player.Items
             dragSoundCounter = 0f;
           }
 
-          Debug.Log("Dragged: " + PhysicsController.velocity.magnitude.ToString("F5") + " " + PhysicsController.angularVelocity.magnitude.ToString("F5"));
+          //Debug.Log("Dragged: " + PhysicsController.velocity.magnitude.ToString("F5") + " " + PhysicsController.angularVelocity.magnitude.ToString("F5"));
         }
       }
     }
