@@ -1,11 +1,13 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 using Photon.Pun;
 
 namespace CwispyStudios.HelloComrade.Player.Items
 {
-  public class CharacterItemHandler : MonoBehaviourPun
+  public class CharacterItemHandler : MonoBehaviourPunCallbacks
   {
     [Tooltip("Attached to player's right wrist")]
     [SerializeField] private PocketedSlot pocketedSlot = null;
@@ -132,6 +134,25 @@ namespace CwispyStudios.HelloComrade.Player.Items
     public void OnLook( InputValue value )
     {
       mouseDelta = value.Get<Vector2>();
+    }
+
+    public override void OnPlayerEnteredRoom( Photon.Realtime.Player newPlayer )
+    {
+      if (activeJoint)
+      {
+        photonView.RPC("SyncDragJoint", newPlayer, activeItem.photonView.ViewID, activeJoint.connectedAnchor);
+      }
+    }
+
+    [PunRPC]
+    private IEnumerator SyncDragJoint( int itemView, Vector3 anchorPosition )
+    {
+      // Wait for transform values to sync up
+      yield return null;
+
+      Item item = PhotonNetwork.GetPhotonView(itemView).GetComponent<Item>();
+
+      CreateDragJointWithItem(item, anchorPosition);
     }
   }
 }

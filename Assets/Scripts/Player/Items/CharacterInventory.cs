@@ -219,7 +219,11 @@ namespace CwispyStudios.HelloComrade.Player.Items
       {
         lockInventory = true;
 
-        itemHandler.CreateDragJointWithItem(newItem, hitPoint);
+        if (photonView.IsMine)
+        {
+          itemHandler.CreateDragJointWithItem(newItem, hitPoint);
+        }
+
         newItem.OnPickUpItem();
 
         activeItem = inventoryList[currentIndex];
