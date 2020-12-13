@@ -21,7 +21,7 @@ namespace CwispyStudios.HelloComrade.Player.Items
     // Target intensity of the dragging sound
     private float targetDraggingIntensity = 0f;
     // Smoothing multiplier to lerp from current to target dragging intensity
-    private float draggingIntensitySmooth = 10f;
+    private float draggingIntensitySmooth = 20f;
 
     public override void Start()
     {
