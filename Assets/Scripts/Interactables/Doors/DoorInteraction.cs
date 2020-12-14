@@ -6,16 +6,16 @@ namespace CwispyStudios.HelloComrade.Interactions.Doors
     public class DoorInteraction : Interactable, IPunObservable
     {
         [SerializeField] private Rigidbody door;
-        [SerializeField] private float forceMultiplier = 0.2f;
-        private Vector3 pointOfInteraction;
+        [SerializeField] private float forceMultiplier = 0.05f;
+        //private Vector3 pointOfInteraction;
         private bool isInUse;
 
-        public override void OnInteract(RaycastHit hit)
+        public override void OnInteract()
         {
             if (!isInUse)
             {
                 TransferPhotonOwnership();
-                //pointOfInteraction = hit.collider.attachedRigidbody.position;
+                //pointOfInteraction = hit.collider.attachedRigidbody.position; ->>was used but not anymore
                 isInUse = true;
             }
         }
