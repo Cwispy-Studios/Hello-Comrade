@@ -219,7 +219,9 @@ namespace CwispyStudios.HelloComrade.Player.Items
       {
         lockInventory = true;
 
-        if (photonView.IsMine)
+        // Zero vector indicates syncing inventory when new player joins
+        // Joints will be created by the item handler then
+        if (hitPoint != Vector3.zero)
         {
           itemHandler.CreateDragJointWithItem(newItem, hitPoint);
         }
