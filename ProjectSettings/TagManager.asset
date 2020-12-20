@@ -8,6 +8,7 @@ TagManager:
   - Concrete
   - Hardwood
   - Asphalt
+  - Carpet
   layers:
   - Default
   - TransparentFX
