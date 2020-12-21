@@ -138,7 +138,7 @@ MonoBehaviour:
     playerOcclusionWidening: 1
     occlusionLayer:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 1
 --- !u!114 &5271320706006072187
 MonoBehaviour:
   m_ObjectHideFlags: 0
