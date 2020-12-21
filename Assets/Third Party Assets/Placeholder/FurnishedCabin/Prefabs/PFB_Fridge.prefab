@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collisionSounds:
-    audioEvent: 
+    audioEvent: event:/Items/Large Collisions
     soundOcclusionWidening: 1
     playerOcclusionWidening: 1
     occlusionLayer:

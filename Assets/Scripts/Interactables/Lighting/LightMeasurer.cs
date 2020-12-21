@@ -11,39 +11,38 @@ namespace CwispyStudios.HelloComrade.Interactions.Lighting
   public class LightMeasurer : MonoBehaviourPun
   {
     private const float MaxRange = 20;
-    private int playerMask;
+    private const float LateAwakeSeconds = 5;
 
     [SerializeField] private LightMeasurePair lightMeasurePair = null;
-    [SerializeField] private Renderer playerMaterial = null;
     private Texture2D bufferTexture;
-    private float avg = 0;
+    private bool invisible = false;
+    private int invisibilityValueLocation;
     private WaitForEndOfFrame endOfFrame;
-    private RaycastHit[] hits;
-    private List<PlayerMaterialPair> playerMaterialPairs;
-    [SerializeField] private Transform thisPlayerTransform;
-    [SerializeField] private Renderer thisPlayerMaterial;
+    //private RaycastHit[] hits = new RaycastHit[1];
+    public List<PlayerMeshColliderPair> playerMeshColliderPairs;
+    [SerializeField] private PlayerMeshColliderPair thisPlayerMeshColliderPairs;
 
-      [SerializeField] private float invisibilityThreshold = .0006f;
+    [SerializeField] private Vector3 measurePointOffset = new Vector3();
+    [SerializeField] private float invisibilityThreshold = .0006f;
 
-    private int alphaId;
+    private Vector3 directionBuffer;
+    private Quaternion standardRotation;
 
     private void Awake()
     {
       bufferTexture = Texture2D.grayTexture;
       endOfFrame = new WaitForEndOfFrame();
-      alphaId = Shader.PropertyToID("Vector1_AD4E3E33");
-      playerMask = LayerMask.GetMask("Player");
-      playerMaterialPairs = new List<PlayerMaterialPair>();
-      
-      foreach (var measurer in FindObjectsOfType<LightMeasurer>())
-      {
-        if (measurer != this && measurer.photonView.IsMine)
-          measurer.AddNewPlayer(new PlayerMaterialPair(thisPlayerTransform, thisPlayerMaterial.material));
-      }
+      playerMeshColliderPairs = new List<PlayerMeshColliderPair>();
+      invisibilityValueLocation = Shader.PropertyToID("Vector1_AD4E3E33");
 
       if (photonView.IsMine) return;
-      
-      Destroy(this);
+      SendAddThisPlayer();
+    }
+
+    private void OnDestroy()
+    {
+      if (photonView.IsMine) return;
+      SendDeleteThisPlayer();
     }
 
     private void Update()
@@ -56,46 +55,109 @@ namespace CwispyStudios.HelloComrade.Interactions.Lighting
     {
       yield return endOfFrame;
 
-      foreach (var player in playerMaterialPairs)
+      foreach (var player in playerMeshColliderPairs)
       {
         // ray cast players, if something is in the way set player material at normal alpha
         // else render camera and set alpha from that
-        int a = Physics.RaycastNonAlloc(new Ray(transform.position, player.playerTransform.position), hits, MaxRange);
-        if (a > 0)
-          if (hits[0].transform == player.playerTransform)
-            RenderLightCamera();
+        
+        directionBuffer = player.playerMeasurePoint.position - lightMeasurePair.renderCamera.transform.position;
+
+        RaycastHit hit;
+        bool hasHit = Physics.Raycast(transform.position, directionBuffer, out hit, MaxRange);
+        if (hasHit)
+        {
+          if (hit.transform == player.playerColliderTransform)
+          {
+            RenderLightCamera(player.playerMeasurePoint.position);
+            Debug.DrawRay(transform.position, directionBuffer, Color.green, .1f);
+          }
           else
-            avg = 1;
-        player.playerMaterial.SetFloat(alphaId, avg);
+          {
+            invisible = false;
+            Debug.DrawRay(transform.position, directionBuffer, Color.red, .1f);
+          }
+        }
+
+        //RenderLightCamera(player.playerMeasurePoint.position);
+
+        player.playerMesh.material.SetFloat(invisibilityValueLocation, invisible ? 0.1f : 1f);
       }
     }
 
-    private void RenderLightCamera()
+    private void RenderLightCamera(Vector3 measurePosition)
     {
-      avg = 0;
+      invisible = false;
 
+      float avg = 0;
+
+      // look once at top of sphere
+      avg += ReturnGrayScale(measurePosition + measurePointOffset, Vector3.zero);
+      // look once at sphere from player perspective
+      avg += ReturnGrayScale(transform.position, measurePosition);
+
+      avg /= 2;
+      
+      print(avg);
+      
+      invisible = avg < invisibilityThreshold;
+    }
+
+    private float ReturnGrayScale(Vector3 measurePosition, Vector3 measureDirection)
+    {
+      lightMeasurePair.renderCamera.transform.position = measurePosition;
+      
+      if (measureDirection.Equals(Vector3.zero))
+        lightMeasurePair.renderCamera.transform.rotation = standardRotation;
+      else
+        lightMeasurePair.renderCamera.transform.LookAt(measureDirection);
+      
       lightMeasurePair.renderCamera.Render();
       RenderTexture.active = lightMeasurePair.renderTexture;
       bufferTexture.ReadPixels(
         new Rect(0, 0, lightMeasurePair.renderTexture.width, lightMeasurePair.renderTexture.height), 0, 0);
       bufferTexture.Apply();
-      avg += bufferTexture.GetPixel(0, 0).grayscale;
 
+      float returnVal = bufferTexture.GetPixel(0, 0).grayscale;
 
       RenderTexture.active = null;
-
-      avg = avg < invisibilityThreshold ? 0 : 1;
+      
+      return returnVal;
     }
 
-    // TODO REMOVE
-    private void SetShaderTransparency()
+    private void AddNewPlayer(PlayerMeshColliderPair newPair)
     {
-      playerMaterial.material.SetFloat(alphaId, avg);
+      playerMeshColliderPairs.Add(newPair);
+    }
+
+    private void RemoveOldPlayer(PlayerMeshColliderPair newPair)
+    {
+      playerMeshColliderPairs.Remove(newPair);
     }
     
-    private void AddNewPlayer(PlayerMaterialPair newPlayer)
+    private void SendAddThisPlayer()
     {
-      playerMaterialPairs.Add(newPlayer);
+      foreach (var measurer in FindObjectsOfType<LightMeasurer>())
+      {
+        // Find local measurer
+        if (measurer != this && measurer.photonView.IsMine)
+        {
+          // Add non-local measurer
+          measurer.AddNewPlayer(thisPlayerMeshColliderPairs);
+        }
+      }
+    }
+
+    private void SendDeleteThisPlayer()
+    {
+      foreach (var measurer in FindObjectsOfType<LightMeasurer>())
+      {
+        // Find local measurer
+        if (measurer != this && measurer.photonView.IsMine)
+        {
+          // remove non-local measurer
+          measurer.RemoveOldPlayer(thisPlayerMeshColliderPairs);
+        }
+      }
     }
   }
 }
