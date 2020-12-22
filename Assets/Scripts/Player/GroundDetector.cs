@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+
+using UnityEngine;
 
 using ExitGames.Client.Photon; // SendOptions
 using Photon.Pun; // RaiseEvent
@@ -24,22 +26,15 @@ namespace CwispyStudios.HelloComrade.Player
     /// </summary>
     [HideInInspector] public bool IsFalling { get; private set; } = false;
     /// <summary>
-    /// The angle of the ground the player is or was last over.
-    /// </summary>
-    [HideInInspector] public float GroundAngle { get; private set; }
-    /// <summary>
     /// The raycast information of the last detected object below the player.
     /// </summary>
     [HideInInspector] public RaycastHit GroundHit { get; private set; }
 
+    public event Action <float> LandEvent;
+
     private void Awake()
     {
       playerCollider = GetComponent<Collider>();
-
-      if (playerCollider == null)
-      {
-        Debug.LogError("Error! Player's Collider component is missing!", this);
-      }
     }
 
     private void Start()
@@ -51,8 +46,6 @@ namespace CwispyStudios.HelloComrade.Player
 
     private void Update()
     {
-      if (!photonView.IsMine) return;
-
       DetectGround();
     }
 
@@ -101,13 +94,10 @@ namespace CwispyStudios.HelloComrade.Player
       // Landed on the ground
       if (!WasGrounded && IsGrounded)
       {
-        object[] data = new object[] { photonView.ViewID, GetGroundLayerValue() };
+        float groundLayerValue = GetGroundLayerValue();
 
-        PhotonNetwork.RaiseEvent(
-          PhotonEvents.GroundDetectorOnLandEventCode, data, new RaiseEventOptions { Receivers = ReceiverGroup.All }, SendOptions.SendReliable);
+        LandEvent?.Invoke(groundLayerValue);
       }
-
-      GroundAngle = Vector3.Angle(GroundHit.normal, transform.up);
     }
 
     public float GetGroundLayerValue()

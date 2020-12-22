@@ -6,12 +6,10 @@ using UnityEngine.Rendering.Universal; // Universal Additional Camera Data
 
 using ExitGames.Client.Photon;
 using Photon.Pun;
+using Photon.Realtime;
 
 namespace CwispyStudios.HelloComrade.Player
 {
-  using Audio;
-  using Items;
-
   [RequireComponent(typeof(GroundDetector))]
   public class PlayerMovementController : MonoBehaviourPun
   {
@@ -31,12 +29,6 @@ namespace CwispyStudios.HelloComrade.Player
     [SerializeField, Range(2f, 15f)] private float baseGravityDownwardForceMultiplier = 3f;
     [SerializeField, Range(5f, 250f)] private float increasingDownwardForceMultiplier = 100f;
     [SerializeField, Range(10f, 100f)] private float terminalVelocity = 53f;
-    [Header("FMOD Events")]
-    [SerializeField] private AudioEmitter footstepsWalkEvent = null;
-    [SerializeField] private AudioEmitter footstepsRunEvent = null;
-    [SerializeField] private AudioEmitter footstepsSneakEvent = null;
-    [SerializeField] private AudioEmitter jumpEvent = null;
-    [SerializeField] private AudioEmitter landEvent = null;
 
     private const float StandingColliderHeight = 1.8f;
     private const float StandingColliderPosition = StandingColliderHeight * 0.5f;
@@ -62,12 +54,15 @@ namespace CwispyStudios.HelloComrade.Player
     private float moveSpeedMultiplier = 1f;
 
     private Vector3 moveInput = Vector3.zero;
+    public PlayerMovementState  PlayerMovementState { get; private set; } = PlayerMovementState.Walking;
     private bool jumpThisFrame = false;
     private bool isCrouching = false;
     private bool isRunning = false;
     private bool runningButtonHeld = false;
     private bool isSneaking = false;
     private bool sneakingButtonHeld = false;
+
+    private RaiseEventOptions jumpRaiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
 
     private void Awake()
     {
@@ -80,21 +75,10 @@ namespace CwispyStudios.HelloComrade.Player
         Destroy(playerCamera.GetComponent<FMODUnity.StudioListener>());
         Destroy(GetComponent<PlayerInput>());
         Destroy(GetComponent<InteractionHandler>());
-        footstepsWalkEvent.Initialise(transform, false);
-        footstepsRunEvent.Initialise(transform, false);
-        footstepsSneakEvent.Initialise(transform, false);
-        jumpEvent.Initialise(transform, false);
-        landEvent.Initialise(transform, false);
       }
 
       else
       {
-        footstepsWalkEvent.Initialise(transform, true);
-        footstepsRunEvent.Initialise(transform, true);
-        footstepsSneakEvent.Initialise(transform, true);
-        jumpEvent.Initialise(transform, true);
-        landEvent.Initialise(transform, true);
-
         standingCameraLocalPosition = playerCamera.transform.localPosition;
         crouchingCameraLocalPosition = crouchCameraPositionObject.transform.localPosition;
       }
@@ -105,15 +89,15 @@ namespace CwispyStudios.HelloComrade.Player
       animator = GetComponent<Animator>();
     }
 
-    private void OnEnable()
-    {
-      PhotonNetwork.NetworkingClient.EventReceived += OnLand;
-    }
+    //private void OnEnable()
+    //{
+    //  groundDetector.LandEvent += OnLand;
+    //}
 
-    private void OnDisable()
-    {
-      PhotonNetwork.NetworkingClient.EventReceived -= OnLand;
-    }
+    //private void OnDisable()
+    //{
+    //  groundDetector.LandEvent -= OnLand;
+    //}
 
     private void FixedUpdate()
     {
@@ -151,46 +135,15 @@ namespace CwispyStudios.HelloComrade.Player
       }
     }
 
-    private void OnCollisionEnter( Collision collision )
-    {
-      if (!photonView.IsMine) return;
-
-      Item itemComponent = collision.collider.GetComponent<Item>();
-
-      if (itemComponent)
-      {
-        //Rigidbody itemPhysics = itemComponent.GetComponent<Rigidbody>();
-        //itemPhysics.AddForceAtPosition(physicsController.velocity, collision.GetContact(0).point);
-
-        //Debug.Log(physicsController.velocity);
-      }
-    }
-
     private void Jump()
     {
       jumpThisFrame = false;
       physicsController.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-
-      photonView.RPC("RpcPlayJump", RpcTarget.All);
     }
 
-    private void OnLand( EventData photonEvent )
+    private void OnLand()
     {
-      byte eventCode = photonEvent.Code;
-
-      if (eventCode == PhotonEvents.GroundDetectorOnLandEventCode)
-      {
-        object[] data = (object[]) photonEvent.CustomData;
-        int photonId = (int) data[0];
-        float groundLayerValue = (float) data[1];
-
-        if (photonId != photonView.ViewID) return;
-
-        animator.SetTrigger("Land");
-
-        landEvent.SetParameter("Ground Type", groundLayerValue);
-        landEvent.PlaySound();
-      }
+      animator.SetTrigger("Land");
     }
 
     private void ApplyGravity()
@@ -395,6 +348,10 @@ namespace CwispyStudios.HelloComrade.Player
       }
     }
 
+    /// <summary>
+    /// Input system callback when pressing L CTRL
+    /// </summary>
+    /// <param name="value"></param>
     private void OnSneak( InputValue value )
     {
       sneakingButtonHeld = isSneaking = value.isPressed;
@@ -425,76 +382,37 @@ namespace CwispyStudios.HelloComrade.Player
       }
     }
 
+    /// <summary>
+    /// Input system callback when pressing C
+    /// </summary>
     private void OnCrouch()
     {
       SetCrouch(!isCrouching);
     }
 
+    /// <summary>
+    /// Input system callback when pressing SPACEBAR
+    /// </summary>
     private void OnJump()
     {
       // Player must be on the ground to jump
       if (groundDetector.IsGrounded)
       {
-        // Check if crouching
-        if (isCrouching) 
-        {
-          // Check if player can stand up in its current position
-          if (SetCrouch(false))
-          {
-            jumpThisFrame = true;
-          }
-        }
-        
-        // Player is already standing, can jump
-        else
+        // Check if crouching AND if player can stand up in its current position
+        // OR player is not crouching
+        if ( (isCrouching && SetCrouch(false)) || !isCrouching) 
         {
           jumpThisFrame = true;
+
+          PhotonNetwork.RaiseEvent(PhotonEvents.OnJumpEventCode, null, jumpRaiseEventOptions, SendOptions.SendUnreliable);
         }
       }
-    }
-
-    private void PlayFootsteps()
-    {
-      if (!photonView.IsMine) return;
-
-      int index = isRunning ? 1 : isSneaking ? 2 : 0;
-      photonView.RPC("RpcPlayFootsteps", RpcTarget.All, index, groundDetector.GetGroundLayerValue());
-    }
-
-    [PunRPC]
-    private void RpcPlayFootsteps( int eventIndexToPlay, float groundLayerValue )
-    {
-      AudioEmitter eventToPlay;
-
-      switch (eventIndexToPlay)
-      {
-        case 0: eventToPlay = footstepsWalkEvent;
-          break;
-
-        case 1:
-          eventToPlay = footstepsRunEvent;
-          break;
-
-        case 2:
-          eventToPlay = footstepsSneakEvent;
-          break;
-
-        default:
-          eventToPlay = null;
-          break;
-      }
-
-      eventToPlay.SetParameter("Ground Type", groundLayerValue);
-      eventToPlay.PlaySound();
     }
 
     [PunRPC]
     private void RpcPlayJump()
     {
       animator.SetTrigger("Jump");
-
-      jumpEvent.SetParameter("Ground Type", groundDetector.GetGroundLayerValue());
-      jumpEvent.PlaySound();
     }
   }
 }

@@ -1667,6 +1667,7 @@ GameObject:
   - component: {fileID: 282520194}
   - component: {fileID: 1401956766}
   - component: {fileID: 6785412803810564121}
+  - component: {fileID: -2187135100337702877}
   - component: {fileID: 891808066117234336}
   - component: {fileID: 891808066117234343}
   - component: {fileID: 5315644718384608745}
@@ -1861,31 +1862,43 @@ MonoBehaviour:
   baseGravityDownwardForceMultiplier: 3
   increasingDownwardForceMultiplier: 100
   terminalVelocity: 53
+--- !u!114 &-2187135100337702877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6785412803810564326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c8388f233719e74dbe5eaa8d37ad37c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   footstepsWalkEvent:
     audioEvent: event:/Character Sounds/Footsteps Walk
-    soundOcclusionWidening: 0.25
-    playerOcclusionWidening: 0.25
+    soundOcclusionWidening: 1
+    playerOcclusionWidening: 1
     occlusionLayer:
       serializedVersion: 2
       m_Bits: 1
   footstepsRunEvent:
     audioEvent: event:/Character Sounds/Footsteps Run
-    soundOcclusionWidening: 0.25
-    playerOcclusionWidening: 0.25
+    soundOcclusionWidening: 1
+    playerOcclusionWidening: 1
     occlusionLayer:
       serializedVersion: 2
       m_Bits: 1
   footstepsSneakEvent:
     audioEvent: event:/Character Sounds/Footsteps Sneak
-    soundOcclusionWidening: 0.25
-    playerOcclusionWidening: 0.25
+    soundOcclusionWidening: 1
+    playerOcclusionWidening: 1
     occlusionLayer:
       serializedVersion: 2
       m_Bits: 1
   jumpEvent:
     audioEvent: event:/Character Sounds/Jump
-    soundOcclusionWidening: 0.25
-    playerOcclusionWidening: 0.25
+    soundOcclusionWidening: 1
+    playerOcclusionWidening: 1
     occlusionLayer:
       serializedVersion: 2
       m_Bits: 1

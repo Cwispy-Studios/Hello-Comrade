@@ -97,7 +97,7 @@ namespace CwispyStudios.HelloComrade.Interactions.Lighting
 
       avg /= 2;
       
-      print(avg);
+      //print(avg);
       
       invisible = avg < invisibilityThreshold;
     }

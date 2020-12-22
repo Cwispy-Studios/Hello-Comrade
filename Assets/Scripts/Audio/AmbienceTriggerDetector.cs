@@ -35,8 +35,6 @@ namespace CwispyStudios.HelloComrade.Audio
       {
         AmbienceType triggeredAmbienceType = other.GetComponent<AmbienceTrigger>().AmbienceTypeTrigger;
 
-        Debug.Log(triggeredAmbienceType);
-
         switch (triggeredAmbienceType)
         {
           case AmbienceType.Outdoor:

@@ -95,7 +95,7 @@ namespace CwispyStudios.HelloComrade.Audio
 
       totalNumHits += CastLines(soundAbove, listenerAbove, occlusionLayer);
 
-      Debug.Log(totalNumHits);
+      //Debug.Log(totalNumHits);
 
       return totalNumHits;
     }

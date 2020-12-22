@@ -1,5 +1,5 @@
 ﻿public class PhotonEvents
 {
-  public const byte GroundDetectorOnLandEventCode = 1;
+  public const byte OnJumpEventCode = 1;
 
 }
