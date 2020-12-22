@@ -45,16 +45,16 @@ namespace CwispyStudios.HelloComrade.Player
     private Vector3 crouchingCameraLocalPosition;
     private float timeSpentFalling = 0f;
 
-    private Camera playerCamera = null;
-    private CapsuleCollider playerCollider = null;
-    private GroundDetector groundDetector = null;
-    private Rigidbody physicsController = null;
-    private Animator animator = null;
+    private Camera playerCamera;
+    private CapsuleCollider playerCollider;
+    private GroundDetector groundDetector;
+    private Rigidbody physicsController;
+    private Animator animator;
 
     private float moveSpeedMultiplier = 1f;
 
     private Vector3 moveInput = Vector3.zero;
-    public PlayerMovementState  PlayerMovementState { get; private set; } = PlayerMovementState.Walking;
+    private PlayerMovementState playerMovementState = PlayerMovementState.Walking;
     private bool jumpThisFrame = false;
     private bool isCrouching = false;
     private bool isRunning = false;
@@ -89,16 +89,6 @@ namespace CwispyStudios.HelloComrade.Player
       animator = GetComponent<Animator>();
     }
 
-    //private void OnEnable()
-    //{
-    //  groundDetector.LandEvent += OnLand;
-    //}
-
-    //private void OnDisable()
-    //{
-    //  groundDetector.LandEvent -= OnLand;
-    //}
-
     private void FixedUpdate()
     {
       if (!photonView.IsMine && PhotonNetwork.IsConnected) return;
@@ -125,7 +115,6 @@ namespace CwispyStudios.HelloComrade.Player
       if (moveInput != Vector3.zero)
       {
         animator.SetFloat("Speed Multiplier", moveSpeedMultiplier);
-
         MovePlayer();
       }
 
@@ -407,12 +396,6 @@ namespace CwispyStudios.HelloComrade.Player
           PhotonNetwork.RaiseEvent(PhotonEvents.OnJumpEventCode, null, jumpRaiseEventOptions, SendOptions.SendUnreliable);
         }
       }
-    }
-
-    [PunRPC]
-    private void RpcPlayJump()
-    {
-      animator.SetTrigger("Jump");
     }
   }
 }

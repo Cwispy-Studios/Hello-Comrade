@@ -3,7 +3,8 @@
 /// </summary>
 public enum PlayerMovementState
 {
-  Walking = 0,
-  Running = 1,
-  Sneaking = 2
+  None = 0,
+  Walking = 1,
+  Running = 2,
+  Sneaking = 3
 }
