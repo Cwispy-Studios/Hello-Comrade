@@ -2,7 +2,6 @@
 
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Rendering.Universal; // Universal Additional Camera Data
 
 using ExitGames.Client.Photon;
 using Photon.Pun;
@@ -57,9 +56,7 @@ namespace CwispyStudios.HelloComrade.Player
     private PlayerMovementState playerMovementState = PlayerMovementState.Walking;
     private bool jumpThisFrame = false;
     private bool isCrouching = false;
-    private bool isRunning = false;
     private bool runningButtonHeld = false;
-    private bool isSneaking = false;
     private bool sneakingButtonHeld = false;
 
     private RaiseEventOptions jumpRaiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
@@ -67,26 +64,13 @@ namespace CwispyStudios.HelloComrade.Player
     private void Awake()
     {
       playerCamera = GetComponentInChildren<Camera>();
-
-      if (!photonView.IsMine && PhotonNetwork.IsConnected)
-      {
-        Destroy(playerCamera.GetUniversalAdditionalCameraData());
-        Destroy(playerCamera);
-        Destroy(playerCamera.GetComponent<FMODUnity.StudioListener>());
-        Destroy(GetComponent<PlayerInput>());
-        Destroy(GetComponent<InteractionHandler>());
-      }
-
-      else
-      {
-        standingCameraLocalPosition = playerCamera.transform.localPosition;
-        crouchingCameraLocalPosition = crouchCameraPositionObject.transform.localPosition;
-      }
-
       playerCollider = GetComponent<CapsuleCollider>();
       groundDetector = GetComponent<GroundDetector>();
       physicsController = GetComponent<Rigidbody>();
       animator = GetComponent<Animator>();
+
+      standingCameraLocalPosition = playerCamera.transform.localPosition;
+      crouchingCameraLocalPosition = crouchCameraPositionObject.transform.localPosition;
     }
 
     private void FixedUpdate()
@@ -309,12 +293,12 @@ namespace CwispyStudios.HelloComrade.Player
 
     private void OnRun( InputValue value )
     {
-      runningButtonHeld = isRunning = value.isPressed;
+      runningButtonHeld = value.isPressed;
 
       // Running overrides other actions
-      if (isRunning)
+      if (runningButtonHeld)
       {
-        isSneaking = false;
+        playerMovementState = PlayerMovementState.Running;
         moveSpeedMultiplier = runSpeedMultiplier;
       }
 
@@ -324,14 +308,15 @@ namespace CwispyStudios.HelloComrade.Player
         // Check if sneak button is still held down, if it is then player moves to sneaking
         if (sneakingButtonHeld)
         {
-          isSneaking = true;
+          playerMovementState = PlayerMovementState.Sneaking;
           moveSpeedMultiplier = sneakSpeedMultiplier;
         }
 
         // Player may be already sneaking (sneaking overrode running and both keys still held down
         // but run key was let go off)
-        else if (!isSneaking)
+        else if (playerMovementState != PlayerMovementState.Sneaking)
         {
+          playerMovementState = PlayerMovementState.Walking;
           moveSpeedMultiplier = 1f;
         }
       }
@@ -343,12 +328,12 @@ namespace CwispyStudios.HelloComrade.Player
     /// <param name="value"></param>
     private void OnSneak( InputValue value )
     {
-      sneakingButtonHeld = isSneaking = value.isPressed;
+      sneakingButtonHeld = value.isPressed;
 
       // Sneaking overrides other actions
-      if (isSneaking)
+      if (sneakingButtonHeld)
       {
-        isRunning = false;
+        playerMovementState = PlayerMovementState.Sneaking;
         moveSpeedMultiplier = sneakSpeedMultiplier;
       }
 
@@ -358,14 +343,15 @@ namespace CwispyStudios.HelloComrade.Player
         // Check if run button is still held down, if it is then player moves to running
         if (runningButtonHeld)
         {
-          isRunning = true;
+          playerMovementState = PlayerMovementState.Running;
           moveSpeedMultiplier = runSpeedMultiplier;
         }
 
         // Player may be already running (running overrode sneaking and both keys still held down
         // but sneak key was let go off)
-        else if (!isRunning)
+        else if (playerMovementState != PlayerMovementState.Running)
         {
+          playerMovementState = PlayerMovementState.Walking;
           moveSpeedMultiplier = 1f;
         }
       }
