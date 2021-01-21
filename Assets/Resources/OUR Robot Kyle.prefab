@@ -2065,7 +2065,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxInteractDistance: 1.25
-  maxDragReach: 1
+  maxDragReach: 1.5
   interactableMask:
     serializedVersion: 2
     m_Bits: 32768

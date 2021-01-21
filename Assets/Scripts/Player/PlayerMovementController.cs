@@ -59,6 +59,12 @@ namespace CwispyStudios.HelloComrade.Player
     private bool runningButtonHeld = false;
     private bool sneakingButtonHeld = false;
 
+    private int animatorHashSpeedMultiplier;
+    private int animatorHashForwardDirection;
+    private int animatorHashOnGround;
+    private int animatorHashIsCrouching;
+    private int animatorHashLand;
+
     private RaiseEventOptions jumpRaiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
 
     private void Awake()
@@ -71,13 +77,19 @@ namespace CwispyStudios.HelloComrade.Player
 
       standingCameraLocalPosition = playerCamera.transform.localPosition;
       crouchingCameraLocalPosition = crouchCameraPositionObject.transform.localPosition;
+
+      animatorHashSpeedMultiplier = Animator.StringToHash("Speed Multiplier");
+      animatorHashForwardDirection = Animator.StringToHash("Forward Direction");
+      animatorHashOnGround = Animator.StringToHash("On Ground");
+      animatorHashIsCrouching = Animator.StringToHash("Is Crouching");
+      animatorHashLand = Animator.StringToHash("Land");
     }
 
     private void FixedUpdate()
     {
       if (!photonView.IsMine && PhotonNetwork.IsConnected) return;
 
-      animator.SetBool("On Ground", groundDetector.IsGrounded);
+      animator.SetBool(animatorHashOnGround, groundDetector.IsGrounded);
 
       // Already means player is grounded and can jump
       if (jumpThisFrame)
@@ -98,13 +110,13 @@ namespace CwispyStudios.HelloComrade.Player
 
       if (moveInput != Vector3.zero)
       {
-        animator.SetFloat("Speed Multiplier", moveSpeedMultiplier);
+        animator.SetFloat(animatorHashSpeedMultiplier, moveSpeedMultiplier);
         MovePlayer();
       }
 
       else
       {
-        animator.SetFloat("Speed Multiplier", 0f);
+        animator.SetFloat(animatorHashSpeedMultiplier, 0f);
       }
     }
 
@@ -116,7 +128,7 @@ namespace CwispyStudios.HelloComrade.Player
 
     private void OnLand()
     {
-      animator.SetTrigger("Land");
+      animator.SetTrigger(animatorHashOnGround);
     }
 
     private void ApplyGravity()
@@ -201,7 +213,7 @@ namespace CwispyStudios.HelloComrade.Player
       if (success)
       {
         isCrouching = crouch;
-        animator.SetBool("Is Crouching", isCrouching);
+        animator.SetBool(animatorHashIsCrouching, isCrouching);
 
         ChangeCameraPosition();
       }
@@ -282,6 +294,10 @@ namespace CwispyStudios.HelloComrade.Player
       playerCamera.transform.localPosition = targetPosition;
     }
 
+    /// <summary>
+    /// Input system callback when pressing WSAD
+    /// </summary>
+    /// <param name="value"></param>
     private void OnMove( InputValue value )
     {
       // Get keyboard move values
@@ -289,8 +305,14 @@ namespace CwispyStudios.HelloComrade.Player
 
       moveInput.x = keyboardMoveInput.x;
       moveInput.z = keyboardMoveInput.y;
+
+      animator.SetFloat(animatorHashForwardDirection, moveInput.z);
     }
 
+    /// <summary>
+    /// Input system callback when pressing L SHIFT
+    /// </summary>
+    /// <param name="value"></param>
     private void OnRun( InputValue value )
     {
       runningButtonHeld = value.isPressed;
