@@ -23,8 +23,9 @@ namespace CwispyStudios.HelloComrade.Player
     private CharacterItemHandler itemHandler;
 
     private bool inFreeLook = false;
+    private bool isDraggingItem = false;
     private Vector3 centerScreenVector;
-    private Vector3 mouseInput = Vector3.zero;
+    private Vector2 mouseInput = Vector2.zero;
 
     private void Awake()
     {
@@ -36,12 +37,23 @@ namespace CwispyStudios.HelloComrade.Player
       centerScreenVector = new Vector3(Screen.width / 2, Screen.height / 2, 0f);
     }
 
+    private void OnEnable()
+    {
+      itemHandler.DragItemEvent += OnDragItem;
+    }
+
+    private void OnDisable()
+    {
+      itemHandler.DragItemEvent -= OnDragItem;
+    }
+
     private void FixedUpdate()
     {
-      if (mouseInput != Vector3.zero)
+      if (mouseInput != Vector2.zero)
       {
         if (inFreeLook) FreeLook();
-        else if (!itemHandler.LockRotation) RotatePlayer();
+        else if (!isDraggingItem) RotatePlayer();
+        else RotateDraggedItem();
 
         LookVertically();
       }
@@ -71,6 +83,32 @@ namespace CwispyStudios.HelloComrade.Player
       physicsController.MoveRotation(physicsController.rotation * deltaRotation);
     }
 
+    private void RotateDraggedItem()
+    {
+      //if (mouseInput != Vector2.zero)
+      //{
+      //  // TODO: Shift to MouseLook, come up with better curve
+      //  float maxMovement = 500f;
+      //  float horizontalMovement = Mathf.Clamp(mouseDelta.x, -maxMovement, maxMovement);
+      //  float massThresholdMultiplier = 2f;
+      //  float massThreshold = activeItem.ItemMass * massThresholdMultiplier;
+
+      //  if (Mathf.Abs(horizontalMovement) >= massThreshold)
+      //  {
+      //    float rotationStrength = Mathf.Abs(horizontalMovement) - massThreshold;
+      //    float x = rotationStrength / maxMovement;
+      //    float maxRotation = 5f;
+      //    // https://easings.net/#easeOutQuad
+      //    float amountToRotate = (1 - (1 - x) * (1 - x)) * maxRotation;
+      //    if (horizontalMovement < 0f) amountToRotate *= -1f;
+
+      //    Quaternion deltaRotation = Quaternion.Euler(0f, amountToRotate, 0f);
+      //    physicsController.MoveRotation(physicsController.rotation * deltaRotation);
+      //  }
+      //}
+    }
+
+
     private void LookVertically()
     {
       // Get local rotation of the camera inside body
@@ -94,15 +132,25 @@ namespace CwispyStudios.HelloComrade.Player
       neck.transform.localEulerAngles = neckLocalRot;
     }
 
+    private void OnDragItem( bool isDragging )
+    {
+      isDraggingItem = isDragging;
+    }
+
+    /// <summary>
+    /// Input System callback when moving the mouse
+    /// </summary>
+    /// <param name="value"></param>
     private void OnLook( InputValue value )
     {
       // Get mouse movements
-      Vector2 mouseDelta = value.Get<Vector2>();
-
-      mouseInput.x = mouseDelta.x;
-      mouseInput.y = mouseDelta.y;
+      mouseInput = value.Get<Vector2>();
     }
 
+    /// <summary>
+    /// Input System callback when pressing L ALT
+    /// </summary>
+    /// <param name="value"></param>
     private void OnFreeLook( InputValue value )
     {
       StopAllCoroutines();

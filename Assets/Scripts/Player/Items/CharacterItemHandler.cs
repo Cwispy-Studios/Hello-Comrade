@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -20,7 +21,8 @@ namespace CwispyStudios.HelloComrade.Player.Items
     private Item activeItem = null;
     private Rigidbody physicsController = null;
 
-    public bool LockRotation = false;
+    public Action<bool> DragItemEvent;
+    
 
     private void Awake()
     {
@@ -117,7 +119,7 @@ namespace CwispyStudios.HelloComrade.Player.Items
 
       activeItem = item;
 
-      LockRotation = true;
+      DragItemEvent?.Invoke(true);
     }
 
     public void DestroyJoint()
@@ -128,7 +130,7 @@ namespace CwispyStudios.HelloComrade.Player.Items
         activeJoint = null;
       }
 
-      LockRotation = false;
+      DragItemEvent?.Invoke(false);
     }
 
     public void OnLook( InputValue value )
