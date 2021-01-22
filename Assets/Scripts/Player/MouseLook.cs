@@ -85,27 +85,30 @@ namespace CwispyStudios.HelloComrade.Player
 
     private void RotateDraggedItem()
     {
-      //if (mouseInput != Vector2.zero)
-      //{
-      //  // TODO: Shift to MouseLook, come up with better curve
-      //  float maxMovement = 500f;
-      //  float horizontalMovement = Mathf.Clamp(mouseDelta.x, -maxMovement, maxMovement);
-      //  float massThresholdMultiplier = 2f;
-      //  float massThreshold = activeItem.ItemMass * massThresholdMultiplier;
+      if (mouseInput != Vector2.zero)
+      {
+        // Max force allowed from raw delta movement
+        float maxMovement = 500f;
+        // Clamp the horizontal movement to the max force
+        float horizontalMovement = Mathf.Clamp(mouseInput.x, -maxMovement, maxMovement);
+        // The minimum movement required to move the object based on its mass
+        float massThresholdMultiplier = 2f;
+        float massThreshold = itemHandler.ActiveItem.ItemMass * massThresholdMultiplier;
 
-      //  if (Mathf.Abs(horizontalMovement) >= massThreshold)
-      //  {
-      //    float rotationStrength = Mathf.Abs(horizontalMovement) - massThreshold;
-      //    float x = rotationStrength / maxMovement;
-      //    float maxRotation = 5f;
-      //    // https://easings.net/#easeOutQuad
-      //    float amountToRotate = (1 - (1 - x) * (1 - x)) * maxRotation;
-      //    if (horizontalMovement < 0f) amountToRotate *= -1f;
+        if (Mathf.Abs(horizontalMovement) >= massThreshold)
+        {
+          // How much the object should be rotated based on how fast the mouse is being moved
+          float rotationStrength = Mathf.Abs(horizontalMovement) - massThreshold;
+          float x = rotationStrength / maxMovement;
+          float maxRotation = 5f;
+          // https://easings.net/#easeOutQuad
+          float amountToRotate = (1 - (1 - x) * (1 - x)) * maxRotation;
+          if (horizontalMovement < 0f) amountToRotate *= -1f;
 
-      //    Quaternion deltaRotation = Quaternion.Euler(0f, amountToRotate, 0f);
-      //    physicsController.MoveRotation(physicsController.rotation * deltaRotation);
-      //  }
-      //}
+          Quaternion deltaRotation = Quaternion.Euler(0f, amountToRotate, 0f);
+          physicsController.MoveRotation(physicsController.rotation * deltaRotation);
+        }
+      }
     }
 
 

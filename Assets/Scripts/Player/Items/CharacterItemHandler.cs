@@ -15,54 +15,11 @@ namespace CwispyStudios.HelloComrade.Player.Items
     [Tooltip("Attached to player's root around the hip")]
     [SerializeField] private CarriedSlot carriedSlot = null;
 
-    private Vector2 mouseDelta;
-
     private Joint activeJoint = null;
     private Item activeItem = null;
-    private Rigidbody physicsController = null;
+    public Item ActiveItem { get { return activeItem; } }
 
     public Action<bool> DragItemEvent;
-    
-
-    private void Awake()
-    {
-      physicsController = GetComponent<Rigidbody>();
-    }
-
-    private void FixedUpdate()
-    {
-      if (!photonView.IsMine) return;
-
-      if (activeJoint)
-      {
-        RotateDraggedItem();
-      }
-    }
-
-    private void RotateDraggedItem()
-    {
-      if (mouseDelta != Vector2.zero)
-      {
-        // TODO: Shift to MouseLook, come up with better curve
-        float maxMovement = 500f;
-        float horizontalMovement = Mathf.Clamp(mouseDelta.x, -maxMovement, maxMovement);
-        float massThresholdMultiplier = 2f;
-        float massThreshold = activeItem.ItemMass * massThresholdMultiplier;
-
-        if (Mathf.Abs(horizontalMovement) >= massThreshold)
-        {
-          float rotationStrength = Mathf.Abs(horizontalMovement) - massThreshold;
-          float x = rotationStrength / maxMovement;
-          float maxRotation = 5f;
-          // https://easings.net/#easeOutQuad
-          float amountToRotate = (1 - (1 - x) * (1 - x)) * maxRotation;
-          if (horizontalMovement < 0f) amountToRotate *= -1f;
-
-          Quaternion deltaRotation = Quaternion.Euler(0f, amountToRotate, 0f);
-          physicsController.MoveRotation(physicsController.rotation * deltaRotation);
-        }
-      }
-    }
 
     private JointDrive AddJointDrive( float force, float damping )
     {
@@ -116,7 +73,6 @@ namespace CwispyStudios.HelloComrade.Player.Items
       //configurableJoint.angularZMotion = ConfigurableJointMotion.Limited;
 
       activeJoint = configurableJoint;
-
       activeItem = item;
 
       DragItemEvent?.Invoke(true);
@@ -131,11 +87,6 @@ namespace CwispyStudios.HelloComrade.Player.Items
       }
 
       DragItemEvent?.Invoke(false);
-    }
-
-    public void OnLook( InputValue value )
-    {
-      mouseDelta = value.Get<Vector2>();
     }
 
     public override void OnPlayerEnteredRoom( Photon.Realtime.Player newPlayer )

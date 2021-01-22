@@ -12,6 +12,7 @@ namespace CwispyStudios.HelloComrade.Player.Items
     public override void OnPickUpItem()
     {
       // Set rigidbody to kinematic so physics does not affect it
+      PhysicsController.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
       PhysicsController.isKinematic = true;
 
       foreach (Transform objectTransform in GetComponentsInChildren<Transform>())
@@ -24,6 +25,7 @@ namespace CwispyStudios.HelloComrade.Player.Items
     {
       base.OnDropItem();
 
+      PhysicsController.collisionDetectionMode = CollisionDetectionMode.Discrete;
       PhysicsController.isKinematic = false;
       PhysicsController.AddForce(transform.forward, ForceMode.VelocityChange);
 
